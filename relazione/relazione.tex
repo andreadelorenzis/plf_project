@@ -1,0 +1,163 @@
+\documentclass[11pt]{article}
+
+\usepackage[italian]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{amsfonts} 
+\usepackage{amssymb}
+\usepackage{lastpage}
+\usepackage{wrapfig}
+\usepackage{awesomebox}
+\usepackage{fancyhdr}
+\usepackage{datetime}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{}
+\fancyhead[R]{\hyperlink{indice}{\thepage}}
+
+\newcommand{\titlestr}{Implementazione di Regressione Lineare e K-Nearest Neighbors in Haskell e Prolog}
+\newcommand{\subtitlestr}{Corso: Programmazione Logica e Funzionale}
+\newcommand{\labelStudente}{Corsista}
+\newcommand{\labelDocente}{Docente}
+\newcommand{\authorstr}{Andrea De Lorenzis, 308024}
+\newcommand{\profstr}{Prof. Marco Bernardo}
+
+\theoremstyle{definition}
+\newtheorem{exmp}{Example}[section]
+
+\begin{document}
+\begin{titlepage}
+  \centering
+  \includegraphics[width=0.35\textwidth]{imgs/logo_uniurb.png}
+  \centerline {\small Università degli Studi di Urbino Carlo Bo}
+  
+    \vspace{1cm}
+  {\LARGE \bf{\titlestr} \par}
+  {\vspace{0.5cm}}
+  {\Large \subtitlestr \par}
+  \vspace{0.5cm}
+   {\large \today}    
+  \vspace{1.5cm}
+  
+  \begin{multicols}{2}
+  \flushleft
+  {\Large \labelDocente \par}
+  {\vspace{0.2cm}}
+  {\Large \profstr \par}
+  {\vspace{1.5cm}}  
+   \flushright
+  {\Large \labelStudente \par}
+  {\vspace{0.2cm}}
+  { \Large\authorstr \par}
+  \end{multicols}
+
+  \vfill
+\end{titlepage}
+
+\newpage
+
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+
+\newpage
+
+\section{Specifica del problema}
+Linear regression e K-Nearest neighbors (KNN) sono due algoritmi che trovano applicazione in diversi campi, tra cui statistica, analisi di dati e intelligenza artificiale. La prima consente di prevedere il valore di una variabile sconosciuta mediante un modello basato su un'equazione lineare. La seconda è una tecnica utilizzata per la classificazione di oggetti basandosi sulle caratteristiche degli oggetti vicini a quello considerato. L'obiettivo di questo progetto è quello di implementare le due tecniche nei linguaggi di programmazione Haskell e Prolog. 
+
+\newpage
+
+\section{Analisi del problema}
+
+\subsection{Dati di ingresso del problema}
+I dati di ingresso del problema sono inseriti dall'utente e consistono in un insieme di punti bidimensionali per allenare e valutare i modelli. L'utente inizialmente deve fornire un valore numerico per scegliere l'operazione da svolgere (0 - Linear regression, 1 - KNN, 2 - Terminare il programma). Una volta scelta una delle prime due operazioni, all'utente è richiesto di inserire un insieme di punti bidimensionali per allenare il modello. Successivamente, potrà inserire un ulteriore punto da valutare sul modello allenato, ottenendo poi il risultato. In particolare, i dati di ingresso per la linear regression sono:
+\begin{itemize}
+\item Un insieme di punti 2D separati da spazio, ognuno dei quali è costituito da una coordinata \textit{x} e una coordinata \textit{y} 
+$$x_1 \ y_1 \ x_2 \ y_2 \ \dots $$
+\item Un punto 2D da valutare sul modello lineare allenato.
+\end{itemize}
+I dati di ingresso per il KNN sono:
+\begin{itemize}
+\item Un insieme di punti 2D etichettati e separati da andata a capo, ognuno dei quali è costituito da una coordinata \textit{x}, una coordinata \textit{y} e una classe o etichetta numerica che rappresenta la categoria di appartenenza del punto 
+\begin{align*}
+&x_1 \ y_1 \ \text{label1}\\
+&x_2 \ y_2 \ \text{label2}\\
+&\dots
+\end{align*}
+\item Il valore \textit{k} di vicini da valutare per il punto.
+\item Il punto 2D di test, senza etichetta, da classificare tramite KNN.
+\end{itemize}
+
+\subsection{Dati di uscita del problema}
+I dati di uscita per la linear regression sono:
+\begin{itemize}
+\item Coefficienti della retta di regressione, ossia il valore della pendenza (\textit{m}) e dell'intercetta (\textit{b}), i quali definiscono l'equazione della retta
+$$
+y = mx + b
+$$
+\item Risultati predittivi stimando nuovi valori di \textit{y} per determinati valori di \textit{x} sulla base del modello di regressione lineare ottenuto.
+\end{itemize}
+Invece, l'operazione di KNN produce in uscita:
+\begin{itemize}
+\item Classificazione del punto di test, al quale verrà assegnato una classe in base alle etichette della maggioranza dei suoi \textit{k} punti più vicini.
+\item Etichette dei \textit{k} punti più vicini al punto di test, informazioni utile a fini di comprendere le ragioni della classificazione assegnata al punto di test.
+\end{itemize}
+
+\subsection{Relazioni intercorrenti}
+Nella linear regression si cerca di modellare la relazione tra la variabile indipendente \textit{x} e la variabile dipendente \textit{y} attraverso una retta. Pertanto la relazione che intercorre tra i dati di ingresso ed uscita per questa operazione è:
+$$
+y=mx+b
+$$
+dove:
+\begin{itemize}
+\item \textit{y} è la variabile dipendente (o di output)
+\item \textit{x} è la variabile indipendente (o di input)
+\item \textit{m} è il coefficiente di pendenza, che rappresenta il cambiamento in y rispetto a una variazione unitaria in x
+\item \textit{b} è l'intercetta, che rappresenta il valore di y quando x è uguale a zero
+\end{itemize}
+Per il calcolo dei coefficienti \textit{m} e \textit{b} vengono utilizzate le seguenti formule:
+\begin{align*}
+&m = \frac{Cov(x,y)}{Var(x)}\\
+&b=\bar{y}-m\cdot \bar{x}
+\end{align*}
+dove:
+\begin{itemize}
+\item $Cov(c,y)$ rappresenta la covarianza tra x e y, calcolata come media delle deviazioni dei punti $(x,y)$ rispetto alle loro medie.
+\item $Var(x)$ rappresenta la varianza di x
+\item $\bar{x} \ \text{e} \ \bar{y}$ sono le medie di x e y, rispettivamente.
+\end{itemize}
+Dopo aver calcolato i coefficienti m e b, possiamo utilizzare l'equazione della retta per effettuare delle previsioni per dei nuovi punti
+$$
+\hat{y} = mx+b
+$$
+Dove $\hat{x}$ è il valore predetto di y per il nuovo valore di x.\\
+\newline
+Per quanto riguarda il KNN, questo si basa su una misura di distanza tra i punti nel dataset. Useremo la distanza euclidea tra due punti $(x_1,y_2)$ e $(x_2,y_2)$, data da:
+$$
+Dist(x_1,y_2,x_2,y_2)=\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
+$$ 
+Il parametro \textit{k} influisce sulla classificazione dei punti e rappresenta il numero di vicini che verranno considerati. Un valore di k più piccolo comporta una classificazione più influenzata dai punti vicini, mentre una valore più grande porta ad una classificazione più generale basata su una maggiore diversità di vicini. Il punto di test viene poi assegnato alla classe di maggioranza presa dai suoi k punti più vicini. Vengono cioè conteggiate le etichette dei punti vicini, e si assegna al punto l'etichetta avente il maggior numero di occorrenze.
+
+\new 
+
+\section{Progettazione dell'algoritmo}
+
+\subsection{Scelte di progetto}
+
+
+\end{document}
