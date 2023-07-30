@@ -5,3 +5,5 @@
 \contentsline {subsection}{\numberline {2.1}Dati di ingresso del problema}{3}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Dati di uscita del problema}{3}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Relazioni intercorrenti}{4}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Progettazione dell'algoritmo}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Scelte di progetto}{5}{subsection.3.1}%

@@ -137,8 +137,14 @@ Per il calcolo dei coefficienti \textit{m} e \textit{b} vengono utilizzate le se
 \end{align*}
 dove:
 \begin{itemize}
-\item $Cov(c,y)$ rappresenta la covarianza tra x e y, calcolata come media delle deviazioni dei punti $(x,y)$ rispetto alle loro medie.
-\item $Var(x)$ rappresenta la varianza di x
+\item $Cov(c,y)$ rappresenta la covarianza tra x e y, calcolata come media delle deviazioni dei punti $(x,y)$ rispetto alle loro medie. Si calcola usando questa formula:
+$$
+\text{cov}(x, y) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})
+$$
+\item $Var(x)$ rappresenta la varianza di x, data da:
+$$
+\text{var}(x) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2
+$$
 \item $\bar{x} \ \text{e} \ \bar{y}$ sono le medie di x e y, rispettivamente.
 \end{itemize}
 Dopo aver calcolato i coefficienti m e b, possiamo utilizzare l'equazione della retta per effettuare delle previsioni per dei nuovi punti
@@ -152,8 +158,6 @@ $$
 Dist(x_1,y_2,x_2,y_2)=\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
 $$ 
 Il parametro \textit{k} influisce sulla classificazione dei punti e rappresenta il numero di vicini che verranno considerati. Un valore di k più piccolo comporta una classificazione più influenzata dai punti vicini, mentre una valore più grande porta ad una classificazione più generale basata su una maggiore diversità di vicini. Il punto di test viene poi assegnato alla classe di maggioranza presa dai suoi k punti più vicini. Vengono cioè conteggiate le etichette dei punti vicini, e si assegna al punto l'etichetta avente il maggior numero di occorrenze.
-
-\new 
 
 \section{Progettazione dell'algoritmo}
 
