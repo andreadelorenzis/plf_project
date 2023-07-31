@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  29 JUL 2023 15:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  31 JUL 2023 08:29
 entering extended mode
 **./relazione.tex
 (relazione.tex
@@ -786,7 +786,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count353
-<imgs/logo_uniurb.png, id=31, 225.84375pt x 225.84375pt>
+<imgs/logo_uniurb.png, id=43, 225.84375pt x 225.84375pt>
 File: imgs/logo_uniurb.png Graphic file (type png)
 <use imgs/logo_uniurb.png>
 Package pdftex.def Info: imgs/logo_uniurb.png  used on input line 45.
@@ -846,8 +846,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 153--157
  []
 
 
-AED: lastpage setting LastPage
-
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.59999pt}.
@@ -864,15 +862,43 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[5] (relazione.aux)
+[5]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[6]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[7] 
+AED: lastpage setting LastPage
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[8] (relazione.aux)
 Package rerunfilecheck Info: File `relazione.out' has not changed.
-(rerunfilecheck)             Checksum: E4E524EFE67FB69D19DAEC9C7FA54B3A;1240.
+(rerunfilecheck)             Checksum: E26CAA120B8E7FE1A3A902437FAF263D;1751.
  ) 
 Here is how much of TeX's memory you used:
- 19585 strings out of 478927
- 320242 string characters out of 2852534
- 663562 words of memory out of 3000000
- 37142 multiletter control sequences out of 15000+600000
+ 19596 strings out of 478927
+ 320362 string characters out of 2852534
+ 662557 words of memory out of 3000000
+ 37147 multiletter control sequences out of 15000+600000
  413351 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,11n,117p,1044b,400s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -891,10 +917,11 @@ ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/and
 re/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Us
 ers/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
-/cmti10.pfb>
-Output written on relazione.pdf (6 pages, 150375 bytes).
+/cmsy8.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmti10.pfb>
+Output written on relazione.pdf (9 pages, 169611 bytes).
 PDF statistics:
- 133 PDF objects out of 1000 (max. 8388607)
- 15 named destinations out of 1000 (max. 500000)
- 62 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 172 PDF objects out of 1000 (max. 8388607)
+ 21 named destinations out of 1000 (max. 500000)
+ 86 words of extra memory for PDF output out of 10000 (max. 10000000)
 

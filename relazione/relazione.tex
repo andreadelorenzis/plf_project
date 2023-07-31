@@ -159,9 +159,62 @@ Dist(x_1,y_2,x_2,y_2)=\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
 $$ 
 Il parametro \textit{k} influisce sulla classificazione dei punti e rappresenta il numero di vicini che verranno considerati. Un valore di k più piccolo comporta una classificazione più influenzata dai punti vicini, mentre una valore più grande porta ad una classificazione più generale basata su una maggiore diversità di vicini. Il punto di test viene poi assegnato alla classe di maggioranza presa dai suoi k punti più vicini. Vengono cioè conteggiate le etichette dei punti vicini, e si assegna al punto l'etichetta avente il maggior numero di occorrenze.
 
+\newpage
+
 \section{Progettazione dell'algoritmo}
 
 \subsection{Scelte di progetto}
+Gli input per entrambi i programmi sono liste di punti bidimensionali, rappresentati medianti coppie di valori reali nel caso della regressione lineare, e triple di valori nel caso del KNN (due valori reali e un carattere). La lista di coppie reali deve essere inserita nel seguente formato:
+$$
+[(x_1, y_1), \dots, (x_n, y_n)]
+$$
+I punti del KNN invece sono acquisiti in questo formato, contenente anche un carattere per rappresentare la classe:
+$$
+[(x_1, y_1, '<classe>'), \dots, (x_n, y_n, '<class>')]
+$$
+All'avvio del programma, si è deciso di presentare all'utente un menu principale in cui poter scegliere le diverse operazioni (1: regressione lineare, 2: KNN, 3: uscita). Una volta scelta una delle due operazioni, all'utente viene chiesto di inserire il dataset corrispondente nel corretto modo. Una volta inserito il dataset e svolta l'operazione, l'utente può continuamente valutare nuovi punti sul modello creato all'interno del ciclo. E' il programma che, al termine di ogni valutazione, chiede all'utente se ha intenzione di procedere con un'ulteriore operazione o se preferisce tornale al menu per svolgere un'altra operazione. Il programma termina quando si sceglie l'opzione numero 3.
 
+\newpage
+
+\subsection{Passi dell'algoritmo}
+I passi dell'algoritmo per l'intero programma sono:
+\begin{itemize}
+\item Presentare il menu di scelta operazioni.
+\item Eseguire l'operazione scelta dall'utente, all'interno di un menu chiamato in ricorsione. Abbiamo due casi:
+\begin{itemize}
+  \item \underline{Regressione lineare}: 
+    \begin{itemize}
+      \item Lettura del dataset di punti bidimensionali, nel formato descritto.
+      \item Estrazione delle coordinate x e y dalla lista di punti in due liste separate.
+      \item Calcolo della varianza sui valori di x.
+      \item Calcolo della covarianza tra le liste di valori di x e y.
+      \item Calcolo della media su entrambe le liste di valori di x e y.
+      \item Applicazione dei risultati parziali nelle formule descritte sopra per trovare pendenza e intercetta della retta.
+      \item Stampa del risultato, ossia dei coefficienti della retta trovata.
+      \item Lettura del valore x di test da valutare sulla retta interpolatrice.
+      \item Stampa del risultato, ossia del corrispondente valore y trovato. 
+      \item Richiesta se continuare o meno con altre valutazioni.
+    \end{itemize}
+  \item \underline{K-nearest neighbors}: 
+    \begin{itemize}
+      \item Lettura del dataset di punti etichettati, nel formato descritto.
+      \item Lettura del numero di vicini da valutare (k).
+      \item Lettura del punto di test da valutare (senza etichetta).
+      \item Ricerca dei k punti più vicini al punto di test.
+      \item Ricerca della classe di maggioranza tra i vicini del punto, cioè quella avente il maggior numero di occorrenze tra i vicini.
+      \item Stampa della classe trovata per il punto
+      \item Richiesta se continuare o meno con altre valutazioni.
+    \end{itemize}
+\end{itemize}
+\item Stampa del messaggio di uscita.
+\end{itemize}
+
+\newpage
+
+\section{Implementazione dell'algoritmo}
+
+\newpage
+
+\section{Testing del programma}
 
 \end{document}
