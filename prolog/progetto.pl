@@ -36,11 +36,28 @@ doLinearRegression :-
   
 /* Funzione per eseguire il KNN */
 doKNN :- 
-  nl, write('-------- K-Nearest Neighbors --------'), nl,
-  readLabeledDataset(Dataset),
-  nl, write('Inserisci il valore per k: '), nl,
-  read(K),
-  evaluatePoints(Dataset, K).
+    nl, write('-------- K-Nearest Neighbors --------'), nl,
+    readLabeledDataset(Dataset),
+	length(Dataset, NumPoints),
+    repeat,
+    nl, write('Inserisci il valore per k: '), nl,
+    read(K),
+    (   number(K) -> 
+        K > 0,
+		(K =< NumPoints ->
+            !
+		;
+		    nl, write('Input invalido. Inserisci un intero positivo '),
+			write('minore del (o uguale al) numero totale di punti nel dataset'), nl,
+			format('(Numero di punti: ~d)', [NumPoints]), nl,
+            fail
+		)
+    ;
+        nl, write('Input invalido. Inserisci un intero positivo.'), nl,
+        fail
+    ),
+    evaluatePoints(Dataset, K).
+
  
 % CALCOLO REGRESSIONE LINEARE
 
@@ -89,10 +106,28 @@ extractYCoords([(_, Y) | Points], [Y | Ys]) :-
   
 /* Predicato per leggere una lista di tuple da tastiera */
 readPoints(List) :-
-  nl, write('Inserisci i punti del dataset nel formato: [(x1,y1), ..., (xn,yn)]:'), nl,
-  read(List),
-  length(List, NumPoints),
-  (NumPoints < 2 -> write('Sono necessari almeno due punti per la regressione lineare'), readPoints([]), nl ; true).
+    repeat,
+    nl, write('Inserisci i punti del dataset nel formato: [(x1,y1), ..., (xn,yn)]:'), nl,
+    read(List),
+    (validPointList(List) ->
+        !  % Success: List is a valid list of points
+    ;
+        nl, write('Input invalido. La lista deve contenere almeno due punti nel formato [(x,y), ...].'), nl,
+        fail % Failure: Invalid list format, retry the input
+    ).
+
+/* Predicato per validare una lista di punti 2D */
+validPointList(List) :-
+    is_list(List),
+    length(List, NumPoints),
+    NumPoints >= 2,
+    forall(member(Point, List), is_point(Point)).
+  
+/* Predicato per controllare che un punto sia nel formato (x,y) */
+is_point(Point) :- 
+    Point = (X, Y),
+    number(X),
+    number(Y).
   
 /* Funzione che ottiene dall'utente una coordinata X da valutare sulla retta ottenuta */
 readXValue(Value) :-
@@ -192,25 +227,44 @@ maxClassOccurrences([(Class, Count) | Rest], MaxClass, MaxCount, MajorityClass) 
 /* Funzione per ottenere dall'utente un dataset di punti etichettati con 
    una classe */
 readLabeledDataset(List) :-
-  nl, write('Inserisci i punti del dataset nel formato: [(x1,y1,C), ..., (xn,yn,C)].'), nl,
-  read(List),
-  length(List, NumPoints),
-  (NumPoints < 2 -> write('Sono necessari almeno due punti per la regressione lineare'), readLabeledDataset([]), nl ; true).
+    repeat,
+    nl, write('Inserisci i punti del dataset nel formato: [(x1,y1,C), ..., (xn,yn,C)].'), nl,
+    read(List),
+    (validLabeledDataset(List) ->
+        !  % Success: List is a valid labeled dataset
+    ;
+        nl, write('Invalid input. The list must contain at least two labeled points in the format [(x,y,C), ...].'), nl,
+        fail % Failure: Invalid list format, retry the input
+    ).
+	
+/* Predicato di validazione per un dataset con etichette */
+validLabeledDataset(List) :-
+    is_list(List),
+    length(List, NumPoints),
+    NumPoints >= 2,
+    forall(member(LabeledPoint, List), is_labeled_point(LabeledPoint)).
+
+/* Predicato per controllare se un elemento è un punto etichettato valido nel 
+   formato (X, Y, C) */
+is_labeled_point(LabeledPoint) :- 
+    LabeledPoint = (X, Y, C),
+    number(X),
+    number(Y),
+    atom(C).
 
 /* Funzione per leggere un singolo punto da valutare con KNN */
 readLabeledPoint(Point) :-
     repeat,
     nl, write('Inserisci il valore del punto da testare nel formato (x,y): '), nl,
     read(Point),
-    validLabeledPoint(Point),
+    validPoint(Point),
     !.
 
 /* Regola di validazione per un punto etichettato */
-validLabeledPoint((X,Y)) :-
-    number(X),
-    number(Y),
+validPoint(Point) :-
+    is_point(Point),
     !.
-validLabeledPoint(_) :-
+validPoint(_) :-
     nl, write('Punto non valido. Assicurati di inserire un punto nel formato (x,y).'), nl,
     fail.
 
