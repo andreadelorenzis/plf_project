@@ -6,7 +6,7 @@ main :-
   print_horizontal_line,
   write('Progetto del corso di Programmazione Logica e Funzionale'), nl,
   write('Anno 2022/2023'), nl,
-  write('Progetto realizzato da: Andrea De Lorenzis'), nl, nl, nl,
+  write('Progetto realizzato da: Andrea De Lorenzis'), nl, nl,
   main_menu,
   print_horizontal_line.
   
@@ -33,6 +33,14 @@ doLinearRegression :-
   nl,
   format('Retta interpolatrice: y = ~2fx + ~2f~n', [Slope, Intercept]),
   evaluateXValues(Slope, Intercept).
+  
+/* Funzione per eseguire il KNN */
+doKNN :- 
+  nl, write('-------- K-Nearest Neighbors --------'), nl,
+  readLabeledDataset(Dataset),
+  nl, write('Inserisci il valore per k: '), nl,
+  read(K),
+  evaluatePoints(Dataset, K).
  
 % CALCOLO REGRESSIONE LINEARE
 
@@ -88,18 +96,24 @@ readPoints(List) :-
   
 /* Funzione che ottiene dall'utente una coordinata X da valutare sulla retta ottenuta */
 readXValue(Value) :-
-  nl, write('Inserisci un valore per la coordinata x: '), nl,
-  read(Value).
-  
+    repeat,
+    nl, write('Inserisci un valore per la coordinata x: '), nl,
+    read(Value),
+    (   number(Value) ->
+        true  % Success: Value is a number, the cut (!) will prevent further backtracking
+    ;
+        nl, write('Il valore inserito non e'' un numero.'), nl,
+        fail % Failure: Value is not a number, retry the input
+    ).
+
 /* Predicato che cicla continuamente per valutare i punti e chiede 
    all'utente se vuole continuare */
 evaluateXValues(Slope, Intercept) :-
     readXValue(Value),
     evaluateXValue(Value, Slope, Intercept, Y),
     nl, format('Per X = ~2f il valore previsto e\' Y = ~2f', [Value, Y]), nl,
-    nl, write('Vuoi continuare? (s/n)'), nl,
-    read(Choice),
-    (Choice = 's' -> evaluateXValues(Slope, Intercept) ; true).
+    askContinue(Continue),
+    (Continue = 's' -> evaluateXValues(Slope, Intercept) ; true).
 
 /* Funzione che valuta la regressione lineare per il punto */
 evaluateXValue(X, Slope, Intercept, Y) :-
@@ -117,7 +131,6 @@ kNearestNeighbors(K, TestPoint, Dataset, Neighbors) :-
   sortDistances(Distances, SortedDistances),
   take(K, SortedDistances, NeighborsPairs),
   convertToNeighbors(NeighborsPairs, Neighbors).
-  
   
 /* Rimuove il valore della distanza dal formato (Dist-(X, Y, Class)) 
    per ottenere il formato (X, Y, Class) */
@@ -183,19 +196,23 @@ readLabeledDataset(List) :-
   read(List),
   length(List, NumPoints),
   (NumPoints < 2 -> write('Sono necessari almeno due punti per la regressione lineare'), readLabeledDataset([]), nl ; true).
-  
-/* Funzione per eseguire il KNN */
-doKNN :- 
-  nl, write('-------- K-Nearest Neighbors --------'), nl,
-  readLabeledDataset(Dataset),
-  nl, write('Inserisci il valore per k: '), nl,
-  read(K),
-  evaluatePoints(Dataset, K).
 
 /* Funzione per leggere un singolo punto da valutare con KNN */
 readLabeledPoint(Point) :-
-  nl, write('Inserisci il valore del punto da testare nel formato (x,y): '), nl,
-  read(Point).
+    repeat,
+    nl, write('Inserisci il valore del punto da testare nel formato (x,y): '), nl,
+    read(Point),
+    validLabeledPoint(Point),
+    !.
+
+/* Regola di validazione per un punto etichettato */
+validLabeledPoint((X,Y)) :-
+    number(X),
+    number(Y),
+    !.
+validLabeledPoint(_) :-
+    nl, write('Punto non valido. Assicurati di inserire un punto nel formato (x,y).'), nl,
+    fail.
 
 /* Funzione per continuamente inserire punti da valutare con KNN */
 evaluatePoints(_, 0) :- !.
@@ -206,19 +223,29 @@ evaluatePoints(Dataset, K) :-
   printNeighbors(Neighbors), nl, 
   majorityClass(Neighbors, Class),
   format('La classe prevista per il punto e\': ~w~n', [Class]), 
-  nl, write('Vuoi continuare? (s/n)'), nl,
-  read(Choice),
-  (Choice = 's' -> evaluatePoints(Dataset, K) ; true).
+  askContinue(Continue),
+  (Continue = 's' -> evaluatePoints(Dataset, K) ; true).
 
 /* Funzione per stampare i vicini nel formato (x, y, C) */
 printNeighbors([]).
 printNeighbors([(X, Y, C) | Rest]) :-
     format('Punto: (~2f, ~2f, ~w)~n', [X, Y, C]),
     printNeighbors(Rest).
+	
+% FUNZIONI AUSILIARIE	
+	
+/* Predicato ausiliare per chiedere all'utente se vuole continuare */
+askContinue(Continue) :-
+    nl, write('Vuoi continuare? (s/n)'), nl,
+    read(Choice),
+    (Choice = 's' -> Continue = 's' ;
+     Choice = 'n' -> Continue = 'n' ;
+     nl, write('Input incorretto. Inserisci "s" per continuare o "n" per uscire.'), nl, 
+     askContinue(Continue)).
 
-/* Predicate to print a horizontal line of dashes */
+/* Predicato per stampare una linea orizzontale */
 print_horizontal_line :- print_horizontal_line(65).
 
-/* Overloaded predicate to specify the number of dashes in the horizontal line */
+/* Specifica il numero di trattini nella linea orizzontale */
 print_horizontal_line(N) :- N > 0, write('-'), N1 is N - 1, print_horizontal_line(N1).
 print_horizontal_line(0) :- nl.
