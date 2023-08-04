@@ -179,34 +179,45 @@ All'avvio del programma, si è deciso di presentare all'utente un menu principal
 \subsection{Passi dell'algoritmo}
 I passi dell'algoritmo per l'intero programma sono:
 \begin{itemize}
-\item Presentare il menu di scelta operazioni.
-\item Eseguire l'operazione scelta dall'utente, all'interno di un menu chiamato in ricorsione. Abbiamo due casi:
-\begin{itemize}
-  \item \underline{Regressione lineare}: 
-    \begin{itemize}
-      \item Lettura del dataset di punti bidimensionali, nel formato descritto.
-      \item Estrazione delle coordinate x e y dalla lista di punti in due liste separate.
-      \item Calcolo della varianza sui valori di x.
-      \item Calcolo della covarianza tra le liste di valori di x e y.
-      \item Calcolo della media su entrambe le liste di valori di x e y.
-      \item Applicazione dei risultati parziali nelle formule descritte sopra per trovare pendenza e intercetta della retta.
-      \item Stampa del risultato, ossia dei coefficienti della retta trovata.
-      \item Lettura del valore x di test da valutare sulla retta interpolatrice.
-      \item Stampa del risultato, ossia del corrispondente valore y trovato. 
-      \item Richiesta se continuare o meno con altre valutazioni.
-    \end{itemize}
-  \item \underline{K-nearest neighbors}: 
-    \begin{itemize}
-      \item Lettura del dataset di punti etichettati, nel formato descritto.
-      \item Lettura del numero di vicini da valutare (k).
-      \item Lettura del punto di test da valutare (senza etichetta).
-      \item Ricerca dei k punti più vicini al punto di test.
-      \item Ricerca della classe di maggioranza tra i vicini del punto, cioè quella avente il maggior numero di occorrenze tra i vicini.
-      \item Stampa della classe trovata per il punto
-      \item Richiesta se continuare o meno con altre valutazioni.
-    \end{itemize}
-\end{itemize}
-\item Stampa del messaggio di uscita.
+\item Presentare il menu di scelta operazioni:
+	\begin{itemize}
+	\item Caso base: se l'utente sceglie l'opzione 3 (chiusura del menu).
+	\item Caso generale: se viene scelta un'altra opzione valida, viene eseguita l'operazione corrispondente:
+		\begin{enumerate}
+		  \item \underline{Regressione lineare}: 
+          \begin{itemize}
+          \item Lettura del dataset di punti bidimensionali, nel formato descritto.
+         \item Estrazione delle coordinate x e y dalla lista di punti in due liste separate.
+         \item Calcolo della varianza sui valori di x.
+         \item Calcolo della covarianza tra le liste di valori di x e y.
+         \item Calcolo della media su entrambe le liste di valori di x e y.
+         \item Applicazione dei risultati parziali nelle formule descritte sopra per trovare pendenza e intercetta della retta.
+         \item Stampa del risultato, ossia dei coefficienti della retta trovata.
+         \item Lettura del valore x di test da valutare sulla retta interpolatrice.
+         \item Stampa del risultato, ossia del corrispondente valore y trovato. 
+         \item Richiesta se continuare o meno con altre valutazioni:
+            \begin{itemize}
+            \item Caso base: se la scelta dell'utente è 'no'.
+            \item Caso generale: se la scelta dell'utente è 'si', viene svolta una nuova valutazione (lettura del valore e stampa del risultato).
+            \end{itemize}
+       \end{itemize}
+     \item \underline{K-nearest neighbors}: 
+       \begin{itemize}
+         \item Lettura del dataset di punti etichettati, nel formato descritto.
+         \item Lettura del numero di vicini da valutare (k).
+         \item Lettura del punto di test da valutare (senza etichetta).
+         \item Ricerca dei k punti più vicini al punto di test.
+         \item Ricerca della classe di maggioranza tra i vicini del punto, cioè quella avente il maggior numero di occorrenze tra i vicini.
+         \item Stampa della classe trovata per il punto
+         \item Richiesta se continuare o meno con altre valutazioni:
+            \begin{itemize}
+            \item Caso base: se la scelta dell'utente è 'no'.
+            \item Caso generale: se la scelta dell'utente è 'si', viene svolta una nuova valutazione (lettura del punto e stampa del risultato)
+            \end{itemize}
+       \end{itemize}
+      \item \underline{Uscita dal menu}: stampa del messaggio di chiusura.
+		\end{enumerate}
+	\end{itemize}
 \end{itemize}
 
 \newpage
@@ -216,5 +227,141 @@ I passi dell'algoritmo per l'intero programma sono:
 \newpage
 
 \section{Testing del programma}
+Il programma emette un messaggio di errore e chiede di rieseguire l'inserimento nei seguenti casi:
+\begin{itemize}
+\item All'interno del menu viene scelta un'opzione non presente o un valore che non sia un numero intero.
+\item All'atto della scelta se continuare o meno con la valutazione dei valori, l'utente inserisce un valore diverso da 's' o 'n'.
+\item L'utente inserisce il dataset in un formato incorretto, oppure tale per cui i punti al suo interno non siano numeri reali o siano scritti in un formato incorretto.
+\item L'utente inserisce un dataset contenente meno di due punti.
+\item L'utente inserisce un valore/punto di valutazione in un formato incorretto o di un tipo diverso da quello richiesto.
+\end{itemize}
+
+\subsection{Haskell}
+\subsubsection{Linear regression}
+\noindent
+\textbf{Test Haskell 1}\\
+Dataset: $[(1, 2), (2, 4), (3, 6), (4, 8), (5, 10)]$\\
+Valore x: $6.0$\\
+Retta: $y = 2.00x + 0.00$\\
+Valore y: $12.00$\\
+\newline
+\textbf{Test Haskell 2}\\
+Dataset: $[(1, 2), (2, 3), (3, 7), (4, 6), (5, 8), (6, 9)]$\\
+Valore x: $7.0$\\
+Retta: $y = 1.50x + 0.50$\\
+Valore y: $11.50$\\
+\newline
+\textbf{Test Haskell 3 (Pendenza negativa)}\\
+Dataset: $[(-1, 3), (0, 1), (1, -1), (2, -3), (3, -5)]$\\
+Valore x: $4.0$\\
+Retta: $y = -2.00x + 1.00$\\
+Valore y: $-7.00$\\
+\newline
+\textbf{Test Haskell 4 (Retta verticale)}\\
+Dataset: $[(2, 1), (2, 2), (2, 3), (2, 4), (2, 5)]$\\
+Valore x: $2.0$\\
+Retta: $y = NaNx + NaN$\\
+Valore y: $NaN$\\
+\newline
+\textbf{Test Haskell 5 (Numeri decimali)}\\
+Dataset: $[(0.1, 0.3), (0.2, 0.6), (0.3, 0.9), (0.4, 1.2), (0.5, 1.5)]$\\
+Valore x: $0.6$\\
+Retta: $y = 3.00x + 0.00$\\
+Valore y: $1.80$
+
+\subsubsection{K-Nearest neighbors}
+\textbf{Test Haskell 6}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
+K: $3$\\
+Punto di test: $(3, 4)$\\
+Classe prevista: 'A'\\
+\newline
+\textbf{Test Haskell 7}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
+K: $2$\\
+Punto di test: $(6, 5)$\\
+Classe prevista: 'B'\\
+\newline
+\textbf{Test Haskell 8 (Singolo vicino)}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
+K: $1$\\
+Punto di test: $(3.5, 4.5)$\\
+Classe prevista: 'B'\\
+\newline
+\textbf{Test Haskell 9 (Punto di test uguale ad un vicino)}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
+K: $1$\\
+Punto di test: $(2, 4)$\\
+Classe prevista: 'A'\\
+\newline
+\textbf{Test Haskell 10 (Punto di test vicino a 3 punti della stessa classe 'A')}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (3, 4, 'A'), (4, 5, 'B'), (5, 6, 'B')]$\\
+K: $5$\\
+Punto di test: $(3.5, 4.5)$\\
+Classe prevista: 'A'
+
+\subsection{Prolog}
+\subsubsection{Linear regression}
+\noindent
+\textbf{Test Prolog 1}\\
+Dataset: $[(1, 2), (2, 4), (3, 6), (4, 8), (5, 10)]$\\
+Valore x: $6.0$\\
+Retta: $y = 2.00x + 0.00$\\
+Valore y: $12.00$\\
+\newline
+\textbf{Test Prolog 2}\\
+Dataset: $[(1, 2), (2, 3), (3, 7), (4, 6), (5, 8), (6, 9)]$\\
+Valore x: $7.0$\\
+Retta: $y = 1.50x + 0.50$\\
+Valore y: $11.50$\\
+\newline
+\textbf{Test Prolog 3 (Pendenza negativa)}\\
+Dataset: $[(-1, 3), (0, 1), (1, -1), (2, -3), (3, -5)]$\\
+Valore x: $4.0$\\
+Retta: $y = -2.00x + 1.00$\\
+Valore y: $-7.00$\\
+\newline
+\textbf{Test Prolog 4 (Retta verticale)}\\
+Dataset: $[(2, 1), (2, 2), (2, 3), (2, 4), (2, 5)]$\\
+Valore x: $2.0$\\
+Retta: $y = NaNx + NaN$\\
+Valore y: $NaN$\\
+\newline
+\textbf{Test Prolog 5 (Numeri decimali)}\\
+Dataset: $[(0.1, 0.3), (0.2, 0.6), (0.3, 0.9), (0.4, 1.2), (0.5, 1.5)]$\\
+Valore x: $0.6$\\
+Retta: $y = 3.00x + 0.00$\\
+Valore y: $1.80$
+
+\subsubsection{K-Nearest neighbors}
+\textbf{Test Prolog 6}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
+K: $3$\\
+Punto di test: $(3, 4)$\\
+Classe prevista: 'A'\\
+\newline
+\textbf{Test Prolog 7}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
+K: $2$\\
+Punto di test: $(6, 5)$\\
+Classe prevista: 'C'\\
+\newline
+\textbf{Test Prolog 8}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
+K: $2$\\
+Punto di test: $(6, 5)$\\
+Classe prevista: 'C'\\
+\newline
+\textbf{Test Prolog 9 (Singolo vicino)}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
+K: $1$\\
+Punto di test: $(3.5, 4.5)$\\
+Classe prevista: 'B'\\
+\newline
+\textbf{Test Prolog 10 (Punto di test uguale ad un vicino)}\\
+Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
+K: $1$\\
+Punto di test: $(2, 4)$\\
+Classe prevista: 'A'
 
 \end{document}

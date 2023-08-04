@@ -10,3 +10,9 @@
 \contentsline {subsection}{\numberline {3.2}Passi dell'algoritmo}{6}{subsection.3.2}%
 \contentsline {section}{\numberline {4}Implementazione dell'algoritmo}{7}{section.4}%
 \contentsline {section}{\numberline {5}Testing del programma}{8}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Haskell}{8}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Linear regression}{8}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}K-Nearest neighbors}{9}{subsubsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.2}Prolog}{9}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Linear regression}{9}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}K-Nearest neighbors}{10}{subsubsection.5.2.2}%
