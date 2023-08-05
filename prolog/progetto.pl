@@ -38,28 +38,28 @@ doLinearRegression :-
 
 /* Predicato per leggere una lista di tuple da tastiera */
 readDataset(List) :-
-    repeat,
-    nl, write('Inserisci i punti del dataset nel formato: [(x1,y1), ..., (xn,yn)]:'), nl,
-    read(List),
-    (validPointList(List) ->
-        !  % Success: List is a valid list of points
-    ;
-        nl, write('Input invalido. La lista deve contenere almeno due punti nel formato [(x,y), ...].'), nl,
-        fail % Failure: Invalid list format, retry the input
-    ).
+  repeat,
+  nl, write('Inserisci i punti del dataset nel formato: [(x1,y1), ..., (xn,yn)]:'), nl,
+  read(List),
+  (validPointList(List) ->
+     !  % Successo: List è una lista valida di punti
+     ;
+     nl, write('Input invalido. La lista deve contenere almeno due punti nel formato [(x,y), ...].'), nl,
+     fail % Fallimento: formato non valido, ritentare
+  ).
 
 /* Predicato per validare una lista di punti 2D */
 validPointList(List) :-
-    is_list(List),
-    length(List, NumPoints),
-    NumPoints >= 2,
-    forall(member(Point, List), is_point(Point)).
+  is_list(List),
+  length(List, NumPoints),
+  NumPoints >= 2,
+  forall(member(Point, List), is_point(Point)).
   
 /* Predicato per controllare che un punto sia nel formato (x,y) */
 is_point(Point) :- 
-    Point = (X, Y),
-    number(X),
-    number(Y).
+  Point = (X, Y),
+  number(X),
+  number(Y).
 
 /* Calcola i coefficienti (pendenza e intercetta) della retta interpolatrice */
 linearRegression(Points, Slope, Intercept) :-
@@ -85,9 +85,9 @@ extractYCoords([(_, Y) | Points], [Y | Ys]) :-
 /* Calcola la varianza di una lista di numeri */  
 variance([], 0).
 variance([X | Xs], Var) :-
-    mean([X | Xs], Mean),
-    variance(Xs, RestVar),
-    Var is RestVar + (X - Mean) * (X - Mean).
+  mean([X | Xs], Mean),
+  variance(Xs, RestVar),
+  Var is RestVar + (X - Mean) * (X - Mean).
 	
 /* Calcola la covarianza di due liste di numeri */
 covariance([], [], 0).
@@ -100,30 +100,30 @@ covariance([X | Xs], [Y | Ys], Cov) :-
 /* Calcola la media di una lista di numeri */
 mean([], 0).
 mean([X | Xs], Mean) :-
-    mean(Xs, RestMean),
-    length(Xs, N),
-    Mean is (X + N * RestMean) / (N + 1).
+  mean(Xs, RestMean),
+  length(Xs, N),
+  Mean is (X + N * RestMean) / (N + 1).
 
 /* Predicato che cicla continuamente per valutare i punti e chiede 
    all'utente se vuole continuare */
 evaluateXValuesLoop(Slope, Intercept) :-
-    readXValue(Value),
-    evaluateXValue(Value, Slope, Intercept, Y),
-    nl, format('Per X = ~2f il valore previsto e\' Y = ~2f', [Value, Y]), nl,
-    askContinue(Continue),
-    (Continue = 's' -> evaluateXValuesLoop(Slope, Intercept) ; true).
+  readXValue(Value),
+  evaluateXValue(Value, Slope, Intercept, Y),
+  nl, format('Per X = ~2f il valore previsto e\' Y = ~2f', [Value, Y]), nl,
+  askContinue(Continue),
+  (Continue = 's' -> evaluateXValuesLoop(Slope, Intercept) ; true).
 
 /* Funzione che ottiene dall'utente una coordinata X da valutare sulla retta ottenuta */
 readXValue(Value) :-
-    repeat,
-    nl, write('Inserisci un valore per la coordinata x: '), nl,
-    read(Value),
-    (   number(Value) ->
-        true  % Success: Value is a number, the cut (!) will prevent further backtracking
-    ;
-        nl, write('Il valore inserito non e'' un numero.'), nl,
-        fail % Failure: Value is not a number, retry the input
-    ).
+  repeat,
+  nl, write('Inserisci un valore per la coordinata x: '), nl,
+  read(Value),
+  (number(Value) ->
+     true  % Success: Value is a number, the cut (!) will prevent further backtracking
+     ;
+     nl, write('Il valore inserito non e'' un numero.'), nl,
+     fail % Failure: Value is not a number, retry the input
+  ).
 
 /* Funzione che valuta la regressione lineare per il punto */
 evaluateXValue(X, Slope, Intercept, Y) :-
@@ -133,55 +133,55 @@ evaluateXValue(X, Slope, Intercept, Y) :-
 
 /* Funzione per eseguire il KNN */
 doKNN :- 
-    nl, write('-------- K-Nearest Neighbors --------'), nl,
-    readLabeledDataset(Dataset),
-	length(Dataset, NumPoints),
-    repeat,
-    nl, write('Inserisci il valore per k: '), nl,
-    read(K),
-    (   number(K) -> 
-        K > 0,
-		(K =< NumPoints ->
-            !
-		;
-		    nl, write('Input invalido. Inserisci un intero positivo '),
-			write('minore del (o uguale al) numero totale di punti nel dataset'), nl,
-			format('(Numero di punti: ~d)', [NumPoints]), nl,
-            fail
-		)
+  nl, write('-------- K-Nearest Neighbors --------'), nl,
+  readLabeledDataset(Dataset),
+  length(Dataset, NumPoints),
+  repeat,
+  nl, write('Inserisci il valore per k: '), nl,
+  read(K),
+  (number(K) -> 
+     K > 0,
+    (K =< NumPoints ->
+       !
+       ; 
+       nl, write('Input invalido. Inserisci un intero positivo '),
+       write('minore del (o uguale al) numero totale di punti nel dataset'), nl,
+       format('(Numero di punti: ~d)', [NumPoints]), nl,
+       fail
+    )
     ;
-        nl, write('Input invalido. Inserisci un intero positivo.'), nl,
-        fail
-    ),
-    evaluatePointsLoop(Dataset, K).
+    nl, write('Input invalido. Inserisci un intero positivo.'), nl,
+    fail
+  ),
+  evaluatePointsLoop(Dataset, K).
 
 /* Funzione per ottenere dall'utente un dataset di punti etichettati con 
    una classe */
 readLabeledDataset(List) :-
-    repeat,
-    nl, write('Inserisci i punti del dataset nel formato: [(x1,y1,C), ..., (xn,yn,C)].'), nl,
-    read(List),
-    (validLabeledDataset(List) ->
-        !  % Success: List is a valid labeled dataset
-    ;
-        nl, write('Invalid input. The list must contain at least two labeled points in the format [(x,y,C), ...].'), nl,
-        fail % Failure: Invalid list format, retry the input
-    ).
+  repeat,
+  nl, write('Inserisci i punti del dataset nel formato: [(x1,y1,C), ..., (xn,yn,C)].'), nl,
+  read(List),
+  (validLabeledDataset(List) ->
+     !  % Success: List is a valid labeled dataset
+     ;
+     nl, write('Invalid input. The list must contain at least two labeled points in the format [(x,y,C), ...].'), nl,
+     fail % Failure: Invalid list format, retry the input
+  ).
 	
 /* Predicato di validazione per un dataset con etichette */
 validLabeledDataset(List) :-
-    is_list(List),
-    length(List, NumPoints),
-    NumPoints >= 2,
-    forall(member(LabeledPoint, List), is_labeled_point(LabeledPoint)).
+  is_list(List),
+  length(List, NumPoints),
+  NumPoints >= 2,
+  forall(member(LabeledPoint, List), is_labeled_point(LabeledPoint)).
 
 /* Predicato per controllare se un elemento è un punto etichettato valido nel 
    formato (X, Y, C) */
 is_labeled_point(LabeledPoint) :- 
-    LabeledPoint = (X, Y, C),
-    number(X),
-    number(Y),
-    atom(C).
+  LabeledPoint = (X, Y, C),
+  number(X),
+  number(Y),
+  atom(C).
 
 /* Funzione per continuamente inserire punti da valutare con KNN */
 evaluatePointsLoop(_, 0) :- !.
@@ -197,19 +197,19 @@ evaluatePointsLoop(Dataset, K) :-
 
 /* Funzione per leggere un singolo punto da valutare con KNN */
 readLabeledPoint(Point) :-
-    repeat,
-    nl, write('Inserisci il valore del punto da testare nel formato (x,y): '), nl,
-    read(Point),
-    validPoint(Point),
-    !.
+  repeat,
+  nl, write('Inserisci il valore del punto da testare nel formato (x,y): '), nl,
+  read(Point),
+  validPoint(Point),
+  !.
 
 /* Regola di validazione per un punto etichettato */
 validPoint(Point) :-
-    is_point(Point),
-    !.
+  is_point(Point),
+  !.
 validPoint(_) :-
-    nl, write('Punto non valido. Assicurati di inserire un punto nel formato (x,y).'), nl,
-    fail.
+  nl, write('Punto non valido. Assicurati di inserire un punto nel formato (x,y).'), nl,
+  fail.
 
 /* Funzione che trova i k vicini per un punto */
 kNearestNeighbors(K, TestPoint, Dataset, Neighbors) :-
@@ -243,58 +243,59 @@ take(K, [X | Xs], [X | Rest]) :-
    per ottenere il formato (X, Y, Class) */
 convertToNeighbors([], []).
 convertToNeighbors([_-Neighbor | RestPairs], [Neighbor | RestNeighbors]) :-
-    convertToNeighbors(RestPairs, RestNeighbors).
+  convertToNeighbors(RestPairs, RestNeighbors).
   
 /* Funzione per stampare i vicini nel formato (x, y, C) */
 printNeighbors([]).
 printNeighbors([(X, Y, C) | Rest]) :-
-    format('Punto: (~2f, ~2f, ~w)~n', [X, Y, C]),
-    printNeighbors(Rest).
+  format('Punto: (~2f, ~2f, ~w)~n', [X, Y, C]),
+  printNeighbors(Rest).
   
 /* Funzione che trova la classe di maggioranza tra i vicini */
 majorityClass(Neighbors, MajorityClass) :-
-    countClassOccurrences(Neighbors, CountMap),
-    maxClassOccurrences(CountMap, MajorityClass).
+  countClassOccurrences(Neighbors, CountMap),
+  maxClassOccurrences(CountMap, MajorityClass).
 
 /* Predicato ausiliario per conteggiare le occorrenze di ogni 
   classe nei vicini */
 countClassOccurrences(Neighbors, CountMap) :-
-    countClassOccurrences(Neighbors, [], CountMap).
+  countClassOccurrences(Neighbors, [], CountMap).
 
 countClassOccurrences([], CountMap, CountMap).
 countClassOccurrences([(_, _, Class) | Neighbors], PartialCountMap, CountMap) :-
-    updateCountMap(Class, PartialCountMap, NewCountMap),
-    countClassOccurrences(Neighbors, NewCountMap, CountMap).
+  updateCountMap(Class, PartialCountMap, NewCountMap),
+  countClassOccurrences(Neighbors, NewCountMap, CountMap).
 
 updateCountMap(Class, [], [(Class, 1)]).
 updateCountMap(Class, [(Class, Count) | Rest], [(Class, NewCount) | Rest]) :-
-    NewCount is Count + 1.
+  NewCount is Count + 1.
 updateCountMap(Class, [(OtherClass, Count) | Rest], [(OtherClass, Count) | NewRest]) :-
-    Class \= OtherClass,
-    updateCountMap(Class, Rest, NewRest).
+  Class \= OtherClass,
+  updateCountMap(Class, Rest, NewRest).
 
 /* Predicato ausiliario per trovare la classe con il maggior numero di 
   occorrenze */
 maxClassOccurrences([(Class, Count) | Rest], MajorityClass) :-
-    maxClassOccurrences(Rest, Class, Count, MajorityClass).
+  maxClassOccurrences(Rest, Class, Count, MajorityClass).
 
 maxClassOccurrences([], MajorityClass, _, MajorityClass).
 maxClassOccurrences([(Class, Count) | Rest], MaxClass, MaxCount, MajorityClass) :-
-    ( Count > MaxCount ->
-        maxClassOccurrences(Rest, Class, Count, MajorityClass)
-    ;   maxClassOccurrences(Rest, MaxClass, MaxCount, MajorityClass)
-    ).
+  (Count > MaxCount ->
+   maxClassOccurrences(Rest, Class, Count, MajorityClass)
+   ;  
+   maxClassOccurrences(Rest, MaxClass, MaxCount, MajorityClass)
+  ).
 	
 % FUNZIONI AUSILIARIE	
 	
 /* Predicato ausiliare per chiedere all'utente se vuole continuare */
 askContinue(Continue) :-
-    nl, write('Vuoi continuare? (s/n)'), nl,
-    read(Choice),
-    (Choice = 's' -> Continue = 's' ;
-     Choice = 'n' -> Continue = 'n' ;
-     nl, write('Input incorretto. Inserisci "s" per continuare o "n" per uscire.'), nl, 
-     askContinue(Continue)).
+  nl, write('Vuoi continuare? (s/n)'), nl,
+  read(Choice),
+  (Choice = 's' -> Continue = 's' ;
+   Choice = 'n' -> Continue = 'n' ;
+   nl, write('Input incorretto. Inserisci "s" per continuare o "n" per uscire.'), nl, 
+   askContinue(Continue)).
 
 /* Predicato per stampare una linea orizzontale */
 print_horizontal_line :- print_horizontal_line(65).
