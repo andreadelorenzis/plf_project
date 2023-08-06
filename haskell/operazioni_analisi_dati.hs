@@ -1,14 +1,14 @@
 {- IMPORTAZIONE DELLE LIBRERIE -}
 
 {- Formattazione e output -}
-import Text.Printf (printf)  -- Utilizzato per formattare le stringhe di output
+import Text.Printf (printf)  -- Utilizzata per formattare le stringhe di output
 {- Gestione delle liste -}
-import Data.List (sortOn, nub)  -- Utilizzato per ordinare liste e rimuovere duplicati
-import Data.Function (on)  -- Utilizzato per personalizzare l'ordinamento in base a una funzione
+import Data.List (sortOn, nub)  -- Utilizzata per ordinare liste e rimuovere duplicati
+import Data.Function (on)  -- Utilizzata per personalizzare l'ordinamento in base a una funzione
 {- Conversione e lettura -}
-import Text.Read (reads, readMaybe)  -- Utilizzato per leggere input in modo sicuro e per effettuare parsing
+import Text.Read (reads, readMaybe)  -- Utilizzata per leggere input in modo sicuro e per effettuare parsing
 {- Controllo dei caratteri -}
-import Data.Char (isPrint)           
+import Data.Char (isPrint) -- Utilizzata per determinare se un carattere è stampabile o meno
 
 {- MAIN -}
 

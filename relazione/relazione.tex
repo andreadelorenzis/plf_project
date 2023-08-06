@@ -164,7 +164,7 @@ Il parametro \textit{k} influisce sulla classificazione dei punti e rappresenta 
 \section{Progettazione dell'algoritmo}
 
 \subsection{Scelte di progetto}
-Gli input per entrambi i programmi sono liste di punti bidimensionali, rappresentati medianti coppie di valori reali nel caso della regressione lineare, e triple di valori nel caso del KNN (due valori reali e un carattere). La lista di coppie reali deve essere inserita nel seguente formato:
+Gli input per entrambi i programmi sono liste di punti bidimensionali, rappresentati medianti coppie di numeri reali nel caso della regressione lineare, e triple di valori nel caso del KNN (due numeri reali e un carattere). La lista di coppie reali deve essere inserita nel seguente formato:
 $$
 [(x_1, y_1), \dots, (x_n, y_n)]
 $$
@@ -172,7 +172,9 @@ I punti del KNN invece sono acquisiti in questo formato, contenente anche un car
 $$
 [(x_1, y_1, '<classe>'), \dots, (x_n, y_n, '<class>')]
 $$
-All'avvio del programma, si è deciso di presentare all'utente un menu principale in cui poter scegliere le diverse operazioni (1: regressione lineare, 2: KNN, 3: uscita). Una volta scelta una delle due operazioni, all'utente viene chiesto di inserire il dataset corrispondente nel corretto modo. Una volta inserito il dataset e svolta l'operazione, l'utente può continuamente valutare nuovi punti sul modello creato all'interno del ciclo. E' il programma che, al termine di ogni valutazione, chiede all'utente se ha intenzione di procedere con un'ulteriore operazione o se preferisce tornale al menu per svolgere un'altra operazione. Il programma termina quando si sceglie l'opzione numero 3.
+Come tipi di valori per le etichette si possono usare sia caratteri singoli (es. 'A') che combinazioni di caratteri, cioè stringhe (es. xyz).\\
+\newline
+All'avvio del programma, si è deciso di presentare all'utente un menu principale in cui poter scegliere le diverse operazioni (1: regressione lineare, 2: KNN, 3: uscita). Una volta scelta una delle due operazioni, all'utente viene chiesto di inserire il dataset corrispondente nel corretto modo. Una volta inserito il dataset e svolta l'operazione, l'utente può continuamente valutare nuovi punti sul modello creato all'interno del ciclo. E' il programma che, al termine di ogni valutazione, chiede all'utente se ha intenzione di procedere con un'ulteriore operazione o se preferisce tornale al menu per svolgere un'altra operazione. Il programma termina quando si sceglie l'opzione numero 3 del menu.
 
 \newpage
 
@@ -231,13 +233,15 @@ Il programma emette un messaggio di errore e chiede di rieseguire l'inserimento 
 \begin{itemize}
 \item All'interno del menu viene scelta un'opzione non presente o un valore che non sia un numero intero.
 \item All'atto della scelta se continuare o meno con la valutazione dei valori, l'utente inserisce un valore diverso da 's' o 'n'.
-\item L'utente inserisce il dataset in un formato incorretto, oppure tale per cui i punti al suo interno non siano numeri reali o siano scritti in un formato incorretto.
+\item L'utente inserisce il dataset in un formato incorretto, ossia tale che la lista non sia in un formato valido o che i suoi elementi non siano punti validi. 
 \item L'utente inserisce un dataset contenente meno di due punti.
 \item L'utente inserisce un valore/punto di valutazione in un formato incorretto o di un tipo diverso da quello richiesto.
+\item L'utente inserisce un valore \textit{k} di vicini che non sia un intero positivo, o il cui valore sia maggiore del numero totale di punti nel dataset.
 \end{itemize}
+Di seguito sono riportati dei test significativi per ogni operazione, eseguiti su entrambi i programmi. 
 
-\subsection{Haskell}
-\subsubsection{Linear regression}
+\subsection{Testing del programma Haskell}
+\subsubsection{Testing "Regressione lineare"}
 \noindent
 \textbf{Test Haskell 1}\\
 Dataset: $[(1, 2), (2, 4), (3, 6), (4, 8), (5, 10)]$\\
@@ -269,7 +273,7 @@ Valore x: $0.6$\\
 Retta: $y = 3.00x + 0.00$\\
 Valore y: $1.80$
 
-\subsubsection{K-Nearest neighbors}
+\subsubsection{Testing "K-Nearest neighbors"}
 \textbf{Test Haskell 6}\\
 Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
 K: $3$\\
@@ -300,8 +304,8 @@ K: $5$\\
 Punto di test: $(3.5, 4.5)$\\
 Classe prevista: 'A'
 
-\subsection{Prolog}
-\subsubsection{Linear regression}
+\subsection{Testing del programma Prolog}
+\subsubsection{Testing "Regressione lineare"}
 \noindent
 \textbf{Test Prolog 1}\\
 Dataset: $[(1, 2), (2, 4), (3, 6), (4, 8), (5, 10)]$\\
@@ -333,7 +337,7 @@ Valore x: $0.6$\\
 Retta: $y = 3.00x + 0.00$\\
 Valore y: $1.80$
 
-\subsubsection{K-Nearest neighbors}
+\subsubsection{Testing "K-Nearest neighbors"}
 \textbf{Test Prolog 6}\\
 Dataset: $[(1, 2, 'A'), (2, 3, 'A'), (2, 4, 'A'), (3, 5, 'B'), (4, 6, 'B'), (5, 7, 'B'), (6, 8, 'C'), (7, 9, 'C'), (8, 10, 'C')]$\\
 K: $3$\\
