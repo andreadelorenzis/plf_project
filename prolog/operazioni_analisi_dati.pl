@@ -1,3 +1,5 @@
+/* Programma Prolog per calcolare regressione lineare e k-nearest neighbors */
+
 % ESECUZIONE MAIN
 
 /* Punto iniziale del programma */
@@ -154,8 +156,7 @@ esegui_knn :-
   ),
   valuta_punti(Dataset, K).
 
-/* Funzione per ottenere dall'utente un dataset di punti etichettati con 
-   una classe */
+/* Funzione per ottenere dall'utente un dataset di punti etichettati con una classe */
 leggi_dataset_etichettato(Lista) :-
   repeat,
   nl, write('Inserisci i punti del dataset nel formato: [(x1,y1,C), ..., (xn,yn,C)].'), nl,
@@ -199,16 +200,12 @@ leggi_punto_etichettato(Punto) :-
   repeat,
   nl, write('Inserisci il valore del punto da testare nel formato (x,y): '), nl,
   read(Punto),
-  punto_valido(Punto),
-  !.
-
-/* Regola di validazione per un punto etichettato */
-punto_valido(Punto) :-
-  punto_valido(Punto),
-  !.
-punto_valido(_) :-
-  nl, write('Punto non valido. Assicurati di inserire un punto nel formato (x,y).'), nl,
-  fail.
+  (punto_valido(Punto) ->
+   true  % Successo: punto valido, exit from repeat
+   ;
+   nl, write('Punto non valido. Assicurati di inserire un punto nel formato (x,y).'), nl,
+   fail % Failure: punto non valido, retry from repeat
+  ).
 
 /* Funzione che trova i k vicini per un punto */
 kNearestNeighbors(K, Punto, Dataset, Vicini) :-
