@@ -23,7 +23,7 @@ menu_principale :-
   (Scelta = 1 -> esegui_regressione_lineare, menu_principale ;
    Scelta = 2 -> esegui_knn, menu_principale ;
    Scelta = 3 -> nl, write('Chiusura del programma.'), nl ;
-   write('Scelta incorretta. Per favore, seleziona una delle opzioni valide.'), nl, 
+   write('Scelta incorretta. Per favore, seleziona una delle opzioni valide.'), nl,
    menu_principale). 
 
 % CALCOLO REGRESSIONE LINEARE
@@ -41,12 +41,13 @@ esegui_regressione_lineare :-
 /* Predicato per leggere una lista di tuple da tastiera */
 leggi_dataset(Lista) :-
   repeat,
-  nl, write('Inserisci i punti del dataset nel formato: [(x1,y1), ..., (xn,yn)]:'), nl,
-  read(Lista),
+  nl, write('Inserisci i punti del dataset nel formato: [(x1,y1), ..., (xn,yn)]:'), 
+  nl, read(Lista),
   (lista_punti_valida(Lista) ->
      !    % Successo: lista valida di punti
      ;
-     nl, write('Input invalido. La lista deve contenere almeno due punti nel formato [(x,y), ...].'), nl,
+     nl, write('Input invalido. La lista deve contenere almeno due punti '),
+     nl, write('nel formato [(x,y), ...]'), nl,
      fail % Fallimento: formato non valido, ritentare
   ).
 
@@ -114,7 +115,8 @@ valuta_valori_x(Pendenza, Intercetta) :-
   richiedi_continuazione(Scelta),
   (Scelta = 's' -> valuta_valori_x(Pendenza, Intercetta) ; true).
 
-/* Funzione che ottiene dall'utente una coordinata X da valutare sulla retta ottenuta */
+/* Funzione che ottiene dall'utente una coordinata X da valutare sulla 
+ * retta ottenuta */
 leggi_valore(X) :-
   repeat,
   nl, write('Inserisci un valore per la coordinata x: '), nl,
@@ -159,12 +161,14 @@ esegui_knn :-
 /* Funzione per ottenere dall'utente un dataset di punti etichettati con una classe */
 leggi_dataset_etichettato(Lista) :-
   repeat,
-  nl, write('Inserisci i punti del dataset nel formato: [(x1,y1,C), ..., (xn,yn,C)].'), nl,
+  nl, write('Inserisci i punti del dataset nel formato: '),
+  write('[(x1,y1,C), ..., (xn,yn,C)].'), nl,
   read(Lista),
   (dataset_etichettato_valido(Lista) ->
      !  % Successo: la lista è valida
      ;
-     nl, write('Input invalido. La lista deve contenere almeno due punti nel formato [(x,y,C), ...].'), nl,
+     nl, write('Input invalido. La lista deve contenere almeno due punti '),
+     write('nel formato [(x,y,Classe), ...]'), nl,
      fail % Failure: formato lista invalido, ritentare
   ).
 	
@@ -203,7 +207,8 @@ leggi_punto_etichettato(Punto) :-
   (punto_valido(Punto) ->
    true  % Successo: punto valido, exit from repeat
    ;
-   nl, write('Punto non valido. Assicurati di inserire un punto nel formato (x,y).'), nl,
+   nl, write('Punto non valido. Assicurati di inserire un punto '),
+   write('nel formato (x,y).'), nl,
    fail % Failure: punto non valido, retry from repeat
   ).
 
@@ -214,7 +219,8 @@ kNearestNeighbors(K, Punto, Dataset, Vicini) :-
   prendi(K, DistanzeOrdinate, CoppieVicini),
   converti_coppie_in_vicini(CoppieVicini, Vicini).
 
-/* Predicato per calolcare le distanze tra PuntoTest e ogni altro punto del dataset */
+/* Predicato per calolcare le distanze tra PuntoTest e ogni altro punto 
+ * del dataset */
 calcola_distanze(_, [], []).
 calcola_distanze(PuntoTest, [Punto | Resto], [Dist-Punto | Distanze]) :-
   distanza(Punto, PuntoTest, Dist),
@@ -263,9 +269,15 @@ conta_occorrenze_classe([(_, _, Classe) | Vicini], MapConteggiParziale, MapConte
   conta_occorrenze_classe(Vicini, NuovaMapConteggi, MapConteggi).
 
 aggiorna_map_conteggi(Classe, [], [(Classe, 1)]).
-aggiorna_map_conteggi(Classe, [(Classe, Conteggio) | Resto], [(Classe, NuovoConteggio) | Resto]) :-
+aggiorna_map_conteggi(Classe, 
+                      [(Classe, Conteggio) | Resto], 
+                      [(Classe, NuovoConteggio) | Resto]
+                     ) :-
   NuovoConteggio is Conteggio + 1.
-aggiorna_map_conteggi(Classe, [(AltraClasse, Conteggio) | Resto], [(AltraClasse, Conteggio) | NuovoResto]) :-
+aggiorna_map_conteggi(Classe, 
+                      [(AltraClasse, Conteggio) | Resto], 
+                      [(AltraClasse, Conteggio) | NuovoResto]
+                     ) :-
   Classe \= AltraClasse,
   aggiorna_map_conteggi(Classe, Resto, NuovoResto).
 
@@ -275,7 +287,8 @@ classe_max_occorrenze([(Classe, Conteggio) | Resto], ClasseMaggioranza) :-
   classe_max_occorrenze(Resto, Classe, Conteggio, ClasseMaggioranza).
 
 classe_max_occorrenze([], ClasseMaggioranza, _, ClasseMaggioranza).
-classe_max_occorrenze([(Classe, Conteggio) | Resto], ClasseMax, ConteggioMax, ClasseMaggioranza) :-
+classe_max_occorrenze([(Classe, Conteggio) | Resto], 
+                      ClasseMax, ConteggioMax, ClasseMaggioranza) :-
   (Conteggio > ConteggioMax ->
    classe_max_occorrenze(Resto, Classe, Conteggio, ClasseMaggioranza)
    ;  
@@ -290,12 +303,16 @@ richiedi_continuazione(Scelta) :-
   read(Scelta),
   (Scelta = 's' -> Scelta = 's' ;
    Scelta = 'n' -> Scelta = 'n' ;
-   nl, write('Input incorretto. Inserisci "s" per continuare o "n" per uscire.'), nl, 
-   richiedi_continuazione(Scelta)).
+   nl, write('Input incorretto. Inserisci "s" per continuare o "n" per uscire.'), 
+   nl, richiedi_continuazione(Scelta)).
 
 /* Predicato per stampare una linea orizzontale */
 stampa_riga_orizzontale :- stampa_riga_orizzontale(65).
 
 /* Specifica il numero di trattini nella linea orizzontale */
-stampa_riga_orizzontale(N) :- N > 0, write('-'), N1 is N - 1, stampa_riga_orizzontale(N1).
+stampa_riga_orizzontale(N) :- 
+  N > 0, 
+  write('-'), 
+  N1 is N - 1, 
+  stampa_riga_orizzontale(N1).
 stampa_riga_orizzontale(0) :- nl.
