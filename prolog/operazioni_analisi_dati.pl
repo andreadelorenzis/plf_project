@@ -73,7 +73,7 @@ calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
   estrai_coordinate_x(Punti, Xs),
   estrai_coordinate_y(Punti, Ys),
   varianza(Xs, VarX),
-  (VarX =:= 0 -> % Se VarX è zero, gestisci il caso di retta verticale
+  (VarX =:= 0 -> % Se VarX è zero, gestisco il caso di retta verticale
    Pendenza = 'undefined',
    Intercetta = 'undefined'
   ; 

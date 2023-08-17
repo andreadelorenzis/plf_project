@@ -624,7 +624,7 @@ calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
   estrai_coordinate_x(Punti, Xs),
   estrai_coordinate_y(Punti, Ys),
   varianza(Xs, VarX),
-  (VarX =:= 0 -> % Se VarX è zero, gestisci il caso di retta verticale
+  (VarX =:= 0 -> % Se VarX è zero, gestisco il caso di retta verticale
    Pendenza = 'undefined',
    Intercetta = 'undefined'
   ; 
@@ -866,9 +866,9 @@ classe_max_occorrenze([(Classe, Conteggio) | Resto],
 /* Predicato per chiedere all'utente se vuole continuare */
 richiedi_continuazione(Scelta) :-
   nl, write('Vuoi continuare? (s/n)'), nl,
-  read(Scelta),
-  (Scelta = 's' -> Scelta = 's' ;
-   Scelta = 'n' -> Scelta = 'n' ;
+  read(SceltaInput),
+  (atom(SceltaInput), SceltaInput = 's' -> Scelta = 's' ;
+   atom(SceltaInput), SceltaInput = 'n' -> Scelta = 'n' ;
    nl, write('Input incorretto. Inserisci "s" per continuare o "n" per uscire.'), 
    nl, richiedi_continuazione(Scelta)).
 
@@ -882,7 +882,6 @@ stampa_riga_orizzontale(N) :-
   N1 is N - 1, 
   stampa_riga_orizzontale(N1).
 stampa_riga_orizzontale(0) :- nl.
-
 \end{verbatim}
 
 \newpage
