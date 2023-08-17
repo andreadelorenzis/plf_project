@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  17 AUG 2023 17:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  17 AUG 2023 17:47
 entering extended mode
 **./relazione.tex
 (relazione.tex
@@ -1189,42 +1189,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 1004--1040
  []
 
 
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 1042--1047
-\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
-cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
- (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
-/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
-/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
- ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
-/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
-cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
- )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
-/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
-cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
- []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
-/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 1052--1059
 
- []
-
-
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 1052--1059
-\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
-cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
- (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
-/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
-/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
- ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
-/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
-cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
- )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
-/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
-cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
- []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
-/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
  []
 
 
@@ -1241,42 +1207,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 1063--1070
  []
 
 
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 1063--1070
-\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
-cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
- (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
-/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
-/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
- ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
-/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
-cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
- )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
-/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
-cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
- []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
-/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 1073--1080
 
- []
-
-
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 1073--1080
-\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
-cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
- (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
-/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
-/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
- ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
-/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
-cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
- )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
-/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
-cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
- []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
-/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
  []
 
 
@@ -1295,9 +1227,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [25] (relazione.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `relazione.out' has not changed.
 (rerunfilecheck)             Checksum: 9C2D48DB55756CDE8EE07E3982F94738;3428.
  ) 
@@ -1326,7 +1255,7 @@ ers/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmti10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/cm/cmtt10.pfb>
-Output written on relazione.pdf (26 pages, 230451 bytes).
+Output written on relazione.pdf (26 pages, 230394 bytes).
 PDF statistics:
  320 PDF objects out of 1000 (max. 8388607)
  51 named destinations out of 1000 (max. 500000)

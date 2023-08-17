@@ -315,9 +315,9 @@ classe_max_occorrenze([(Classe, Conteggio) | Resto],
 /* Predicato per chiedere all'utente se vuole continuare */
 richiedi_continuazione(Scelta) :-
   nl, write('Vuoi continuare? (s/n)'), nl,
-  read(Scelta),
-  (Scelta = 's' -> Scelta = 's' ;
-   Scelta = 'n' -> Scelta = 'n' ;
+  read(SceltaInput),
+  (atom(SceltaInput), SceltaInput = 's' -> Scelta = 's' ;
+   atom(SceltaInput), SceltaInput = 'n' -> Scelta = 'n' ;
    nl, write('Input incorretto. Inserisci "s" per continuare o "n" per uscire.'), 
    nl, richiedi_continuazione(Scelta)).
 
