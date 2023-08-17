@@ -35,7 +35,11 @@ esegui_regressione_lineare :-
   nl, write('Adattamento della retta al dataset..'), nl,
   calcola_coefficienti_retta(Punti, Pendenza, Intercetta), 
   nl,
-  format('Retta interpolatrice: y = ~2fx + ~2f~n', [Pendenza, Intercetta]),
+  (Pendenza = 'undefined' ->  % Caso di retta verticale
+   write('Retta interpolatrice: y = NaNx + NaN'), nl
+  ;
+   format('Retta interpolatrice: y = ~2fx + ~2f~n', [Pendenza, Intercetta])
+  ),
   valuta_valori_x(Pendenza, Intercetta).
 
 /* Predicato per leggere una lista di tuple da tastiera */
@@ -69,11 +73,16 @@ calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
   estrai_coordinate_x(Punti, Xs),
   estrai_coordinate_y(Punti, Ys),
   varianza(Xs, VarX),
-  covarianza(Xs, Ys, CovXY),
-  Pendenza is CovXY / VarX,
-  media(Ys, MediaY),
-  media(Xs, MediaX),
-  Intercetta is MediaY - Pendenza * MediaX.
+  (VarX =:= 0 -> % Se VarX è zero, gestisci il caso di retta verticale
+   Pendenza = 'undefined',
+   Intercetta = 'undefined'
+  ; 
+   covarianza(Xs, Ys, CovXY),
+   Pendenza is CovXY / VarX,
+   media(Ys, MediaY),
+   media(Xs, MediaX),
+   Intercetta is MediaY - Pendenza * MediaX
+  ).
  
 /* Estra le coordinate X da una lista di punti */
 estrai_coordinate_x([], []).
@@ -111,7 +120,11 @@ media([X | Xs], Media) :-
 valuta_valori_x(Pendenza, Intercetta) :-
   leggi_valore(X),
   valuta_valore(X, Pendenza, Intercetta, Y),
-  nl, format('Per X = ~2f il valore previsto e\' Y = ~2f', [X, Y]), nl,
+  (Pendenza = 'undefined' -> % Caso di retta verticale
+   nl, format('Per X = ~2f il valore previsto e\' Y = NaN', [X]), nl
+  ;
+   nl, format('Per X = ~2f il valore previsto e\' Y = ~2f', [X, Y]), nl
+  ),
   richiedi_continuazione(Scelta),
   (Scelta = 's' -> valuta_valori_x(Pendenza, Intercetta) ; true).
 
@@ -130,7 +143,11 @@ leggi_valore(X) :-
 
 /* Predicato che valuta la regressione lineare per il punto */
 valuta_valore(X, Pendenza, Intercetta, Y) :-
-  Y is Pendenza * X + Intercetta.
+  (Pendenza = 'undefined' ->  % Caso di retta verticale
+   Y is 0  % valore non significativo
+  ;
+   Y is Pendenza * X + Intercetta
+  ).
 
 % CALCOLO K-NEAREST NEIGHBORS
 

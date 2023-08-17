@@ -146,7 +146,7 @@ Dopo aver calcolato i coefficienti m e b, possiamo utilizzare l'equazione della 
 $$
 \hat{y} = mx+b
 $$
-Dove $\hat{y}$ è il valore predetto di y per il nuovo valore di x valutato.\\
+Dove $\hat{y}$ è il valore predetto di y per il nuovo valore di x valutato.  \\
 \newline
 Per quanto riguarda il KNN, questo si basa su una misura di distanza tra i punti nel dataset. Useremo la distanza euclidea tra due punti $(x_1,y_2)$ e $(x_2,y_2)$, data da:
 $$
@@ -167,7 +167,9 @@ I punti del KNN invece sono acquisiti in questo formato, contenente anche le eti
 $$
 [(x_1, y_1, \text{classe}), \dots, (x_n, y_n, \text{classe})]
 $$
-All'avvio del programma, si è deciso di presentare all'utente un menu principale in cui poter scegliere le diverse operazioni (1: regressione lineare, 2: KNN, 3: uscita). Una volta scelta una delle due operazioni, all'utente viene chiesto di inserire il dataset corrispondente nel corretto formato. Una volta inserito il dataset e svolta l'operazione, l'utente può continuamente valutare nuovi valori/punti sul modello allenato, all'interno di un ciclo. E' il programma che, al termine di ogni valutazione, chiede all'utente se ha intenzione di procedere o se preferisce tornale al menu per svolgere un'altra operazione. Il programma termina quando si sceglie l'opzione numero 3 del menu.
+All'avvio del programma, si è deciso di presentare all'utente un menu principale in cui poter scegliere le diverse operazioni (1: regressione lineare, 2: KNN, 3: uscita). Una volta scelta una delle due operazioni, all'utente viene chiesto di inserire il dataset corrispondente nel corretto formato. Una volta inserito il dataset e svolta l'operazione, l'utente può continuamente valutare nuovi valori/punti sul modello allenato, all'interno di un ciclo. E' il programma che, al termine di ogni valutazione, chiede all'utente se ha intenzione di procedere o se preferisce tornale al menu per svolgere un'altra operazione. Il programma termina quando si sceglie l'opzione numero 3 del menu.\\
+\newline
+Nel contesto della regressione lineare, una retta verticale non ha molto senso, poichè la sua equazione sarebbe $x=c$, dove $c$ è una costante. Questo significherebbe che x rimane invariato per qualsiasi valore di y, il che è in contrasto con l'idea di relazione tra x e y. Per questo motivo, in entrambi i programmi bisogna controllare che nella prima operazione l'utente non inserisca un dataset che porti ad avere una retta verticale, ossia dove la varianza tra i valori della coordinata x è pari a zero, in quanto questo porterebbe ad avere una divisione per zero. Il linguaggio Haskell provvede già a questa evenienza restituendo il valore speciale 'NaN'. In Prolog questo non è previsto, quindi bisogna controllare in maniera condizionale se avviene o meno una divisione per zero. In ogni caso, l'output del programma nel caso di retta verticale sarà $y=\text{NaN}x+\text{NaN}$ per indicare il fatto che non vi è relazione tra x e y.
 
 \subsubsection{Haskell}
 Ci sono alcune differenze nel modo in cui i dati devono essere passati nei due programmi, in particolare per quanto riguarda l'operazione del KNN. Nel programma Haskell, il dataset etichettato deve essere passato in questo formato:
@@ -584,7 +586,11 @@ esegui_regressione_lineare :-
   nl, write('Adattamento della retta al dataset..'), nl,
   calcola_coefficienti_retta(Punti, Pendenza, Intercetta), 
   nl,
-  format('Retta interpolatrice: y = ~2fx + ~2f~n', [Pendenza, Intercetta]),
+  (Pendenza = 'undefined' ->  % Caso di retta verticale
+   write('Retta interpolatrice: y = NaNx + NaN'), nl
+  ;
+   format('Retta interpolatrice: y = ~2fx + ~2f~n', [Pendenza, Intercetta])
+  ),
   valuta_valori_x(Pendenza, Intercetta).
 
 /* Predicato per leggere una lista di tuple da tastiera */
@@ -618,11 +624,16 @@ calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
   estrai_coordinate_x(Punti, Xs),
   estrai_coordinate_y(Punti, Ys),
   varianza(Xs, VarX),
-  covarianza(Xs, Ys, CovXY),
-  Pendenza is CovXY / VarX,
-  media(Ys, MediaY),
-  media(Xs, MediaX),
-  Intercetta is MediaY - Pendenza * MediaX.
+  (VarX =:= 0 -> % Se VarX è zero, gestisci il caso di retta verticale
+   Pendenza = 'undefined',
+   Intercetta = 'undefined'
+  ; 
+   covarianza(Xs, Ys, CovXY),
+   Pendenza is CovXY / VarX,
+   media(Ys, MediaY),
+   media(Xs, MediaX),
+   Intercetta is MediaY - Pendenza * MediaX
+  ).
  
 /* Estra le coordinate X da una lista di punti */
 estrai_coordinate_x([], []).
@@ -660,7 +671,11 @@ media([X | Xs], Media) :-
 valuta_valori_x(Pendenza, Intercetta) :-
   leggi_valore(X),
   valuta_valore(X, Pendenza, Intercetta, Y),
-  nl, format('Per X = ~2f il valore previsto e\' Y = ~2f', [X, Y]), nl,
+  (Pendenza = 'undefined' -> % Caso di retta verticale
+   nl, format('Per X = ~2f il valore previsto e\' Y = NaN', [X]), nl
+  ;
+   nl, format('Per X = ~2f il valore previsto e\' Y = ~2f', [X, Y]), nl
+  ),
   richiedi_continuazione(Scelta),
   (Scelta = 's' -> valuta_valori_x(Pendenza, Intercetta) ; true).
 
@@ -679,7 +694,11 @@ leggi_valore(X) :-
 
 /* Predicato che valuta la regressione lineare per il punto */
 valuta_valore(X, Pendenza, Intercetta, Y) :-
-  Y is Pendenza * X + Intercetta.
+  (Pendenza = 'undefined' ->  % Caso di retta verticale
+   Y is 0  % valore non significativo
+  ;
+   Y is Pendenza * X + Intercetta
+  ).
 
 % CALCOLO K-NEAREST NEIGHBORS
 
@@ -893,8 +912,8 @@ Valore y: $12.00$\\
 \textbf{Test Haskell 2}\\
 Dataset: $[(1, 2), (2, 3), (3, 7), (4, 6), (5, 8), (6, 9)]$\\
 Valore x: $7.0$\\
-Retta: $y = 1.50x + 0.50$\\
-Valore y: $11.50$\\
+Retta: $y = 1.40x + 0.93$\\
+Valore y: $10.73$\\
 \newline
 \textbf{Test Haskell 3 (Pendenza negativa)}\\
 Dataset: $[(-1, 3), (0, 1), (1, -1), (2, -3), (3, -5)]$\\
@@ -908,14 +927,20 @@ Valore x: $2.0$\\
 Retta: $y = NaNx + NaN$\\
 Valore y: $NaN$\\
 \newline
-\textbf{Test Haskell 5 (Numeri decimali)}\\
+\textbf{Test Haskell 5 (Retta orizzontale)}\\
+Dataset: $[(1, 2), (2, 2), (3, 2), (4, 2), (5, 2)]$\\
+Valore x: $5.0$\\
+Retta: $y = 0.00x + 2.00$\\
+Valore y: $2.00$\\
+\newline
+\textbf{Test Haskell 6 (Numeri decimali)}\\
 Dataset: $[(0.1, 0.3), (0.2, 0.6), (0.3, 0.9), (0.4, 1.2), (0.5, 1.5)]$\\
 Valore x: $0.6$\\
 Retta: $y = 3.00x + 0.00$\\
 Valore y: $1.80$
 
 \subsubsection{Testing "K-Nearest neighbors"}
-\textbf{Test Haskell 6}\\
+\textbf{Test Haskell 7}\\
 Dataset: $[(1, 2, \text{"A"}), (2, 3, \text{"A"}), (2, 4, \text{"A"}), (3, 5, \text{"B"}), (4, 6, \text{"B"}), (5, 7, \text{"B"}), (6, 8, \text{"C"}), (7, 9, \text{"C"})]$\\
 K: $3$\\
 Punto di test: $(3, 4)$\\
@@ -927,7 +952,7 @@ Vicini:
 \end{itemize}
 Classe prevista: A\\
 \newline
-\textbf{Test Haskell 7}\\
+\textbf{Test Haskell 8}\\
 Dataset: $[(1, 2, \text{"A"}), (2, 3, \text{"A"}), (2, 4, \text{"A"}), (3, 5, \text{"B"}), (4, 6, \text{"B"}), (5, 7, \text{"B"}), (6, 8, \text{"C"}), (7, 9, \text{"C"})]$\\
 K: $2$\\
 Punto di test: $(6, 5)$\\
@@ -938,7 +963,7 @@ Vicini:
 \end{itemize}
 Classe prevista: B\\
 \newline
-\textbf{Test Haskell 8 (Singolo vicino)}\\
+\textbf{Test Haskell 9 (Singolo vicino)}\\
 Dataset: $[(1, 2, \text{"A"}), (2, 3, \text{"A"}), (2, 4, \text{"A"}), (3, 5, \text{"B"}), (4, 6, \text{"B"}), (5, 7, \text{"B"}), (6, 8, \text{"C"}), (7, 9, \text{"C"})]$\\
 K: $1$\\
 Punto di test: $(3.5, 4.5)$\\
@@ -948,7 +973,7 @@ Vicini:
 \end{itemize}
 Classe prevista: B\\
 \newline
-\textbf{Test Haskell 9 (Punto di test uguale ad un vicino)}\\
+\textbf{Test Haskell 10 (Punto di test uguale ad un vicino)}\\
 Dataset: $[(1, 2, \text{"A"}), (2, 3, \text{"A"}), (2, 4, \text{"A"}), (3, 5, \text{"B"}), (4, 6, \text{"B"}), (5, 7, \text{"B"}), (6, 8, \text{"C"}), (7, 9, \text{"C"})]$\\
 K: $1$\\
 Punto di test: $(2, 4)$\\
@@ -958,7 +983,7 @@ Vicini:
 \end{itemize}
 Classe prevista: A\\
 \newline
-\textbf{Test Haskell 10 (Punto di test vicino a 3 punti della stessa classe 'A')}\\
+\textbf{Test Haskell 11 (Punto di test vicino a 3 punti della stessa classe 'A')}\\
 Dataset: $[(1, 2, \text{"A"}), (2, 3, \text{"A"}), (3, 4, \text{"A"}), (4, 5, \text{"B"}), (5, 6, \text{"B"})]$\\
 K: $5$\\
 Punto di test: $(3.5, 4.5)$\\
@@ -986,8 +1011,8 @@ Valore y: $12.00$\\
 \textbf{Test Prolog 2}\\
 Dataset: $[(1, 2), (2, 3), (3, 7), (4, 6), (5, 8), (6, 9)]$\\
 Valore x: $7.0$\\
-Retta: $y = 1.50x + 0.50$\\
-Valore y: $11.50$\\
+Retta: $y = 1.41x + 0.88$\\
+Valore y: $10.78$\\
 \newline
 \textbf{Test Prolog 3 (Pendenza negativa)}\\
 Dataset: $[(-1, 3), (0, 1), (1, -1), (2, -3), (3, -5)]$\\
@@ -1001,14 +1026,20 @@ Valore x: $2.0$\\
 Retta: $y = NaNx + NaN$\\
 Valore y: $NaN$\\
 \newline
-\textbf{Test Prolog 5 (Numeri decimali)}\\
+\textbf{Test Prolog 5 (Retta orizzontale)}\\
+Dataset: $[(1, 2), (2, 2), (3, 2), (4, 2), (5, 2)]$\\
+Valore x: $5.0$\\
+Retta: $y = 0.00x + 2.00$\\
+Valore y: $2.00$\\
+\newline
+\textbf{Test Prolog 6 (Numeri decimali)}\\
 Dataset: $[(0.1, 0.3), (0.2, 0.6), (0.3, 0.9), (0.4, 1.2), (0.5, 1.5)]$\\
 Valore x: $0.6$\\
 Retta: $y = 3.00x + 0.00$\\
 Valore y: $1.80$
 
 \subsubsection{Testing "K-Nearest neighbors"}
-\textbf{Test Prolog 6}\\
+\textbf{Test Prolog 7}\\
 Dataset: $[(1, 2, \text{"A"}), (2, 3, \text{"A"}), (2, 4, \text{"A"}), (3, 5, \text{"B"}), (4, 6, \text{"B"}), (5, 7, \text{"B"}), (6, 8, \text{"C"}), (7, 9, \text{"C"})]$\\
 K: $3$\\
 Punto di test: $(3, 4)$\\
@@ -1020,7 +1051,7 @@ Vicini:
 \end{itemize}
 Classe prevista: A\\
 \newline
-\textbf{Test Prolog 7}\\
+\textbf{Test Prolog 8}\\
 Dataset: $[(1, 2, \text{"A"}), (2, 3, \text{"A"}), (2, 4, \text{"A"}), (3, 5, \text{"B"}), (4, 6, \text{"B"}), (5, 7, \text{"B"}), (6, 8, \text{"C"}), (7, 9, \text{"C"})]$\\
 K: $2$\\
 Punto di test: $(6, 5)$\\
@@ -1031,7 +1062,7 @@ Vicini:
 \end{itemize}
 Classe prevista: B\\
 \newline
-\textbf{Test Prolog 8 (Singolo vicino)}\\
+\textbf{Test Prolog 9 (Singolo vicino)}\\
 Dataset: $[(1, 2, \text{"A"}), (2, 3, \text{"A"}), (2, 4, \text{"A"}), (3, 5, \text{"B"}), (4, 6, \text{"B"}), (5, 7, \text{"B"}), (6, 8, \text{"C"}), (7, 9, \text{"C"})]$\\
 K: $1$\\
 Punto di test: $(3.5, 4.5)$\\
@@ -1041,7 +1072,7 @@ Vicini:
 \end{itemize}
 Classe prevista: B\\
 \newline
-\textbf{Test Prolog 9 (Punto di test uguale ad un vicino)}\\
+\textbf{Test Prolog 10 (Punto di test uguale ad un vicino)}\\
 Dataset: $[(1, 2, \text{"A"}), (2, 3, \text{"A"}), (2, 4, \text{"A"}), (3, 5, \text{"B"}), (4, 6, \text{"B"}), (5, 7, \text{"B"}), (6, 8, \text{"C"}), (7, 9, \text{"C"})]$\\
 K: $1$\\
 Punto di test: $(2, 4)$\\
@@ -1051,7 +1082,7 @@ Vicini:
 \end{itemize}
 Classe prevista: A\\
 \newline
-\textbf{Test Prolog 10 (Punto di test vicino a 3 punti della stessa classe 'A')}\\
+\textbf{Test Prolog 11 (Punto di test vicino a 3 punti della stessa classe 'A')}\\
 Dataset: $[(1, 2, \text{'A'}), (2, 3, \text{'A'}), (3, 4, \text{'A'}), (4, 5, \text{'B'}), (5, 6, \text{'B'})]$\\
 K: $5$\\
 Punto di test: $(3.5, 4.5)$\\
