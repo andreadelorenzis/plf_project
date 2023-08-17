@@ -40,7 +40,7 @@ menu_principale = do
       putStrLn "-------- Regressione Lineare --------"
       punti <- leggi_dataset
       putStrLn "\nAdattamento della retta al dataset.."
-      let (pendenza, intercetta) = regressione_lineare punti
+      let (pendenza, intercetta) = calcola_coefficienti_retta punti
       let pendenza_formattata = printf "%.2f" pendenza
       let intercetta_formattata = printf "%.2f" intercetta
       putStrLn $ "\nRetta interpolatrice: y = " ++ pendenza_formattata 
@@ -73,6 +73,16 @@ data PuntoEtichettato = PuntoEtichettato { x :: Double, y :: Double, label :: St
 
 {- CALCOLO REGRESSIONE LINEARE -}
 
+{- Funzione che calcola i coefficienti (pendenza e intercetta) della retta 
+ - interpolatrice -}
+calcola_coefficienti_retta :: [Punto] -> (Double, Double)
+calcola_coefficienti_retta punti = (pendenza, intercetta)
+  where
+    xs = map xCoord punti
+    ys = map yCoord punti
+    pendenza = covarianza xs ys / varianza xs
+    intercetta = media ys - pendenza * media xs
+
 {- Funzione che calcola la media di una lista di Double -}
 media :: [Double] -> Double
 media xs = sum xs / fromIntegral (length xs)
@@ -91,21 +101,7 @@ covarianza xs ys =
     mx = media xs
     my = media ys
 
-{- Funzione che calcola i coefficienti (pendenza e intercetta) della retta 
- - interpolatrice -}
-regressione_lineare :: [Punto] -> (Double, Double)
-regressione_lineare punti = (pendenza, intercetta)
-  where
-    xs = map xCoord punti
-    ys = map yCoord punti
-    pendenza = covarianza xs ys / varianza xs
-    intercetta = media ys - pendenza * media xs
-
-{- Funzione che converte una coppia di Double in una struttura Punto -}
-converti_tupla_in_punto :: [(Double, Double)] -> [Punto]
-converti_tupla_in_punto = map (\(x, y) -> Punto x y)
-
-{- Funzione per ottenere dall'utente una lista di punti separati da spazio -}
+{- Funzione per ottenere dall'utente una lista di punti nel corretto formato -}
 leggi_dataset :: IO [Punto]
 leggi_dataset = do
   putStrLn "\nInserisci i punti del dataset nel formato [(x1,y1), ..., (xn,yn)]:"
@@ -120,7 +116,11 @@ leggi_dataset = do
                     then do
                       putStrLn "\nInput invalido. Inserisci almeno due punti."
                       leggi_dataset
-                    else return $ converti_tupla_in_punto punti
+                    else return $ converti_tuple_in_punti punti
+
+{- Funzione che converte una lista di coppie di Double in una lista di punti -}
+converti_tuple_in_punti :: [(Double, Double)] -> [Punto]
+converti_tuple_in_punti = map (\(x, y) -> Punto x y)
 
 {- Funzione che cicla continuamente per valutare nuovi valori di x -}
 valuta_valori_x :: (Double, Double) -> IO ()
@@ -156,14 +156,14 @@ valuta_valore x (pendenza, intercetta) = pendenza * x + intercetta
 
 {- CALCOLO K-NEAREST NEIGHBORS -}
 
+{- Funziona che trova i k vicini per un punto dal dataset -}
+trova_vicini :: Int -> PuntoEtichettato -> [PuntoEtichettato] -> [PuntoEtichettato]
+trova_vicini k punto_test dataset =
+  take k $ sortOn (distanza punto_test) dataset
+
 {- Funzione che calcola la distanza euclidea tra due punti -}
 distanza :: PuntoEtichettato -> PuntoEtichettato -> Double
 distanza p1 p2 = sqrt $ (x p1 - x p2) ^ 2 + (y p1 - y p2) ^ 2
-
-{- Funziona che trova i k vicini per un punto dal dataset -}
-knn :: Int -> PuntoEtichettato -> [PuntoEtichettato] -> [PuntoEtichettato]
-knn k punto_test dataset =
-  take k $ sortOn (distanza punto_test) dataset
 
 {- Funzione che trova la classe di maggioranza tra i vicini -}
 trova_classe_maggioranza :: [PuntoEtichettato] -> String
@@ -179,33 +179,33 @@ trova_classe_maggioranza vicini = fst $ head conteggi_ordinati
 leggi_dataset_etichettato :: IO [PuntoEtichettato]
 leggi_dataset_etichettato = do
   putStrLn $ "\nInserisci i punti etichettati del dataset nel formato " ++
-             "[(x1,y1,'<class>'), ..., (xn,yn,'<class>')]:"
+             "[(x1,y1,\"<classe>\"), ..., (xn,yn,\"<classe>\")]:"
   input <- getLine
   case reads input of
     [(punti, "")] ->
       if all punto_etichettato_valido punti && length punti >= 2
-        then return $ converti_tripla_in_punto punti
+        then return $ converti_triple_in_punti punti
         else do
           putStrLn $ "\nErrore. " ++ messaggio_errore punti
           leggi_dataset_etichettato
     _ -> do
       putStrLn $ "\nErrore. Assicurati che l'input sia nel formato " ++ 
-                 "[(x1,y1,'<class>'), ..., (xn,yn,'<class>')]."
+                 "[(x1,y1,\"<classe>\"), ..., (xn,yn,\"<classe>\")]."
       leggi_dataset_etichettato
   where
     messaggio_errore ps
       | length ps < 2 = "Inserisci almeno due punti."
       | not (all punto_etichettato_valido ps) = 
           "Formato non valido. Controlla che ogni " ++ 
-          "punto sia nel formato (x, y, '<class>')."
+          "punto sia nel formato (x, y, \"<classe>\")."
       | otherwise = ""
 
-{- Converte una tripla (Double, Double, C) in una struttura PuntoEtichettato -}
-converti_tripla_in_punto :: [(Double, Double, String)] -> [PuntoEtichettato]
-converti_tripla_in_punto = map (\(x, y, l) -> PuntoEtichettato x y l)
+{- Converte una lista di triple in una lista di punti etichettati -}
+converti_triple_in_punti :: [(Double, Double, String)] -> [PuntoEtichettato]
+converti_triple_in_punti = map (\(x, y, l) -> PuntoEtichettato x y l)
 
 {- Funzione per assicurarsi che il carattere sia stampabile 
- - (es. '\n' non un carattere di controllo -}
+ - (es. non è un carattere di controllo come '\n' -}
 punto_etichettato_valido :: (Double, Double, String) -> Bool
 punto_etichettato_valido (_, _, c) = all isPrint c
 
@@ -231,7 +231,7 @@ leggi_valore_k num_punti = do
 valuta_punti :: Int -> [PuntoEtichettato] -> IO ()
 valuta_punti k dataset = do
   punto_test <- leggi_punto
-  let vicini = knn k punto_test dataset
+  let vicini = trova_vicini k punto_test dataset
       classe_prevista = trova_classe_maggioranza vicini
   stampa_vicini vicini
   putStrLn $ "\nClasse prevista per il punto: " ++ show classe_prevista

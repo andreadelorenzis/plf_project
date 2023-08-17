@@ -28,12 +28,12 @@ menu_principale :-
 
 % CALCOLO REGRESSIONE LINEARE
 
-/* Funzione per eseguire la regressione lineare */
+/* Predicato per eseguire la regressione lineare */
 esegui_regressione_lineare :-
   nl, write('-------- Regressione Lineare --------'), nl,
   leggi_dataset(Punti),
   nl, write('Adattamento della retta al dataset..'), nl,
-  regressione_lineare(Punti, Pendenza, Intercetta), 
+  calcola_coefficienti_retta(Punti, Pendenza, Intercetta), 
   nl,
   format('Retta interpolatrice: y = ~2fx + ~2f~n', [Pendenza, Intercetta]),
   valuta_valori_x(Pendenza, Intercetta).
@@ -65,7 +65,7 @@ punto_valido(Punto) :-
   number(Y).
 
 /* Calcola i coefficienti (pendenza e intercetta) della retta interpolatrice */
-regressione_lineare(Punti, Pendenza, Intercetta) :-
+calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
   estrai_coordinate_x(Punti, Xs),
   estrai_coordinate_y(Punti, Ys),
   varianza(Xs, VarX),
@@ -89,23 +89,23 @@ estrai_coordinate_y([(_, Y) | Punti], [Y | Ys]) :-
 varianza([], 0).
 varianza([X | Xs], Var) :-
   media([X | Xs], Media),
-  varianza(Xs, RestoVar),
-  Var is RestoVar + (X - Media) * (X - Media).
+  varianza(Xs, Resto),
+  Var is Resto + (X - Media) * (X - Media).
 	
 /* Calcola la covarianza di due liste di numeri */
 covarianza([], [], 0).
 covarianza([X | Xs], [Y | Ys], Cov) :-
   media([X | Xs], MediaX),
   media([Y | Ys], MediaY),
-  covarianza(Xs, Ys, RestoCov),
-  Cov is RestoCov + (X - MediaX) * (Y - MediaY).
+  covarianza(Xs, Ys, Resto),
+  Cov is Resto + (X - MediaX) * (Y - MediaY).
 
 /* Calcola la media di una lista di numeri */
 media([], 0).
 media([X | Xs], Media) :-
-  media(Xs, RestoMedia),
+  media(Xs, Resto),
   length(Xs, N),
-  Media is (X + N * RestoMedia) / (N + 1).
+  Media is (X + N * Resto) / (N + 1).
 
 /* Predicato che cicla continuamente per valutare nuovi valori di x */
 valuta_valori_x(Pendenza, Intercetta) :-
@@ -115,26 +115,26 @@ valuta_valori_x(Pendenza, Intercetta) :-
   richiedi_continuazione(Scelta),
   (Scelta = 's' -> valuta_valori_x(Pendenza, Intercetta) ; true).
 
-/* Funzione che ottiene dall'utente una coordinata X da valutare sulla 
+/* Predicato che ottiene dall'utente una coordinata X da valutare sulla 
  * retta ottenuta */
 leggi_valore(X) :-
   repeat,
   nl, write('Inserisci un valore per la coordinata x: '), nl,
   read(X),
   (number(X) ->
-     true  % Successo: X è un numero, il taglio (!) previene ulteriore backtracking
+     true  % Successo: X è un numero
      ;
      nl, write('Il valore inserito non e\' un numero.'), nl,
      fail % Fallimento: X non è un numero, ritentare
   ).
 
-/* Funzione che valuta la regressione lineare per il punto */
+/* Predicato che valuta la regressione lineare per il punto */
 valuta_valore(X, Pendenza, Intercetta, Y) :-
   Y is Pendenza * X + Intercetta.
 
 % CALCOLO K-NEAREST NEIGHBORS
 
-/* Funzione per eseguire il KNN */
+/* Predicato per eseguire il KNN */
 esegui_knn :- 
   nl, write('-------- K-Nearest Neighbors --------'), nl,
   leggi_dataset_etichettato(Dataset),
@@ -158,18 +158,18 @@ esegui_knn :-
   ),
   valuta_punti(Dataset, K).
 
-/* Funzione per ottenere dall'utente un dataset di punti etichettati con una classe */
+/* Predicato per ottenere dall'utente un dataset di punti etichettati con una classe */
 leggi_dataset_etichettato(Lista) :-
   repeat,
   nl, write('Inserisci i punti del dataset nel formato: '),
-  write('[(x1,y1,C), ..., (xn,yn,C)].'), nl,
+  write('[(x1,y1,<classe>), ..., (xn,yn,<classe>)].'), nl,
   read(Lista),
   (dataset_etichettato_valido(Lista) ->
      !  % Successo: la lista è valida
      ;
      nl, write('Input invalido. La lista deve contenere almeno due punti '),
-     write('nel formato [(x,y,Classe), ...]'), nl,
-     fail % Failure: formato lista invalido, ritentare
+     write('nel formato [(x,y,<classe>), ...]'), nl,
+     fail % Fallimento: formato lista invalido, ritentare
   ).
 	
 /* Predicato di validazione per un dataset con etichette */
@@ -187,11 +187,11 @@ punto_etichettato_valido(Punto) :-
   number(Y),
   atom(C).
 
-/* Funzione per continuamente inserire punti da valutare con KNN */
+/* Predicato per inserire continuamente punti da valutare con KNN */
 valuta_punti(_, 0) :- !.
 valuta_punti(Dataset, K) :-
   leggi_punto_etichettato(Punto),
-  kNearestNeighbors(K, Punto, Dataset, Vicini),
+  trova_vicini(K, Punto, Dataset, Vicini),
   nl, format('I ~d vicini del punto sono: ', [K]), nl, 
   stampa_vicini(Vicini), nl, 
   trova_classe_maggioranza(Vicini, Classe),
@@ -199,21 +199,21 @@ valuta_punti(Dataset, K) :-
   richiedi_continuazione(Scelta),
   (Scelta = 's' -> valuta_punti(Dataset, K) ; true).
 
-/* Funzione per leggere un singolo punto da valutare con KNN */
+/* Predicato per leggere un singolo punto da valutare con KNN */
 leggi_punto_etichettato(Punto) :-
   repeat,
   nl, write('Inserisci il valore del punto da testare nel formato (x,y): '), nl,
   read(Punto),
   (punto_valido(Punto) ->
-   true  % Successo: punto valido, exit from repeat
+   true  % Successo: punto valido, uscita dal repeat
    ;
    nl, write('Punto non valido. Assicurati di inserire un punto '),
    write('nel formato (x,y).'), nl,
-   fail % Failure: punto non valido, retry from repeat
+   fail % Fallimento: punto non valido, ritentare
   ).
 
-/* Funzione che trova i k vicini per un punto */
-kNearestNeighbors(K, Punto, Dataset, Vicini) :-
+/* Predicato che trova i k vicini per un punto */
+trova_vicini(K, Punto, Dataset, Vicini) :-
   calcola_distanze(Punto, Dataset, Distanze),
   ordina_distanze(Distanze, DistanzeOrdinate),
   prendi(K, DistanzeOrdinate, CoppieVicini),
@@ -226,7 +226,7 @@ calcola_distanze(PuntoTest, [Punto | Resto], [Dist-Punto | Distanze]) :-
   distanza(Punto, PuntoTest, Dist),
   calcola_distanze(PuntoTest, Resto, Distanze).
   
-/* Funzione che calcola la distanza euclidea tra due punti */
+/* Predicato che calcola la distanza euclidea tra due punti */
 distanza((X1, Y1, _), (X2, Y2), Dist) :-
   Dist is sqrt((X1 - X2) * (X1 - X2) + (Y1 - Y2) * (Y1 - Y2)).
 
@@ -247,19 +247,18 @@ converti_coppie_in_vicini([], []).
 converti_coppie_in_vicini([_-Vicino | CoppieRestanti], [Vicino | ViciniRestanti]) :-
   converti_coppie_in_vicini(CoppieRestanti, ViciniRestanti).
   
-/* Funzione per stampare i vicini nel formato (x, y, C) */
+/* Predicato per stampare i vicini nel formato (x, y, C) */
 stampa_vicini([]).
 stampa_vicini([(X, Y, C) | Resto]) :-
   format('Punto: (~2f, ~2f, ~w)~n', [X, Y, C]),
   stampa_vicini(Resto).
   
-/* Funzione che trova la classe di maggioranza tra i vicini */
+/* Predicato che trova la classe di maggioranza tra i vicini */
 trova_classe_maggioranza(Vicini, ClasseMaggioranza) :-
   conta_occorrenze_classe(Vicini, MapConteggi),
   classe_max_occorrenze(MapConteggi, ClasseMaggioranza).
 
-/* Predicato ausiliario per conteggiare le occorrenze di ogni 
-  classe nei vicini */
+/* Predicato per conteggiare le occorrenze di ogni classe nei vicini */
 conta_occorrenze_classe(Vicini, MapConteggi) :-
   conta_occorrenze_classe(Vicini, [], MapConteggi).
 
@@ -281,8 +280,7 @@ aggiorna_map_conteggi(Classe,
   Classe \= AltraClasse,
   aggiorna_map_conteggi(Classe, Resto, NuovoResto).
 
-/* Predicato ausiliario per trovare la classe con il maggior numero di 
-  occorrenze */
+/* Predicato per trovare la classe con il maggior numero di occorrenze */
 classe_max_occorrenze([(Classe, Conteggio) | Resto], ClasseMaggioranza) :-
   classe_max_occorrenze(Resto, Classe, Conteggio, ClasseMaggioranza).
 
@@ -297,7 +295,7 @@ classe_max_occorrenze([(Classe, Conteggio) | Resto],
 	
 % FUNZIONI AUSILIARIE	
 	
-/* Predicato ausiliare per chiedere all'utente se vuole continuare */
+/* Predicato per chiedere all'utente se vuole continuare */
 richiedi_continuazione(Scelta) :-
   nl, write('Vuoi continuare? (s/n)'), nl,
   read(Scelta),
