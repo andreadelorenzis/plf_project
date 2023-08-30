@@ -7,16 +7,14 @@
 \contentsline {subsection}{\numberline {2.3}Relazioni intercorrenti}{3}{subsection.2.3}%
 \contentsline {section}{\numberline {3}Progettazione dell'algoritmo}{5}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Scelte di progetto}{5}{subsection.3.1}%
-\contentsline {subsubsection}{\numberline {3.1.1}Haskell}{5}{subsubsection.3.1.1}%
-\contentsline {subsubsection}{\numberline {3.1.2}Prolog}{6}{subsubsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.2}Passi dell'algoritmo}{7}{subsection.3.2}%
-\contentsline {section}{\numberline {4}Implementazione dell'algoritmo}{8}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Haskell}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {3.2}Passi dell'algoritmo}{5}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Implementazione dell'algoritmo}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Haskell}{7}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Prolog}{14}{subsection.4.2}%
-\contentsline {section}{\numberline {5}Testing del programma}{20}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Testing del programma Haskell}{20}{subsection.5.1}%
-\contentsline {subsubsection}{\numberline {5.1.1}Testing "Regressione lineare"}{20}{subsubsection.5.1.1}%
-\contentsline {subsubsection}{\numberline {5.1.2}Testing "K-Nearest neighbors"}{21}{subsubsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.2}Testing del programma Prolog}{23}{subsection.5.2}%
-\contentsline {subsubsection}{\numberline {5.2.1}Testing "Regressione lineare"}{23}{subsubsection.5.2.1}%
-\contentsline {subsubsection}{\numberline {5.2.2}Testing "K-Nearest neighbors"}{23}{subsubsection.5.2.2}%
+\contentsline {section}{\numberline {5}Testing del programma}{22}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Testing del programma Haskell}{22}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Testing "Regressione lineare"}{22}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}Testing "K-Nearest neighbors"}{23}{subsubsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.2}Testing del programma Prolog}{25}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Testing "Regressione lineare"}{25}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Testing "K-Nearest neighbors"}{25}{subsubsection.5.2.2}%

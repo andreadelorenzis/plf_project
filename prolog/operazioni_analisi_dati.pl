@@ -1,8 +1,5 @@
-/* Programma Prolog per calcolare regressione lineare e k-nearest neighbors */
+/* Programma Prolog per calcolare regressione lineare e k-nearest neighbors. */
 
-% ESECUZIONE MAIN
-
-/* Punto iniziale del programma */
 main :-
   nl, nl, 
   stampa_riga_orizzontale,
@@ -12,7 +9,8 @@ main :-
   menu_principale,
   stampa_riga_orizzontale.
   
-/* Menu di selezione dell'operazione da svolgere */
+/* Predicato per gestire il menu delle operazioni. */
+
 menu_principale :-
   nl, write('Selezionare l\'operazione da svolgere: '), nl,
   write('1 - Regressione lineare'), nl,
@@ -28,7 +26,8 @@ menu_principale :-
 
 % CALCOLO REGRESSIONE LINEARE
 
-/* Predicato per eseguire la regressione lineare */
+/* Predicato per eseguire la regressione lineare. */
+
 esegui_regressione_lineare :-
   nl, write('-------- Regressione Lineare --------'), nl,
   leggi_dataset(Punti),
@@ -37,38 +36,63 @@ esegui_regressione_lineare :-
   nl,
   (Pendenza = 'undefined' ->  % Caso di retta verticale
    write('Retta interpolatrice: y = NaNx + NaN'), nl
-  ;
+   ;
    format('Retta interpolatrice: y = ~2fx + ~2f~n', [Pendenza, Intercetta])
   ),
   valuta_valori_x(Pendenza, Intercetta).
 
-/* Predicato per leggere una lista di tuple da tastiera */
-leggi_dataset(Lista) :-
-  repeat,
-  nl, write('Inserisci i punti del dataset nel formato: [(x1,y1), ..., (xn,yn)]:'), 
-  nl, read(Lista),
-  (lista_punti_valida(Lista) ->
-     !    % Successo: lista valida di punti
-     ;
-     nl, write('Input invalido. La lista deve contenere almeno due punti '),
-     nl, write('nel formato [(x,y), ...]'), nl,
-     fail % Fallimento: formato non valido, ritentare
-  ).
+/* Predicato per leggere una lista di punti da tastiera. */
 
-/* Predicato per validare una lista di punti 2D */
-lista_punti_valida(Lista) :-
-  is_list(Lista),
-  length(Lista, NumPunti),
-  NumPunti >= 2,
-  forall(member(Punto, Lista), punto_valido(Punto)).
+leggi_dataset(Lista) :-
+  nl, write('Inserisci almeno due punti distinti nel formato '),
+  write('[(x1,y1), ..., (xn,yn)]: '),
+  nl, read(Input),
+  ( 
+    % Controllo che la lista sia nel formato corretto
+    (\+ is_list(Input) 
+     ; 
+     \+ forall(member(Punto, Input), punto_valido(Punto)))
+   ->
+     nl, write('Input invalido. Assicurati di inserire una lista nel formato '),
+     write('[(x1,y1), ..., (xn,yn)].'), nl,
+     leggi_dataset(Lista)
+   ;
+     % Controllo che ci siano almeno due punti
+     length(Input, NumPunti),
+     NumPunti < 2
+   ->
+     nl, write('Input invalido. Inserisci almeno due punti.'), nl,
+     leggi_dataset(Lista)
+   ;
+     % Controllo che tutti i punti siano distinti
+     \+ punti_distinti(Input)
+   ->
+     nl, write('Input invalido. Tutti i punti devono essere distinti.'), nl,
+     leggi_dataset(Lista)
+   ;
+     Lista = Input
+  ).
   
-/* Predicato per controllare che un punto sia nel formato (x,y) */
+  
+/* Predicato per controllare che un punto sia nel formato (x,y):
+   - il suo unico argomento è il punto. */
+
 punto_valido(Punto) :- 
   Punto = (X, Y),
   number(X),
   number(Y).
+  
+/* Predicato che verifica se tutti i punti sono distinti:
+   - il suo unico argomento è la lista di punti. */
 
-/* Calcola i coefficienti (pendenza e intercetta) della retta interpolatrice */
+punti_distinti([]).
+punti_distinti([Testa|Coda]) :- 
+  \+ member(Testa, Coda),
+  punti_distinti(Coda).
+
+/* Predicato che calcola i coefficienti (pendenza e intercetta) della retta:
+   - il suo unico argomento è la lista di punti che forma il dataset. */
+
 calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
   estrai_coordinate_x(Punti, Xs),
   estrai_coordinate_y(Punti, Ys),
@@ -76,7 +100,7 @@ calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
   (VarX =:= 0 -> % Se VarX è zero, gestisco il caso di retta verticale
    Pendenza = 'undefined',
    Intercetta = 'undefined'
-  ; 
+   ; 
    covarianza(Xs, Ys, CovXY),
    Pendenza is CovXY / VarX,
    media(Ys, MediaY),
@@ -84,24 +108,33 @@ calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
    Intercetta is MediaY - Pendenza * MediaX
   ).
  
-/* Estra le coordinate X da una lista di punti */
+/* Predicato che estrae le coordinate X da una lista di punti:
+   - il suo unico argomento è la lista. */
+
 estrai_coordinate_x([], []).
 estrai_coordinate_x([(X, _) | Punti], [X | Xs]) :-
   estrai_coordinate_x(Punti, Xs).
   
-/* Estrae le coordinate Y da una lista di punti */
+/* Predicato che estrae le coordinate Y da una lista di punti:
+   - il suo unico argomento è la lista. */
+
 estrai_coordinate_y([], []).
 estrai_coordinate_y([(_, Y) | Punti], [Y | Ys]) :-
   estrai_coordinate_y(Punti, Ys).
 
-/* Calcola la varianza di una lista di numeri */  
+/* Predicato che calcola la varianza di una lista di numeri:
+   - il suo unico argomento è la lista. */  
+
 varianza([], 0).
 varianza([X | Xs], Var) :-
   media([X | Xs], Media),
   varianza(Xs, Resto),
   Var is Resto + (X - Media) * (X - Media).
 	
-/* Calcola la covarianza di due liste di numeri */
+/* Predicato che calcola la covarianza di due liste di numeri:
+   - il primo argomento è la prima delle due liste; 
+   - il secondo argomento è la seconda delle due liste. */
+
 covarianza([], [], 0).
 covarianza([X | Xs], [Y | Ys], Cov) :-
   media([X | Xs], MediaX),
@@ -109,102 +142,134 @@ covarianza([X | Xs], [Y | Ys], Cov) :-
   covarianza(Xs, Ys, Resto),
   Cov is Resto + (X - MediaX) * (Y - MediaY).
 
-/* Calcola la media di una lista di numeri */
+/* Predicato che calcola la media di una lista di numeri:
+   - il suo unico argomento è la lista.*/
+
 media([], 0).
 media([X | Xs], Media) :-
   media(Xs, Resto),
   length(Xs, N),
   Media is (X + N * Resto) / (N + 1).
 
-/* Predicato che cicla continuamente per valutare nuovi valori di x */
+/* Predicato che cicla continuamente per valutare nuovi valori della coordinata x:
+   - il primo valore è la pendenza della retta;
+   - il secondo valore è l'intercetta della retta. */
+
 valuta_valori_x(Pendenza, Intercetta) :-
   leggi_valore(X),
   valuta_valore(X, Pendenza, Intercetta, Y),
   (Pendenza = 'undefined' -> % Caso di retta verticale
    nl, format('Per X = ~2f il valore previsto e\' Y = NaN', [X]), nl
-  ;
+   ;
    nl, format('Per X = ~2f il valore previsto e\' Y = ~2f', [X, Y]), nl
   ),
   richiedi_continuazione(Scelta),
   (Scelta = 's' -> valuta_valori_x(Pendenza, Intercetta) ; true).
 
-/* Predicato che ottiene dall'utente una coordinata X da valutare sulla 
- * retta ottenuta */
+/* Predicato che acquisisce un valore per la coordinata X. */
+
 leggi_valore(X) :-
-  repeat,
   nl, write('Inserisci un valore per la coordinata x: '), nl,
-  read(X),
-  (number(X) ->
-     true  % Successo: X è un numero
-     ;
-     nl, write('Il valore inserito non e\' un numero.'), nl,
-     fail % Fallimento: X non è un numero, ritentare
+  read(Val),
+  (number(Val) ->
+   X = Val
+   ;
+   nl, write('Il valore inserito non e\' un numero.'), nl,
+   leggi_valore(X) 
   ).
 
-/* Predicato che valuta la regressione lineare per il punto */
+/* Predicato che valuta un valore della coordinata x sulla retta:
+  - il primo argomento è il valore della coordinata x;
+  - il secondo argomento è la pendenza della retta;
+  - il terzo argomento è l'intercetta della retta. */
+
 valuta_valore(X, Pendenza, Intercetta, Y) :-
   (Pendenza = 'undefined' ->  % Caso di retta verticale
    Y is 0  % valore non significativo
-  ;
+   ;
    Y is Pendenza * X + Intercetta
   ).
 
 % CALCOLO K-NEAREST NEIGHBORS
 
-/* Predicato per eseguire il KNN */
+/* Predicato per eseguire il KNN. */
+
 esegui_knn :- 
   nl, write('-------- K-Nearest Neighbors --------'), nl,
   leggi_dataset_etichettato(Dataset),
   length(Dataset, NumPunti),
-  repeat,
-  nl, write('Inserisci il valore per k: '), nl,
-  read(K),
-  (number(K) -> 
-     K > 0,
-    (K =< NumPunti ->
-       !
-       ; 
-       nl, write('Input invalido. Inserisci un intero positivo '),
-       write('minore del (o uguale al) numero totale di punti nel dataset'), nl,
-       format('(Numero di punti: ~d)', [NumPunti]), nl,
-       fail
-    )
-    ;
-    nl, write('Input invalido. Inserisci un intero positivo.'), nl,
-    fail
-  ),
+  leggi_valore_k(NumPunti, K),
   valuta_punti(Dataset, K).
+  
+/* Predicato che acquisisce il valore k dei vicini:
+   - il suo unico argomento è il numero dei punti nel dataset. */
 
-/* Predicato per ottenere dall'utente un dataset di punti etichettati con una classe */
-leggi_dataset_etichettato(Lista) :-
-  repeat,
-  nl, write('Inserisci i punti del dataset nel formato: '),
-  write('[(x1,y1,<classe>), ..., (xn,yn,<classe>)].'), nl,
-  read(Lista),
-  (dataset_etichettato_valido(Lista) ->
-     !  % Successo: la lista è valida
-     ;
-     nl, write('Input invalido. La lista deve contenere almeno due punti '),
-     write('nel formato [(x,y,<classe>), ...]'), nl,
-     fail % Fallimento: formato lista invalido, ritentare
+leggi_valore_k(NumPunti, K) :-
+  nl, write('Inserisci il valore per k: '), nl,
+  read(Input),
+  (number(Input), Input > 0, Input =< NumPunti ->
+   K = Input
+   ;
+   nl, write('Input invalido. Inserisci un intero positivo '),
+   write('minore del (o uguale al) numero totale di punti nel dataset'), nl,
+   format('(Numero di punti: ~d)', [NumPunti]), nl,
+   leggi_valore_k(NumPunti, K)  % Ricorsione: chiede di nuovo all'utente il valore di k
   ).
-	
-/* Predicato di validazione per un dataset con etichette */
-dataset_etichettato_valido(Lista) :-
-  is_list(Lista),
-  length(Lista, NumPunti),
-  NumPunti >= 2,
-  forall(member(Punto, Lista), punto_etichettato_valido(Punto)).
 
-/* Predicato per controllare se un elemento è un punto etichettato valido nel 
-   formato (X, Y, C) */
+/* Predicato per acquisire un dataset di punti etichettati. */
+
+leggi_dataset_etichettato(Lista) :-
+  nl, write('Inserisci i punti del dataset nel formato '),
+  write('[(x1,y1,<classe>), ..., (xn,yn,<classe>)]: '), nl,
+  read(Input),
+  ( 
+   % Controllo che la lista sia nel formato corretto
+    (\+ is_list(Input) 
+     ; 
+     \+ forall(member(Punto, Input), punto_etichettato_valido(Punto)))
+   ->
+     nl, write('Input invalido. Assicurati di inserire una lista nel formato '),
+     write('[(x1,y1,<classe>), ..., (xn,yn,<classe>)].'), nl,
+     leggi_dataset_etichettato(Lista)
+   ;
+     % Controllo che ci siano almeno due punti
+     length(Input, NumPunti),
+     NumPunti < 2
+   ->
+     nl, write('Input invalido. Inserisci almeno due punti.'), nl,
+     leggi_dataset_etichettato(Lista)
+   ;
+     % Controllo che tutti i punti siano distinti
+     \+ punti_etichettati_distinti(Input)
+   ->
+     nl, write('Input invalido. Tutti i punti devono essere distinti.'), nl,
+     leggi_dataset_etichettato(Lista)
+   ;
+     Lista = Input
+  ).
+
+/* Predicato per validare un punto etichettato:
+   - il suo unico argomento è il punto in questione. */
+
 punto_etichettato_valido(Punto) :- 
   Punto = (X, Y, C),
   number(X),
   number(Y),
   atom(C).
 
-/* Predicato per inserire continuamente punti da valutare con KNN */
+/* Predicato che verifica se tutti i punti etichettati sono distinti:
+   - il suo unico argomento è la lista di punti etichettati. */
+
+punti_etichettati_distinti([]).
+punti_etichettati_distinti([(X, Y, _)|Coda]) :- 
+  \+ member((X, Y, _), Coda),
+  punti_etichettati_distinti(Coda).
+
+
+/* Predicato che cicla continuamente per valutare nuovi punti sul KNN:
+   - il primo argomento è la lista di punti etichettati;
+   - il secondo argomento è il numero k dei vicini. */
+
 valuta_punti(_, 0) :- !.
 valuta_punti(Dataset, K) :-
   leggi_punto_etichettato(Punto),
@@ -216,73 +281,103 @@ valuta_punti(Dataset, K) :-
   richiedi_continuazione(Scelta),
   (Scelta = 's' -> valuta_punti(Dataset, K) ; true).
 
-/* Predicato per leggere un singolo punto da valutare con KNN */
+/* Predicato che acquisisce un punto di test. */
+
 leggi_punto_etichettato(Punto) :-
-  repeat,
   nl, write('Inserisci il valore del punto da testare nel formato (x,y): '), nl,
-  read(Punto),
-  (punto_valido(Punto) ->
-   true  % Successo: punto valido, uscita dal repeat
+  read(Input),
+  (punto_valido(Input) ->
+   Punto = Input
    ;
    nl, write('Punto non valido. Assicurati di inserire un punto '),
    write('nel formato (x,y).'), nl,
-   fail % Fallimento: punto non valido, ritentare
+   leggi_punto_etichettato(Punto)
   ).
 
-/* Predicato che trova i k vicini per un punto */
+/* Predicato che trova i k vicini per un punto:
+   - il primo argomento è il numero k dei vicini;
+   - il secondo argomento è il punto di test;
+   - il terzo argomento è il dataset di punti etichettati. */
+
 trova_vicini(K, Punto, Dataset, Vicini) :-
   calcola_distanze(Punto, Dataset, Distanze),
   ordina_distanze(Distanze, DistanzeOrdinate),
   prendi(K, DistanzeOrdinate, CoppieVicini),
   converti_coppie_in_vicini(CoppieVicini, Vicini).
 
-/* Predicato per calolcare le distanze tra PuntoTest e ogni altro punto 
- * del dataset */
+/* Predicato che calcola la distanza tra il punto di test e tutti gli altri punti: 
+   - il primo argomento è il punto di test;
+   - il secondo argomento è il dataset di punti.
+   Crea un'associazione distanza-punto, annotando ogni punto del dataset con la 
+   sua distanza dal punto di test. */
+
 calcola_distanze(_, [], []).
 calcola_distanze(PuntoTest, [Punto | Resto], [Dist-Punto | Distanze]) :-
   distanza(Punto, PuntoTest, Dist),
   calcola_distanze(PuntoTest, Resto, Distanze).
   
-/* Predicato che calcola la distanza euclidea tra due punti */
+/* Predicato che calcola la distanza euclidea tra due punti: 
+   - il primo argomento è il primo dei due punti;
+   - il secondo argomento è il secondo dei due punti. */
+
 distanza((X1, Y1, _), (X2, Y2), Dist) :-
   Dist is sqrt((X1 - X2) * (X1 - X2) + (Y1 - Y2) * (Y1 - Y2)).
 
-/* Ordina le distanze in ordine crescente */
+/* Predicato che ordina le distanze in ordine crescente:
+   - il suo unico argomento è la lista di associazioni Dist-Punto */
+
 ordina_distanze(Distanze, DistanzeOrdinate) :-
   keysort(Distanze, DistanzeOrdinate).
 
-/* Prende i primi K elementi di una lista */
+/* Predicato che prende i primi K elementi di una lista:
+   - il suo unico argomento è la lista summenzionata. */
+
 prendi(0, _, []).
 prendi(K, [X | Xs], [X | Resto]) :-
   K > 0,
   K1 is K - 1,
   prendi(K1, Xs, Resto).
   
-/* Rimuove il valore della distanza dal formato (Dist-(X, Y, Class)) 
-   per ottenere il formato (X, Y, Class) */
+/* Predicato che elimina l'informazione sulla distanza dal formato Dist-Punto 
+   per ottenere solamente il punto etichettato:
+   - il suo unico argomento è la lista di associazioni Dist-Punto */
+
 converti_coppie_in_vicini([], []).
 converti_coppie_in_vicini([_-Vicino | CoppieRestanti], [Vicino | ViciniRestanti]) :-
   converti_coppie_in_vicini(CoppieRestanti, ViciniRestanti).
   
-/* Predicato per stampare i vicini nel formato (x, y, C) */
+/* Predicato che stampa tutti i vicini: 
+   - il suo unico argomento è la lista di vicini. */
+
 stampa_vicini([]).
 stampa_vicini([(X, Y, C) | Resto]) :-
   format('Punto: (~2f, ~2f, ~w)~n', [X, Y, C]),
   stampa_vicini(Resto).
   
-/* Predicato che trova la classe di maggioranza tra i vicini */
+/* Predicato che trova la classe di maggioranza tra i vicini:
+   - il suo unico argomento è la lista di vicini. */
+
 trova_classe_maggioranza(Vicini, ClasseMaggioranza) :-
   conta_occorrenze_classe(Vicini, MapConteggi),
   classe_max_occorrenze(MapConteggi, ClasseMaggioranza).
 
-/* Predicato per conteggiare le occorrenze di ogni classe nei vicini */
+/* Predicato che conteggia le occorrenze di ogni classe nei vicini: 
+   - il primo argomento è la lista di vicini;
+   - il secondo argomento è la mappa di conteggi corrente (inizialmente vuota).
+   La mappa di conteggi è una lista di coppie, dove ogni coppia è composta da
+   una classe e il suo corrispondente conteggio. */
+
 conta_occorrenze_classe(Vicini, MapConteggi) :-
   conta_occorrenze_classe(Vicini, [], MapConteggi).
-
+  
 conta_occorrenze_classe([], MapConteggi, MapConteggi).
 conta_occorrenze_classe([(_, _, Classe) | Vicini], MapConteggiParziale, MapConteggi) :-
   aggiorna_map_conteggi(Classe, MapConteggiParziale, NuovaMapConteggi),
   conta_occorrenze_classe(Vicini, NuovaMapConteggi, MapConteggi).
+
+/* Predicato che aggiorna una mappa di conteggi:
+   - il primo argomento è la classe di cui aggiornare il conteggio;
+   - il secondo argomento è la mappa di conteggi corrente. */
 
 aggiorna_map_conteggi(Classe, [], [(Classe, 1)]).
 aggiorna_map_conteggi(Classe, 
@@ -290,6 +385,7 @@ aggiorna_map_conteggi(Classe,
                       [(Classe, NuovoConteggio) | Resto]
                      ) :-
   NuovoConteggio is Conteggio + 1.
+
 aggiorna_map_conteggi(Classe, 
                       [(AltraClasse, Conteggio) | Resto], 
                       [(AltraClasse, Conteggio) | NuovoResto]
@@ -297,22 +393,32 @@ aggiorna_map_conteggi(Classe,
   Classe \= AltraClasse,
   aggiorna_map_conteggi(Classe, Resto, NuovoResto).
 
-/* Predicato per trovare la classe con il maggior numero di occorrenze */
+/* Predicato che trova la classe con il maggior numero di occorrenze:
+   - il suo unico argomento è la mappa dei conteggi. */
+   
 classe_max_occorrenze([(Classe, Conteggio) | Resto], ClasseMaggioranza) :-
-  classe_max_occorrenze(Resto, Classe, Conteggio, ClasseMaggioranza).
+  classe_max_occorrenze_aux(Resto, Classe, Conteggio, ClasseMaggioranza).
 
-classe_max_occorrenze([], ClasseMaggioranza, _, ClasseMaggioranza).
-classe_max_occorrenze([(Classe, Conteggio) | Resto], 
+/* Predicato ausiliario usato dal predicato principale classe_max_occorrenze:
+   - il primo argomento è la lista di elementi rimanenti nella nella mappa conteggi;
+   - il secondo argomento è la classe con conteggio massimo trovata finora;
+   - il terzo argomento è il conteggio massimo trovato finora per suddetta classe. 
+   Se esiste un'altra classe nella mappa con conteggio superiore a ConteggioMax, 
+   quella diventa la nuova classe di maggioranza.   */
+
+classe_max_occorrenze_aux([], ClasseMaggioranza, _, ClasseMaggioranza).
+classe_max_occorrenze_aux([(Classe, Conteggio) | Resto], 
                       ClasseMax, ConteggioMax, ClasseMaggioranza) :-
   (Conteggio > ConteggioMax ->
-   classe_max_occorrenze(Resto, Classe, Conteggio, ClasseMaggioranza)
+   classe_max_occorrenze_aux(Resto, Classe, Conteggio, ClasseMaggioranza)
    ;  
-   classe_max_occorrenze(Resto, ClasseMax, ConteggioMax, ClasseMaggioranza)
+   classe_max_occorrenze_aux(Resto, ClasseMax, ConteggioMax, ClasseMaggioranza)
   ).
-	
+   
 % FUNZIONI AUSILIARIE	
 	
 /* Predicato per chiedere all'utente se vuole continuare */
+
 richiedi_continuazione(Scelta) :-
   nl, write('Vuoi continuare? (s/n)'), nl,
   read(SceltaInput),
@@ -321,10 +427,11 @@ richiedi_continuazione(Scelta) :-
    nl, write('Input incorretto. Inserisci "s" per continuare o "n" per uscire.'), 
    nl, richiedi_continuazione(Scelta)).
 
-/* Predicato per stampare una linea orizzontale */
+/* Predicato che stampa un certo numero di trattini su una linea orizzontale:
+   - il suo unico argomento è il numero di trattini.*/
+
 stampa_riga_orizzontale :- stampa_riga_orizzontale(65).
 
-/* Specifica il numero di trattini nella linea orizzontale */
 stampa_riga_orizzontale(N) :- 
   N > 0, 
   write('-'), 

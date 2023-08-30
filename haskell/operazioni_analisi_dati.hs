@@ -1,20 +1,23 @@
-{- Programma Haskell per calcolare regressione lineare e k-nearest neighbors -}
+{- Programma Haskell per calcolare regressione lineare e k-nearest neighbors. -}
 
 {- IMPORTAZIONE DELLE LIBRERIE -}
 
-{- Formattazione e output -}
 import Text.Printf (printf)          -- Per formattare le stringhe di output
-{- Gestione delle liste -}
 import Data.List (sortOn, nub)       -- Per ordinare liste e rimuovere duplicati
 import Data.Function (on)            -- Per ordinare in base a una funzione
-{- Conversione e lettura -}
 import Text.Read (reads, readMaybe)  -- Per leggere input in modo sicuro
-{- Controllo dei caratteri -}
 import Data.Char (isPrint)           -- Per sapere se un carattere è stampabile
 
-{- ESECUZIONE MAIN -}
+{- Definizione di un tipo per rappresentare i punti. -}
 
-{- Punto iniziale del programma -}
+data Punto = Punto { xCoord :: Double, yCoord :: Double } 
+  deriving Show
+
+{- Definizione di un tipo per rappresentare i punti etichettati. -}
+
+data PuntoEtichettato = PuntoEtichettato { x :: Double, y :: Double, label :: String } 
+  deriving Show
+
 main :: IO ()
 main = do
   putStrLn "\n"
@@ -25,7 +28,8 @@ main = do
   menu_principale
   stampa_riga_orizzontale
 
-{- Funzione Main contenente il menu di selezione dell'operazione da svolgere -}
+{- Funzione che gestisce il menu delle operazioni. -}
+
 menu_principale :: IO ()
 menu_principale = do
   putStrLn "\nSelezionare l'operazione da svolgere:"
@@ -61,20 +65,11 @@ menu_principale = do
       putStrLn "\nScelta incorretta. Seleziona un'opzione valida."
       menu_principale
 
-{- DEFINIZIONE DI STRUTTURE DATI -}
-
-{- Definizione di un tipo per rappresentare punti in uno spazio 2D -}
-data Punto = Punto { xCoord :: Double, yCoord :: Double } 
-  deriving Show
-
-{- Definizione di un tipo per rappresentare i punti 2D etichettati con una classe -}
-data PuntoEtichettato = PuntoEtichettato { x :: Double, y :: Double, label :: String } 
-  deriving Show
-
 {- CALCOLO REGRESSIONE LINEARE -}
 
-{- Funzione che calcola i coefficienti (pendenza e intercetta) della retta 
- - interpolatrice -}
+{- Funzione che calcola i coefficienti (pendenza e intercetta) della retta sul dataset: 
+   - il suo unico argomento è la lista di punti (dataset). -}
+   
 calcola_coefficienti_retta :: [Punto] -> (Double, Double)
 calcola_coefficienti_retta punti = (pendenza, intercetta)
   where
@@ -83,17 +78,24 @@ calcola_coefficienti_retta punti = (pendenza, intercetta)
     pendenza = covarianza xs ys / varianza xs
     intercetta = media ys - pendenza * media xs
 
-{- Funzione che calcola la media di una lista di Double -}
+{- Funzione che calcola la media di una lista di Double:
+   - il suo unico argomento è la lista di Double. -}
+   
 media :: [Double] -> Double
 media xs = sum xs / fromIntegral (length xs)
 
-{- Funzione che calcola la varianza di una lista di Double -}
+{- Funzione che calcola la varianza di una lista di Double:
+   - il suo unico argomento è la lista di Double. -}
+
 varianza :: [Double] -> Double
 varianza xs = sum [(x - m) ** 2 | x <- xs] / fromIntegral (length xs)
   where
     m = media xs
 
-{- Funzione che calcola la covarianza di due liste di Double -}
+{- Funzione che calcola la covarianza di due liste di Double
+   - il primo argomento è la prima delle due liste;
+   - il secondo argomento è la seconda delle due liste. -}
+
 covarianza :: [Double] -> [Double] -> Double
 covarianza xs ys = 
   sum [(x - mx) * (y - my) | (x, y) <- zip xs ys] / fromIntegral (length xs)
@@ -101,28 +103,39 @@ covarianza xs ys =
     mx = media xs
     my = media ys
 
-{- Funzione per ottenere dall'utente una lista di punti nel corretto formato -}
+{- Funzione per acquisire una lista di punti nel corretto formato. -}
+
 leggi_dataset :: IO [Punto]
 leggi_dataset = do
-  putStrLn "\nInserisci i punti del dataset nel formato [(x1,y1), ..., (xn,yn)]:"
+  putStrLn "\nInserisci almeno due punti distinti nel formato [(x1,y1), ..., (xn,yn)]:"
   input <- getLine
   let lista_elaborata = readMaybe input :: Maybe [(Double, Double)]
   case lista_elaborata of
     Nothing -> do
-      putStrLn $ "\nFormato non valido. Inserisci i punti nel formato " ++ 
-                 " [(x1, y1), ..., (xn, yn)]."
+      putStrLn $ "\nFormato non valido. Inserisci i punti nel formato " ++
+                 "[(x1, y1), ..., (xn, yn)]."
       leggi_dataset
-    Just punti -> if length punti < 2
-                    then do
-                      putStrLn "\nInput invalido. Inserisci almeno due punti."
-                      leggi_dataset
-                    else return $ converti_tuple_in_punti punti
+    Just punti -> 
+      if length punti < 2 
+      then do
+        putStrLn "\nInput invalido. Inserisci almeno due punti."
+        leggi_dataset
+      else if length (nub punti) /= length punti
+        then do
+          putStrLn "\nInput invalido. Alcuni punti inseriti non sono distinti."
+          leggi_dataset
+        else return $ converti_tuple_in_punti punti
 
-{- Funzione che converte una lista di coppie di Double in una lista di punti -}
+{- Funzione che converte una lista di coppie di Double in una lista di punti:
+   il suo unico argomento è la lista di coppie. -}
+
 converti_tuple_in_punti :: [(Double, Double)] -> [Punto]
 converti_tuple_in_punti = map (\(x, y) -> Punto x y)
 
-{- Funzione che cicla continuamente per valutare nuovi valori di x -}
+{- Funzione che cicla continuamente per valutare nuovi valori della coordinata x 
+   sulla retta:
+   - il suo unico argomento è una coppia di Double (pendenza e intercetta). -}
+
 valuta_valori_x :: (Double, Double) -> IO ()
 valuta_valori_x (pendenza, intercetta) = do
   valore <- leggi_valore
@@ -139,7 +152,8 @@ valuta_valori_x (pendenza, intercetta) = do
         else return ()
     Nothing -> return ()  -- Ritorna al menu
 
-{- Funzione che ottiene dall'utente un punto da valutare sulla retta ottenuta -}
+{- Funzione che acquisisce un valore per la coordinata x. -}
+
 leggi_valore :: IO (Maybe Double)
 leggi_valore = do
   putStrLn "\nInserisci un valore per la coordinata x:"
@@ -150,22 +164,34 @@ leggi_valore = do
       putStrLn "\nInput incorretto. Inserisci un numero valido."
       leggi_valore
 
-{- Funzione che valuta la regressione lineare per il punto -}
+{- Funzione che valuta un valore della coordinata x sulla retta:
+   - il primo argomento è il valore della coordinata x;
+   - il secondo argomento è una coppia di double (pendenza e intercetta). -}
+
 valuta_valore :: Double -> (Double, Double) -> Double
 valuta_valore x (pendenza, intercetta) = pendenza * x + intercetta
 
 {- CALCOLO K-NEAREST NEIGHBORS -}
 
-{- Funziona che trova i k vicini per un punto dal dataset -}
+{- Funziona che trova i k vicini per un punto:
+   - il primo argomento è il valore k dei vicini;
+   - il secondo argomento è il punto di test;
+   - il terzo argomento è una lista di punti etichettati (dataset). -}
+
 trova_vicini :: Int -> PuntoEtichettato -> [PuntoEtichettato] -> [PuntoEtichettato]
 trova_vicini k punto_test dataset =
   take k $ sortOn (distanza punto_test) dataset
 
-{- Funzione che calcola la distanza euclidea tra due punti -}
+{- Funzione che calcola la distanza euclidea tra due punti:
+   - il primo argomento è il primo dei due punti;
+   - il secondo argomento è il secondo dei due punti. -}
+
 distanza :: PuntoEtichettato -> PuntoEtichettato -> Double
 distanza p1 p2 = sqrt $ (x p1 - x p2) ^ 2 + (y p1 - y p2) ^ 2
 
-{- Funzione che trova la classe di maggioranza tra i vicini -}
+{- Funzione che trova la classe di maggioranza tra i vicini:
+   - l'unico argomento è l'insieme dei k punti vicini. -}
+
 trova_classe_maggioranza :: [PuntoEtichettato] -> String
 trova_classe_maggioranza vicini = fst $ head conteggi_ordinati
   where
@@ -175,21 +201,22 @@ trova_classe_maggioranza vicini = fst $ head conteggi_ordinati
                    ) etichette
     conteggi_ordinati = reverse $ sortOn snd conteggi
 
-{- Funzione per leggere dall'utente un dataset di punti etichettati -}
+{- Funzione per acquisire un dataset di punti etichettati. -}
+
 leggi_dataset_etichettato :: IO [PuntoEtichettato]
 leggi_dataset_etichettato = do
-  putStrLn $ "\nInserisci i punti etichettati del dataset nel formato " ++
+  putStrLn $ "\nInserisci almeno due punti distinti ed etichettati nel formato " ++
              "[(x1,y1,\"<classe>\"), ..., (xn,yn,\"<classe>\")]:"
   input <- getLine
   case reads input of
-    [(punti, "")] ->
-      if all punto_etichettato_valido punti && length punti >= 2
-        then return $ converti_triple_in_punti punti
+    [(triple, "")] ->
+      if all punto_etichettato_valido triple && length triple >= 2 && punti_distinti triple
+        then return $ converti_triple_in_punti triple
         else do
-          putStrLn $ "\nErrore. " ++ messaggio_errore punti
+          putStrLn $ "\nInput invalido. " ++ messaggio_errore triple
           leggi_dataset_etichettato
     _ -> do
-      putStrLn $ "\nErrore. Assicurati che l'input sia nel formato " ++ 
+      putStrLn $ "\nInput invalido. Assicurati che l'input sia nel formato " ++ 
                  "[(x1,y1,\"<classe>\"), ..., (xn,yn,\"<classe>\")]."
       leggi_dataset_etichettato
   where
@@ -198,18 +225,34 @@ leggi_dataset_etichettato = do
       | not (all punto_etichettato_valido ps) = 
           "Formato non valido. Controlla che ogni " ++ 
           "punto sia nel formato (x, y, \"<classe>\")."
+      | not (punti_distinti ps) = "Tutti i punti devono essere distinti."
       | otherwise = ""
 
-{- Converte una lista di triple in una lista di punti etichettati -}
+{- Funzione che verifica se tutti i punti in un dataset etichettato sono distinti: 
+   - il suo unico argomento è la lista di punti etichettati. -}
+
+punti_distinti :: [(Double, Double, String)] -> Bool
+punti_distinti ps = length solo_punti == length (nub solo_punti)
+  where
+    solo_punti = [(x, y) | (x, y, _) <- ps]
+
+{- Funzione che converte una lista di triple in una lista di punti etichettati:
+   - l'unico argomento è la lista di triple di valori. -}
+
 converti_triple_in_punti :: [(Double, Double, String)] -> [PuntoEtichettato]
 converti_triple_in_punti = map (\(x, y, l) -> PuntoEtichettato x y l)
 
-{- Funzione per assicurarsi che il carattere sia stampabile 
- - (es. non è un carattere di controllo come '\n' -}
+{- Funzione per assicurarsi che il carattere per il punto etichettato sia stampabile:
+   - l'unico argomento è la tripla di valori che rappresentano il punto etichettato.
+   Per esempio, non deve essere un carattere di controllo come '\n'. -}
+
 punto_etichettato_valido :: (Double, Double, String) -> Bool
 punto_etichettato_valido (_, _, c) = all isPrint c
 
-{- Funzione per ottenere dall'utente il valore di k -}
+{- Funzione per acquisire il valore di k:
+   - l'unico argomento è il numero di punti nel dataset.
+   Il numero dei vicini deve essere infatti minore uguale del numero di punti. -}
+
 leggi_valore_k :: Int -> IO Int
 leggi_valore_k num_punti = do
   putStrLn $ "\nInserisci il valore di k (numero dei vicini, 1-" ++ show num_punti 
@@ -227,7 +270,10 @@ leggi_valore_k num_punti = do
       putStrLn "\nInput non valido. Inserisci un numero intero valido."
       leggi_valore_k num_punti
 
-{- Funzione che cicla continuamente per valutare nuovi punti -}
+{- Funzione che cicla continuamente per valutare nuovi punti sul KNN:
+   - il primo argomento è il valore k dei vicini;
+   - il secondo argomento è la lista di punti etichettati. -}
+
 valuta_punti :: Int -> [PuntoEtichettato] -> IO ()
 valuta_punti k dataset = do
   punto_test <- leggi_punto
@@ -240,7 +286,8 @@ valuta_punti k dataset = do
     then valuta_punti k dataset
     else return ()
 
-{- Funzione per ottenere dall'utente un punto da testare sul KNN -}
+{- Funzione per acquisire un punto di test. -}
+
 leggi_punto :: IO PuntoEtichettato
 leggi_punto = do
   putStrLn "\nInserisci il punto da valutare nel formato '(x, y)':"
@@ -251,7 +298,9 @@ leggi_punto = do
       putStrLn "\nInput incorretto. Inserisci un punto nel formato '(x, y)'."
       leggi_punto
 
-{- Funzione per stampare i vicini -}
+{- Funzione per stampare i vicini del punto di test:
+   - l'unico argomento è la lista di tutti i vicini. -}
+
 stampa_vicini :: [PuntoEtichettato] -> IO ()
 stampa_vicini vicini = do
   putStrLn "\nI vicini del punto sono:"
@@ -263,6 +312,7 @@ stampa_vicini vicini = do
 {- FUNZIONI AUSILIARIE -}
 
 {- Funzione ausiliaria per chiedere all'utente se vuole continuare -}
+
 richiedi_continuazione :: IO Bool
 richiedi_continuazione = do
   putStrLn "\nVuoi continuare? (s/n)"
@@ -276,6 +326,7 @@ richiedi_continuazione = do
       richiedi_continuazione
 
 {- Funzione ausiliaria per stampare una riga orizzontale -}
+
 stampa_riga_orizzontale :: IO ()
 stampa_riga_orizzontale = putStrLn $ "--------------------------------" ++ 
                                      "--------------------------------"

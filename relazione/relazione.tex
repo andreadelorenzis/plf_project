@@ -78,22 +78,22 @@
 \newpage
 
 \section{Specifica del problema}
-Linear regression e K-Nearest neighbors (KNN) sono due algoritmi che trovano applicazione in diversi campi, tra cui statistica, analisi di dati e intelligenza artificiale. La prima consente di prevedere il valore di una variabile sconosciuta mediante un modello basato su un'equazione lineare. La seconda è una tecnica utilizzata per la classificazione di oggetti basandosi sulle caratteristiche degli oggetti vicini a quello considerato. L'obiettivo di questo progetto è quello di implementare le due tecniche nei linguaggi di programmazione Haskell e Prolog. 
+Linear regression e K-Nearest neighbors (KNN) sono due algoritmi che trovano applicazione in diversi campi, tra cui statistica, analisi di dati e intelligenza artificiale. La prima consente di prevedere il valore di una variabile sconosciuta mediante un modello basato su un'equazione lineare. La seconda è una tecnica utilizzata per la classificazione di oggetti basandosi sulle caratteristiche degli oggetti vicini a quello considerato. Scrivere un programma Haskell e un programma Prolog che implementano regressione lineare e KNN.  
 
 \newpage
 
 \section{Analisi del problema}
 
 \subsection{Dati di ingresso del problema}
-I dati di ingresso del problema sono inseriti dall'utente e consistono in un insieme di punti bidimensionali per allenare e valutare i modelli. L'utente inizialmente deve fornire un valore numerico per scegliere l'operazione da svolgere (1 - Linear regression, 2 - KNN, 3 - Terminare il programma). Una volta scelta una delle prime due operazioni, all'utente è richiesto di inserire un insieme di punti bidimensionali per allenare il modello. Successivamente, potrà inserire un ulteriore elemento (valore di x oppure punto) da valutare sul modello allenato, ottenendo poi il risultato. In particolare, i dati di ingresso per la regressione lineare sono:
+Inizialmente bisogna fornire un valore numerico tra 1 e 2 per scegliere quale delle due operazioni svolgere. Nel caso dell'operazione di regressione lineare, i dati di ingresso sono:
 \begin{itemize}
-\item Un insieme di punti bidimensionali, ognuno dei quali è costituito da una coordinata \textit{x} e una coordinata \textit{y} 
-$$(x_1 \ y_1),\  (\ x_2 \ y_2) \ \dots $$
-\item Un valore di x da valutare sul modello lineare allenato.
+\item Un insieme di punti, ognuno dei quali è costituito da una coordinata \textit{x} e una coordinata \textit{y} 
+$$(x_1 \ y_1),\  (x_2 \ y_2) \ \dots $$
+\item Un valore per la coordinata x da usare per prevedere il corrispondente valore di y sulla base del modello lineare allenato
 \end{itemize}
-I dati di ingresso per il KNN sono:
+Nel caso dell'operazione di KNN i dati in ingresso sono:
 \begin{itemize}
-\item Un insieme di punti bidimensionali etichettati, ognuno dei quali è costituito da una coordinata \textit{x}, una coordinata \textit{y} e una classe o etichetta in formato testuale che rappresenta la categoria di appartenenza del punto
+\item Un insieme di punti etichettati, ognuno dei quali è costituito da una coordinata \textit{x}, una coordinata \textit{y} e un'etichetta in formato testuale che rappresenta la categoria di appartenenza del punto
 $$
 (x_1 \ y_1 \ \text{label1}),\  (x_2 \ y_2 \ \text{label2}) \ \dots 
 $$
@@ -105,12 +105,12 @@ $$
 I dati di uscita per la regressione lineare sono:
 \begin{itemize}
 \item Coefficienti della retta di regressione, ossia il valore della pendenza (\textit{m}) e dell'intercetta (\textit{b}), i quali definiscono l'equazione della retta.
-\item Risultati predittivi stimando nuovi valori di \textit{y} per determinati valori di \textit{x} sulla base del modello di regressione lineare ottenuto.
+\item Risultati predittivi per la coordinata y.
 \end{itemize}
 Invece, l'operazione di KNN produce in uscita:
 \begin{itemize}
 \item Classificazione del punto di test, al quale verrà assegnata una classe sulla base del numero di occorrenze di quella classe nei vicini.
-\item I \textit{k} punti più vicini al punto di test, comprensivi di etichetta, informazione utile al fine di comprendere le ragioni della classificazione svolta sul punto di test.
+\item I \textit{k} punti più vicini al punto di test, comprensivi di etichetta.
 \end{itemize}
 
 \subsection{Relazioni intercorrenti}
@@ -152,14 +152,16 @@ Per quanto riguarda il KNN, questo si basa su una misura di distanza tra i punti
 $$
 Dist(x_1,y_2,x_2,y_2)=\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
 $$ 
-Il parametro \textit{k} influisce sulla classificazione dei punti e rappresenta il numero di vicini che verranno considerati. Un valore di k più piccolo comporta una classificazione più influenzata dai punti vicini, mentre un valore più grande porta ad una classificazione più generale basata su una maggiore diversità dei vicini. Il punto di test viene poi assegnato alla classe di maggioranza presa dai suoi k punti più vicini. Vengono cioè conteggiate le etichette dei punti vicini, e si assegna al punto l'etichetta avente il maggior numero di occorrenze.
+Il parametro \textit{k} influisce sulla classificazione dei punti e rappresenta il numero di vicini che verranno considerati. Un valore di k più piccolo comporta una classificazione più influenzata dai punti vicini, mentre un valore più grande porta ad una classificazione più generale basata su una maggiore diversità dei vicini. Il punto di test viene poi assegnato alla classe di maggioranza presa dai suoi k punti più vicini. Vengono cioè conteggiate le etichette dei punti vicini, e si assegna al punto l'etichetta avente il maggior numero di occorrenze.\\
+\newline
+Sia per regressione lineare che per KNN devono esserci almeno due punti distinti nel dataset per svolgere l'operazione. Inoltre, eventuali punti duplicati non verranno tollerati in fase d'acquisizione.
 
 \newpage
 
 \section{Progettazione dell'algoritmo}
 
 \subsection{Scelte di progetto}
-Gli input per entrambi i programmi sono liste di punti bidimensionali, rappresentati medianti coppie di numeri reali nel caso della regressione lineare, e triple di valori nel caso del KNN (due numeri reali e una stringa). La lista di coppie reali deve essere inserita nel seguente formato:
+La lista di coppie reali che rappresentano i punti deve essere inserita nel seguente formato:
 $$
 [(x_1, y_1), \dots, (x_n, y_n)]
 $$
@@ -167,85 +169,45 @@ I punti del KNN invece sono acquisiti in questo formato, contenente anche le eti
 $$
 [(x_1, y_1, \text{classe}), \dots, (x_n, y_n, \text{classe})]
 $$
-All'avvio del programma, si è deciso di presentare all'utente un menu principale in cui poter scegliere le diverse operazioni (1: regressione lineare, 2: KNN, 3: uscita). Una volta scelta una delle due operazioni, all'utente viene chiesto di inserire il dataset corrispondente nel corretto formato. Una volta inserito il dataset e svolta l'operazione, l'utente può continuamente valutare nuovi valori/punti sul modello allenato, all'interno di un ciclo. E' il programma che, al termine di ogni valutazione, chiede all'utente se ha intenzione di procedere o se preferisce tornale al menu per svolgere un'altra operazione. Il programma termina quando si sceglie l'opzione numero 3 del menu.\\
+Inizialmente, all'utente viene presentato un menu principale in cui poter scegliere le diverse operazioni (1: regressione lineare, 2: KNN, 3: uscita). Una volta scelta una delle prime due operazioni, viene chiesto di inserire il dataset corrispondente. Inserito il dataset e svolta l'operazione, l'utente può continuamente fare nuove valutazioni sul modello allenato. Al termine di ogni valutazione, viene chiesto all'utente se ha intenzione di procedere o se preferisce tornare al menu per svolgere un'altra operazione. \\
 \newline
-Nel contesto della regressione lineare, una retta verticale non ha molto senso, poichè la sua equazione sarebbe $x=c$, dove $c$ è una costante. Questo significherebbe che x rimane invariato per qualsiasi valore di y, il che è in contrasto con l'idea di relazione tra x e y. Per questo motivo, in entrambi i programmi bisogna controllare che nella prima operazione l'utente non inserisca un dataset che porti ad avere una retta verticale, ossia dove la varianza tra i valori della coordinata x è pari a zero, in quanto questo porterebbe ad avere una divisione per zero. Il linguaggio Haskell provvede già a questa evenienza restituendo il valore speciale 'NaN'. In Prolog questo non è previsto, quindi bisogna controllare in maniera condizionale se avviene o meno una divisione per zero. In ogni caso, l'output del programma nel caso di retta verticale sarà $y=\text{NaN}x+\text{NaN}$ per indicare il fatto che non vi è relazione tra x e y.
-
-\subsubsection{Haskell}
-Ci sono alcune differenze nel modo in cui i dati devono essere passati nei due programmi, in particolare per quanto riguarda l'operazione del KNN. Nel programma Haskell, il dataset etichettato deve essere passato in questo formato:
-$$
-[(x_1, y_1, \text{"classe"}), \dots, (x_n, y_n, \text{"classe"})]
-$$
-dove cioè l'etichetta della classe è all'interno di virgolette per dichiarare al programma Haskell che si tratta di stringhe.\\
-\newline
-In entrambi i programmi viene fatta sempre una validazione sugli input inseriti dall'utente. In particolare, nel programma Haskell si segue questo formato generale, laddove non si utilizzi il pattern matching:
-\begin{verbatim}
-ask = do
-  write_prompt
-  input <- getLine
-  case readMaybe input :: Maybe <tipo> of
-    Just value -> return (Just value)
-    Nothing -> do
-      write_error
-      ask
-\end{verbatim} 
-Viene utilizzata la funzione "readMaybe" che converte una stringa contenente un valore di un tipo specifico in un valore del tipo 'Maybe', un tipo di dato che viene utilizzato per rappresentare il concetto di valore opzionale o mancante. In questo caso, la funzione readMaybe tenta di convertire la stringa in un valore del tipo specificato e, se la conversione non riesce, viene stampato un messaggio di errore e viene ripetuta l'interrogazione.
-
-\subsubsection{Prolog}
-Nel programma Prolog, il dataset etichettato deve essere passato in uno di questi due formati:
-$$
-[(x_1, y_1, \text{'Classe'}), \dots, (x_n, y_n, \text{'Classe'})] \ \ \ oppure \ \ \ [(x_1, y_1, \text{classe}), \dots, (x_n, y_n, \text{classe})]
-$$
-dove cioè l'etichetta della classe è una stringa che inizia con un carattere maiuscolo in apici singoli, per differenziarla dalle variabili in Prolog, oppure un'arbitraria stringa che inizia con una minuscola.\\
-\newline
-Nel programma Prolog per la validazione degli input si segue questo formato generale:
-\begin{verbatim}
-ask(Data) :-
-    repeat,
-        write(Prompt),
-        read(Data),
-    valid(Data),
-    !.
-\end{verbatim}
-Si è scelto di usare il costrutto "repeat", che viene utilizzato per creare un ciclo infinito che continua fino a quando non si incontra una condizione di uscita (l'utente inserisce un input valido). Quando la validazione fallisce, viene fatto un backtracking per cercare altre alternative e il corpo del repeat viene ripetuto.
-\newpage
+Nel contesto della regressione lineare, una retta verticale non ha molto senso, dato che la sua equazione sarebbe $x=c$, dove $c$ è una costante. Questo significherebbe che x rimane invariato per qualsiasi valore di y, il che è in contrasto con l'idea di relazione tra x e y. Nonostante ciò i dataset che portino a modellare una retta verticale verranno tollerati in fase di acquisizione, e verrà fornito un output che faccia intuire la mancanza di relazione tra le due variabili (p.e. $y=NaNx+NaN$).  Inoltre, sia nel caso della regressione lineare che del KNN non si accettano punti duplicati nel dataset.
 
 \subsection{Passi dell'algoritmo}
 I passi dell'algoritmo sono:
 \begin{itemize}
-\item Visualizzazione del menu principale e acquisizione dall'utente di un valore corrispondente ad un'operazione da eseguire.
+\item Visualizzare il menu principale e acquisire il valore che indica l'operazione da svolgere: 
+\begin{itemize}
+\item Caso base: se l'utente sceglie l'opzione "3".
+\item Caso generale: se l'utente sceglie l'opzione "1" o "2", viene eseguita la corrispondente operazione e poi si procede ricorsivamente con un'ulteriore scelta.
+\end{itemize}
 \begin{enumerate}
 \item \underline{Regressione lineare}: 
           \begin{itemize}
-          \item Lettura del dataset di punti bidimensionali, nel formato descritto.
-         \item Estrazione delle coordinate x e y dalla lista di punti in due liste separate.
-         \item Calcolo della media su entrambe le liste di valori di x e y.
-         \item Calcolo della varianza sui valori di x.
-         \item Calcolo della covarianza tra le liste di valori di x e y.
-         \item Applicazione dei risultati parziali nelle formule descritte sopra per trovare pendenza e intercetta della retta.
-         \item Stampa della retta trovata.
-         \item Ripetizione dei seguenti punti fino alla scelta di tornare al menu da parte dell'utente:
+          \item Acquisire l'insieme di punti.
+         \item Estrarre le coordinate x e y dalla lista di punti in due liste separate.
+         \item Calcolare la media su entrambe le liste di valori di x e y.
+         \item Calcolare la varianza sui valori di x.
+         \item Calcolare la covarianza tra le liste di valori di x e y.
+         \item Applicare i risultati parziali nelle formule descritte sopra per trovare pendenza e intercetta della retta.
+         \item Stampare la retta trovata.
+         \item Valutare nuovi valori per la coordinata x sulla retta trovata:
          \begin{itemize}
-             \item Lettura del nuovo valore di x da valutare sulla retta interpolatrice.
-        	 \item Stampa del risultato, ossia del corrispondente valore y trovato. 
-         	\item Richiesta se continuare o meno con la valutazione di altri valori di x.
+           \item Caso base: se l'utente decide di non continuare, la serie di valutazioni termina.
+           \item Caso generale: se l'utente decide di continuare, si acquisisce il nuovo valore della coordinata x, lo si valuta sull'equazione della retta, si restituisce il valore previsto di y e si richiede all'utente se ha intenzione di procedere o meno. In caso affermativo, si procede ricorsivamente con un'ulteriore valutazione sul modello.
          \end{itemize}
        \end{itemize}
      \item \underline{K-nearest neighbors}: 
        \begin{itemize}
-         \item Lettura del dataset di punti etichettati, nel formato descritto.
-         \item Lettura del numero di vicini da valutare (k).
-         \item Ripetizione dei seguenti punti fino alla scelta di tornare al menu da parte dell'utente:
+         \item Acquisire l'insieme di punti etichettati.
+         \item Acquisire il numero di vicini da valutare (k).
+         \item Acquisire e classificare nuovi punti:
          \begin{itemize}
-         	 \item Lettura del punto di test da valutare (senza etichetta).
-        	 \item Ricerca dei k punti del dataset più vicini al punto di test, tramite la misura di distanza euclidea.
-         	\item Ricerca della classe di maggioranza tra i vicini del punto.
-         	\item Stampa dell'elenco dei k vicini del punto.
-         	\item Stampa dell'etichetta che indica la classe prevista per il punto.
-         	\item Richiesta se continuare o meno con la valutazione di altri punti.
+           \item Caso base: se l'utente decide di non continuare, la serie di valutazioni termina.
+           \item Caso generale: se l'utente decide di continuare, si acquisisce un nuovo punto (senza etichetta), si ricercano i $k$ punti del dataset più vicini al punto acquisito tramite la misura di distanza euclidea, si trova la classe di maggioranza tra quest'ultimi e si stampa l'output, che è dato dall'elenco dei $k$ vicini e dal risultato di classificazione. Infine si richiede all'utente se ha intenzione di procedere o meno. In caso affermativo, si procede ricorsivamente con un'ulteriore valutazione sul modello.
          \end{itemize}
        \end{itemize}
-      \item \underline{Uscita dal menu}: stampa del messaggio di chiusura e terminazione del programma.
+      \item \underline{Uscita}: stampare il messaggio di terminazione.
 \end{enumerate}
 \end{itemize}
 
@@ -258,23 +220,26 @@ I passi dell'algoritmo sono:
 \vspace{0.4cm}
 \small
 \begin{verbatim}
-{- Programma Haskell per calcolare regressione lineare e k-nearest neighbors -}
+{- Programma Haskell per calcolare regressione lineare e k-nearest neighbors. -}
 
 {- IMPORTAZIONE DELLE LIBRERIE -}
 
-{- Formattazione e output -}
 import Text.Printf (printf)          -- Per formattare le stringhe di output
-{- Gestione delle liste -}
 import Data.List (sortOn, nub)       -- Per ordinare liste e rimuovere duplicati
 import Data.Function (on)            -- Per ordinare in base a una funzione
-{- Conversione e lettura -}
 import Text.Read (reads, readMaybe)  -- Per leggere input in modo sicuro
-{- Controllo dei caratteri -}
 import Data.Char (isPrint)           -- Per sapere se un carattere è stampabile
 
-{- ESECUZIONE MAIN -}
+{- Definizione di un tipo per rappresentare i punti. -}
 
-{- Punto iniziale del programma -}
+data Punto = Punto { xCoord :: Double, yCoord :: Double } 
+  deriving Show
+
+{- Definizione di un tipo per rappresentare i punti etichettati. -}
+
+data PuntoEtichettato = PuntoEtichettato { x :: Double, y :: Double, label :: String } 
+  deriving Show
+
 main :: IO ()
 main = do
   putStrLn "\n"
@@ -285,7 +250,8 @@ main = do
   menu_principale
   stampa_riga_orizzontale
 
-{- Funzione Main contenente il menu di selezione dell'operazione da svolgere -}
+{- Funzione che gestisce il menu delle operazioni. -}
+
 menu_principale :: IO ()
 menu_principale = do
   putStrLn "\nSelezionare l'operazione da svolgere:"
@@ -321,20 +287,11 @@ menu_principale = do
       putStrLn "\nScelta incorretta. Seleziona un'opzione valida."
       menu_principale
 
-{- DEFINIZIONE DI STRUTTURE DATI -}
-
-{- Definizione di un tipo per rappresentare punti in uno spazio 2D -}
-data Punto = Punto { xCoord :: Double, yCoord :: Double } 
-  deriving Show
-
-{- Definizione di un tipo per rappresentare i punti 2D etichettati con una classe -}
-data PuntoEtichettato = PuntoEtichettato { x :: Double, y :: Double, label :: String } 
-  deriving Show
-
 {- CALCOLO REGRESSIONE LINEARE -}
 
-{- Funzione che calcola i coefficienti (pendenza e intercetta) della retta 
- - interpolatrice -}
+{- Funzione che calcola i coefficienti (pendenza e intercetta) della retta sul dataset: 
+   - il suo unico argomento è la lista di punti (dataset). -}
+   
 calcola_coefficienti_retta :: [Punto] -> (Double, Double)
 calcola_coefficienti_retta punti = (pendenza, intercetta)
   where
@@ -343,17 +300,24 @@ calcola_coefficienti_retta punti = (pendenza, intercetta)
     pendenza = covarianza xs ys / varianza xs
     intercetta = media ys - pendenza * media xs
 
-{- Funzione che calcola la media di una lista di Double -}
+{- Funzione che calcola la media di una lista di Double:
+   - il suo unico argomento è la lista di Double. -}
+   
 media :: [Double] -> Double
 media xs = sum xs / fromIntegral (length xs)
 
-{- Funzione che calcola la varianza di una lista di Double -}
+{- Funzione che calcola la varianza di una lista di Double:
+   - il suo unico argomento è la lista di Double. -}
+
 varianza :: [Double] -> Double
 varianza xs = sum [(x - m) ** 2 | x <- xs] / fromIntegral (length xs)
   where
     m = media xs
 
-{- Funzione che calcola la covarianza di due liste di Double -}
+{- Funzione che calcola la covarianza di due liste di Double
+   - il primo argomento è la prima delle due liste;
+   - il secondo argomento è la seconda delle due liste. -}
+
 covarianza :: [Double] -> [Double] -> Double
 covarianza xs ys = 
   sum [(x - mx) * (y - my) | (x, y) <- zip xs ys] / fromIntegral (length xs)
@@ -361,28 +325,39 @@ covarianza xs ys =
     mx = media xs
     my = media ys
 
-{- Funzione per ottenere dall'utente una lista di punti nel corretto formato -}
+{- Funzione per acquisire una lista di punti nel corretto formato. -}
+
 leggi_dataset :: IO [Punto]
 leggi_dataset = do
-  putStrLn "\nInserisci i punti del dataset nel formato [(x1,y1), ..., (xn,yn)]:"
+  putStrLn "\nInserisci almeno due punti distinti nel formato [(x1,y1), ..., (xn,yn)]:"
   input <- getLine
   let lista_elaborata = readMaybe input :: Maybe [(Double, Double)]
   case lista_elaborata of
     Nothing -> do
-      putStrLn $ "\nFormato non valido. Inserisci i punti nel formato " ++ 
-                 " [(x1, y1), ..., (xn, yn)]."
+      putStrLn $ "\nFormato non valido. Inserisci i punti nel formato " ++
+                 "[(x1, y1), ..., (xn, yn)]."
       leggi_dataset
-    Just punti -> if length punti < 2
-                    then do
-                      putStrLn "\nInput invalido. Inserisci almeno due punti."
-                      leggi_dataset
-                    else return $ converti_tuple_in_punti punti
+    Just punti -> 
+      if length punti < 2 
+      then do
+        putStrLn "\nInput invalido. Inserisci almeno due punti."
+        leggi_dataset
+      else if length (nub punti) /= length punti
+        then do
+          putStrLn "\nInput invalido. Alcuni punti inseriti non sono distinti."
+          leggi_dataset
+        else return $ converti_tuple_in_punti punti
 
-{- Funzione che converte una lista di coppie di Double in una lista di punti -}
+{- Funzione che converte una lista di coppie di Double in una lista di punti:
+   il suo unico argomento è la lista di coppie. -}
+
 converti_tuple_in_punti :: [(Double, Double)] -> [Punto]
 converti_tuple_in_punti = map (\(x, y) -> Punto x y)
 
-{- Funzione che cicla continuamente per valutare nuovi valori di x -}
+{- Funzione che cicla continuamente per valutare nuovi valori della coordinata x 
+   sulla retta:
+   - il suo unico argomento è una coppia di Double (pendenza e intercetta). -}
+
 valuta_valori_x :: (Double, Double) -> IO ()
 valuta_valori_x (pendenza, intercetta) = do
   valore <- leggi_valore
@@ -399,7 +374,8 @@ valuta_valori_x (pendenza, intercetta) = do
         else return ()
     Nothing -> return ()  -- Ritorna al menu
 
-{- Funzione che ottiene dall'utente un punto da valutare sulla retta ottenuta -}
+{- Funzione che acquisisce un valore per la coordinata x. -}
+
 leggi_valore :: IO (Maybe Double)
 leggi_valore = do
   putStrLn "\nInserisci un valore per la coordinata x:"
@@ -410,22 +386,34 @@ leggi_valore = do
       putStrLn "\nInput incorretto. Inserisci un numero valido."
       leggi_valore
 
-{- Funzione che valuta la regressione lineare per il punto -}
+{- Funzione che valuta un valore della coordinata x sulla retta:
+   - il primo argomento è il valore della coordinata x;
+   - il secondo argomento è una coppia di double (pendenza e intercetta). -}
+
 valuta_valore :: Double -> (Double, Double) -> Double
 valuta_valore x (pendenza, intercetta) = pendenza * x + intercetta
 
 {- CALCOLO K-NEAREST NEIGHBORS -}
 
-{- Funziona che trova i k vicini per un punto dal dataset -}
+{- Funziona che trova i k vicini per un punto:
+   - il primo argomento è il valore k dei vicini;
+   - il secondo argomento è il punto di test;
+   - il terzo argomento è una lista di punti etichettati (dataset). -}
+
 trova_vicini :: Int -> PuntoEtichettato -> [PuntoEtichettato] -> [PuntoEtichettato]
 trova_vicini k punto_test dataset =
   take k $ sortOn (distanza punto_test) dataset
 
-{- Funzione che calcola la distanza euclidea tra due punti -}
+{- Funzione che calcola la distanza euclidea tra due punti:
+   - il primo argomento è il primo dei due punti;
+   - il secondo argomento è il secondo dei due punti. -}
+
 distanza :: PuntoEtichettato -> PuntoEtichettato -> Double
 distanza p1 p2 = sqrt $ (x p1 - x p2) ^ 2 + (y p1 - y p2) ^ 2
 
-{- Funzione che trova la classe di maggioranza tra i vicini -}
+{- Funzione che trova la classe di maggioranza tra i vicini:
+   - l'unico argomento è l'insieme dei k punti vicini. -}
+
 trova_classe_maggioranza :: [PuntoEtichettato] -> String
 trova_classe_maggioranza vicini = fst $ head conteggi_ordinati
   where
@@ -435,21 +423,22 @@ trova_classe_maggioranza vicini = fst $ head conteggi_ordinati
                    ) etichette
     conteggi_ordinati = reverse $ sortOn snd conteggi
 
-{- Funzione per leggere dall'utente un dataset di punti etichettati -}
+{- Funzione per acquisire un dataset di punti etichettati. -}
+
 leggi_dataset_etichettato :: IO [PuntoEtichettato]
 leggi_dataset_etichettato = do
-  putStrLn $ "\nInserisci i punti etichettati del dataset nel formato " ++
+  putStrLn $ "\nInserisci almeno due punti distinti ed etichettati nel formato " ++
              "[(x1,y1,\"<classe>\"), ..., (xn,yn,\"<classe>\")]:"
   input <- getLine
   case reads input of
-    [(punti, "")] ->
-      if all punto_etichettato_valido punti && length punti >= 2
-        then return $ converti_triple_in_punti punti
+    [(triple, "")] ->
+      if all punto_etichettato_valido triple && length triple >= 2 && punti_distinti triple
+        then return $ converti_triple_in_punti triple
         else do
-          putStrLn $ "\nErrore. " ++ messaggio_errore punti
+          putStrLn $ "\nInput invalido. " ++ messaggio_errore triple
           leggi_dataset_etichettato
     _ -> do
-      putStrLn $ "\nErrore. Assicurati che l'input sia nel formato " ++ 
+      putStrLn $ "\nInput invalido. Assicurati che l'input sia nel formato " ++ 
                  "[(x1,y1,\"<classe>\"), ..., (xn,yn,\"<classe>\")]."
       leggi_dataset_etichettato
   where
@@ -458,18 +447,34 @@ leggi_dataset_etichettato = do
       | not (all punto_etichettato_valido ps) = 
           "Formato non valido. Controlla che ogni " ++ 
           "punto sia nel formato (x, y, \"<classe>\")."
+      | not (punti_distinti ps) = "Tutti i punti devono essere distinti."
       | otherwise = ""
 
-{- Converte una lista di triple in una lista di punti etichettati -}
+{- Funzione che verifica se tutti i punti in un dataset etichettato sono distinti: 
+   - il suo unico argomento è la lista di punti etichettati. -}
+
+punti_distinti :: [(Double, Double, String)] -> Bool
+punti_distinti ps = length solo_punti == length (nub solo_punti)
+  where
+    solo_punti = [(x, y) | (x, y, _) <- ps]
+
+{- Funzione che converte una lista di triple in una lista di punti etichettati:
+   - l'unico argomento è la lista di triple di valori. -}
+
 converti_triple_in_punti :: [(Double, Double, String)] -> [PuntoEtichettato]
 converti_triple_in_punti = map (\(x, y, l) -> PuntoEtichettato x y l)
 
-{- Funzione per assicurarsi che il carattere sia stampabile 
- - (es. non è un carattere di controllo come '\n' -}
+{- Funzione per assicurarsi che il carattere per il punto etichettato sia stampabile:
+   - l'unico argomento è la tripla di valori che rappresentano il punto etichettato.
+   Per esempio, non deve essere un carattere di controllo come '\n'. -}
+
 punto_etichettato_valido :: (Double, Double, String) -> Bool
 punto_etichettato_valido (_, _, c) = all isPrint c
 
-{- Funzione per ottenere dall'utente il valore di k -}
+{- Funzione per acquisire il valore di k:
+   - l'unico argomento è il numero di punti nel dataset.
+   Il numero dei vicini deve essere infatti minore uguale del numero di punti. -}
+
 leggi_valore_k :: Int -> IO Int
 leggi_valore_k num_punti = do
   putStrLn $ "\nInserisci il valore di k (numero dei vicini, 1-" ++ show num_punti 
@@ -487,7 +492,10 @@ leggi_valore_k num_punti = do
       putStrLn "\nInput non valido. Inserisci un numero intero valido."
       leggi_valore_k num_punti
 
-{- Funzione che cicla continuamente per valutare nuovi punti -}
+{- Funzione che cicla continuamente per valutare nuovi punti sul KNN:
+   - il primo argomento è il valore k dei vicini;
+   - il secondo argomento è la lista di punti etichettati. -}
+
 valuta_punti :: Int -> [PuntoEtichettato] -> IO ()
 valuta_punti k dataset = do
   punto_test <- leggi_punto
@@ -500,7 +508,8 @@ valuta_punti k dataset = do
     then valuta_punti k dataset
     else return ()
 
-{- Funzione per ottenere dall'utente un punto da testare sul KNN -}
+{- Funzione per acquisire un punto di test. -}
+
 leggi_punto :: IO PuntoEtichettato
 leggi_punto = do
   putStrLn "\nInserisci il punto da valutare nel formato '(x, y)':"
@@ -511,7 +520,9 @@ leggi_punto = do
       putStrLn "\nInput incorretto. Inserisci un punto nel formato '(x, y)'."
       leggi_punto
 
-{- Funzione per stampare i vicini -}
+{- Funzione per stampare i vicini del punto di test:
+   - l'unico argomento è la lista di tutti i vicini. -}
+
 stampa_vicini :: [PuntoEtichettato] -> IO ()
 stampa_vicini vicini = do
   putStrLn "\nI vicini del punto sono:"
@@ -523,6 +534,7 @@ stampa_vicini vicini = do
 {- FUNZIONI AUSILIARIE -}
 
 {- Funzione ausiliaria per chiedere all'utente se vuole continuare -}
+
 richiedi_continuazione :: IO Bool
 richiedi_continuazione = do
   putStrLn "\nVuoi continuare? (s/n)"
@@ -536,10 +548,10 @@ richiedi_continuazione = do
       richiedi_continuazione
 
 {- Funzione ausiliaria per stampare una riga orizzontale -}
+
 stampa_riga_orizzontale :: IO ()
 stampa_riga_orizzontale = putStrLn $ "--------------------------------" ++ 
                                      "--------------------------------"
-
 \end{verbatim}
 
 \newpage
@@ -549,11 +561,8 @@ stampa_riga_orizzontale = putStrLn $ "--------------------------------" ++
 \vspace{0.4cm}
 \small
 \begin{verbatim}
-/* Programma Prolog per calcolare regressione lineare e k-nearest neighbors */
+/* Programma Prolog per calcolare regressione lineare e k-nearest neighbors. */
 
-% ESECUZIONE MAIN
-
-/* Punto iniziale del programma */
 main :-
   nl, nl, 
   stampa_riga_orizzontale,
@@ -563,7 +572,8 @@ main :-
   menu_principale,
   stampa_riga_orizzontale.
   
-/* Menu di selezione dell'operazione da svolgere */
+/* Predicato per gestire il menu delle operazioni. */
+
 menu_principale :-
   nl, write('Selezionare l\'operazione da svolgere: '), nl,
   write('1 - Regressione lineare'), nl,
@@ -579,7 +589,8 @@ menu_principale :-
 
 % CALCOLO REGRESSIONE LINEARE
 
-/* Predicato per eseguire la regressione lineare */
+/* Predicato per eseguire la regressione lineare. */
+
 esegui_regressione_lineare :-
   nl, write('-------- Regressione Lineare --------'), nl,
   leggi_dataset(Punti),
@@ -588,38 +599,63 @@ esegui_regressione_lineare :-
   nl,
   (Pendenza = 'undefined' ->  % Caso di retta verticale
    write('Retta interpolatrice: y = NaNx + NaN'), nl
-  ;
+   ;
    format('Retta interpolatrice: y = ~2fx + ~2f~n', [Pendenza, Intercetta])
   ),
   valuta_valori_x(Pendenza, Intercetta).
 
-/* Predicato per leggere una lista di tuple da tastiera */
-leggi_dataset(Lista) :-
-  repeat,
-  nl, write('Inserisci i punti del dataset nel formato: [(x1,y1), ..., (xn,yn)]:'), 
-  nl, read(Lista),
-  (lista_punti_valida(Lista) ->
-     !    % Successo: lista valida di punti
-     ;
-     nl, write('Input invalido. La lista deve contenere almeno due punti '),
-     nl, write('nel formato [(x,y), ...]'), nl,
-     fail % Fallimento: formato non valido, ritentare
-  ).
+/* Predicato per leggere una lista di punti da tastiera. */
 
-/* Predicato per validare una lista di punti 2D */
-lista_punti_valida(Lista) :-
-  is_list(Lista),
-  length(Lista, NumPunti),
-  NumPunti >= 2,
-  forall(member(Punto, Lista), punto_valido(Punto)).
+leggi_dataset(Lista) :-
+  nl, write('Inserisci almeno due punti distinti nel formato '),
+  write('[(x1,y1), ..., (xn,yn)]: '),
+  nl, read(Input),
+  ( 
+    % Controllo che la lista sia nel formato corretto
+    (\+ is_list(Input) 
+     ; 
+     \+ forall(member(Punto, Input), punto_valido(Punto)))
+   ->
+     nl, write('Input invalido. Assicurati di inserire una lista nel formato '),
+     write('[(x1,y1), ..., (xn,yn)].'), nl,
+     leggi_dataset(Lista)
+   ;
+     % Controllo che ci siano almeno due punti
+     length(Input, NumPunti),
+     NumPunti < 2
+   ->
+     nl, write('Input invalido. Inserisci almeno due punti.'), nl,
+     leggi_dataset(Lista)
+   ;
+     % Controllo che tutti i punti siano distinti
+     \+ punti_distinti(Input)
+   ->
+     nl, write('Input invalido. Tutti i punti devono essere distinti.'), nl,
+     leggi_dataset(Lista)
+   ;
+     Lista = Input
+  ).
   
-/* Predicato per controllare che un punto sia nel formato (x,y) */
+  
+/* Predicato per controllare che un punto sia nel formato (x,y):
+   - il suo unico argomento è il punto. */
+
 punto_valido(Punto) :- 
   Punto = (X, Y),
   number(X),
   number(Y).
+  
+/* Predicato che verifica se tutti i punti sono distinti:
+   - il suo unico argomento è la lista di punti. */
 
-/* Calcola i coefficienti (pendenza e intercetta) della retta interpolatrice */
+punti_distinti([]).
+punti_distinti([Testa|Coda]) :- 
+  \+ member(Testa, Coda),
+  punti_distinti(Coda).
+
+/* Predicato che calcola i coefficienti (pendenza e intercetta) della retta:
+   - il suo unico argomento è la lista di punti che forma il dataset. */
+
 calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
   estrai_coordinate_x(Punti, Xs),
   estrai_coordinate_y(Punti, Ys),
@@ -627,7 +663,7 @@ calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
   (VarX =:= 0 -> % Se VarX è zero, gestisco il caso di retta verticale
    Pendenza = 'undefined',
    Intercetta = 'undefined'
-  ; 
+   ; 
    covarianza(Xs, Ys, CovXY),
    Pendenza is CovXY / VarX,
    media(Ys, MediaY),
@@ -635,24 +671,33 @@ calcola_coefficienti_retta(Punti, Pendenza, Intercetta) :-
    Intercetta is MediaY - Pendenza * MediaX
   ).
  
-/* Estra le coordinate X da una lista di punti */
+/* Predicato che estrae le coordinate X da una lista di punti:
+   - il suo unico argomento è la lista. */
+
 estrai_coordinate_x([], []).
 estrai_coordinate_x([(X, _) | Punti], [X | Xs]) :-
   estrai_coordinate_x(Punti, Xs).
   
-/* Estrae le coordinate Y da una lista di punti */
+/* Predicato che estrae le coordinate Y da una lista di punti:
+   - il suo unico argomento è la lista. */
+
 estrai_coordinate_y([], []).
 estrai_coordinate_y([(_, Y) | Punti], [Y | Ys]) :-
   estrai_coordinate_y(Punti, Ys).
 
-/* Calcola la varianza di una lista di numeri */  
+/* Predicato che calcola la varianza di una lista di numeri:
+   - il suo unico argomento è la lista. */  
+
 varianza([], 0).
 varianza([X | Xs], Var) :-
   media([X | Xs], Media),
   varianza(Xs, Resto),
   Var is Resto + (X - Media) * (X - Media).
 	
-/* Calcola la covarianza di due liste di numeri */
+/* Predicato che calcola la covarianza di due liste di numeri:
+   - il primo argomento è la prima delle due liste; 
+   - il secondo argomento è la seconda delle due liste. */
+
 covarianza([], [], 0).
 covarianza([X | Xs], [Y | Ys], Cov) :-
   media([X | Xs], MediaX),
@@ -660,102 +705,134 @@ covarianza([X | Xs], [Y | Ys], Cov) :-
   covarianza(Xs, Ys, Resto),
   Cov is Resto + (X - MediaX) * (Y - MediaY).
 
-/* Calcola la media di una lista di numeri */
+/* Predicato che calcola la media di una lista di numeri:
+   - il suo unico argomento è la lista.*/
+
 media([], 0).
 media([X | Xs], Media) :-
   media(Xs, Resto),
   length(Xs, N),
   Media is (X + N * Resto) / (N + 1).
 
-/* Predicato che cicla continuamente per valutare nuovi valori di x */
+/* Predicato che cicla continuamente per valutare nuovi valori della coordinata x:
+   - il primo valore è la pendenza della retta;
+   - il secondo valore è l'intercetta della retta. */
+
 valuta_valori_x(Pendenza, Intercetta) :-
   leggi_valore(X),
   valuta_valore(X, Pendenza, Intercetta, Y),
   (Pendenza = 'undefined' -> % Caso di retta verticale
    nl, format('Per X = ~2f il valore previsto e\' Y = NaN', [X]), nl
-  ;
+   ;
    nl, format('Per X = ~2f il valore previsto e\' Y = ~2f', [X, Y]), nl
   ),
   richiedi_continuazione(Scelta),
   (Scelta = 's' -> valuta_valori_x(Pendenza, Intercetta) ; true).
 
-/* Predicato che ottiene dall'utente una coordinata X da valutare sulla 
- * retta ottenuta */
+/* Predicato che acquisisce un valore per la coordinata X. */
+
 leggi_valore(X) :-
-  repeat,
   nl, write('Inserisci un valore per la coordinata x: '), nl,
-  read(X),
-  (number(X) ->
-     true  % Successo: X è un numero
-     ;
-     nl, write('Il valore inserito non e\' un numero.'), nl,
-     fail % Fallimento: X non è un numero, ritentare
+  read(Val),
+  (number(Val) ->
+   X = Val
+   ;
+   nl, write('Il valore inserito non e\' un numero.'), nl,
+   leggi_valore(X) 
   ).
 
-/* Predicato che valuta la regressione lineare per il punto */
+/* Predicato che valuta un valore della coordinata x sulla retta:
+  - il primo argomento è il valore della coordinata x;
+  - il secondo argomento è la pendenza della retta;
+  - il terzo argomento è l'intercetta della retta. */
+
 valuta_valore(X, Pendenza, Intercetta, Y) :-
   (Pendenza = 'undefined' ->  % Caso di retta verticale
    Y is 0  % valore non significativo
-  ;
+   ;
    Y is Pendenza * X + Intercetta
   ).
 
 % CALCOLO K-NEAREST NEIGHBORS
 
-/* Predicato per eseguire il KNN */
+/* Predicato per eseguire il KNN. */
+
 esegui_knn :- 
   nl, write('-------- K-Nearest Neighbors --------'), nl,
   leggi_dataset_etichettato(Dataset),
   length(Dataset, NumPunti),
-  repeat,
-  nl, write('Inserisci il valore per k: '), nl,
-  read(K),
-  (number(K) -> 
-     K > 0,
-    (K =< NumPunti ->
-       !
-       ; 
-       nl, write('Input invalido. Inserisci un intero positivo '),
-       write('minore del (o uguale al) numero totale di punti nel dataset'), nl,
-       format('(Numero di punti: ~d)', [NumPunti]), nl,
-       fail
-    )
-    ;
-    nl, write('Input invalido. Inserisci un intero positivo.'), nl,
-    fail
-  ),
+  leggi_valore_k(NumPunti, K),
   valuta_punti(Dataset, K).
+  
+/* Predicato che acquisisce il valore k dei vicini:
+   - il suo unico argomento è il numero dei punti nel dataset. */
 
-/* Predicato per ottenere dall'utente un dataset di punti etichettati con una classe */
-leggi_dataset_etichettato(Lista) :-
-  repeat,
-  nl, write('Inserisci i punti del dataset nel formato: '),
-  write('[(x1,y1,<classe>), ..., (xn,yn,<classe>)].'), nl,
-  read(Lista),
-  (dataset_etichettato_valido(Lista) ->
-     !  % Successo: la lista è valida
-     ;
-     nl, write('Input invalido. La lista deve contenere almeno due punti '),
-     write('nel formato [(x,y,<classe>), ...]'), nl,
-     fail % Fallimento: formato lista invalido, ritentare
+leggi_valore_k(NumPunti, K) :-
+  nl, write('Inserisci il valore per k: '), nl,
+  read(Input),
+  (number(Input), Input > 0, Input =< NumPunti ->
+   K = Input
+   ;
+   nl, write('Input invalido. Inserisci un intero positivo '),
+   write('minore del (o uguale al) numero totale di punti nel dataset'), nl,
+   format('(Numero di punti: ~d)', [NumPunti]), nl,
+   leggi_valore_k(NumPunti, K)  % Ricorsione: chiede di nuovo all'utente il valore di k
   ).
-	
-/* Predicato di validazione per un dataset con etichette */
-dataset_etichettato_valido(Lista) :-
-  is_list(Lista),
-  length(Lista, NumPunti),
-  NumPunti >= 2,
-  forall(member(Punto, Lista), punto_etichettato_valido(Punto)).
 
-/* Predicato per controllare se un elemento è un punto etichettato valido nel 
-   formato (X, Y, C) */
+/* Predicato per acquisire un dataset di punti etichettati. */
+
+leggi_dataset_etichettato(Lista) :-
+  nl, write('Inserisci i punti del dataset nel formato '),
+  write('[(x1,y1,<classe>), ..., (xn,yn,<classe>)]: '), nl,
+  read(Input),
+  ( 
+   % Controllo che la lista sia nel formato corretto
+    (\+ is_list(Input) 
+     ; 
+     \+ forall(member(Punto, Input), punto_etichettato_valido(Punto)))
+   ->
+     nl, write('Input invalido. Assicurati di inserire una lista nel formato '),
+     write('[(x1,y1,<classe>), ..., (xn,yn,<classe>)].'), nl,
+     leggi_dataset_etichettato(Lista)
+   ;
+     % Controllo che ci siano almeno due punti
+     length(Input, NumPunti),
+     NumPunti < 2
+   ->
+     nl, write('Input invalido. Inserisci almeno due punti.'), nl,
+     leggi_dataset_etichettato(Lista)
+   ;
+     % Controllo che tutti i punti siano distinti
+     \+ punti_etichettati_distinti(Input)
+   ->
+     nl, write('Input invalido. Tutti i punti devono essere distinti.'), nl,
+     leggi_dataset_etichettato(Lista)
+   ;
+     Lista = Input
+  ).
+
+/* Predicato per validare un punto etichettato:
+   - il suo unico argomento è il punto in questione. */
+
 punto_etichettato_valido(Punto) :- 
   Punto = (X, Y, C),
   number(X),
   number(Y),
   atom(C).
 
-/* Predicato per inserire continuamente punti da valutare con KNN */
+/* Predicato che verifica se tutti i punti etichettati sono distinti:
+   - il suo unico argomento è la lista di punti etichettati. */
+
+punti_etichettati_distinti([]).
+punti_etichettati_distinti([(X, Y, _)|Coda]) :- 
+  \+ member((X, Y, _), Coda),
+  punti_etichettati_distinti(Coda).
+
+
+/* Predicato che cicla continuamente per valutare nuovi punti sul KNN:
+   - il primo argomento è la lista di punti etichettati;
+   - il secondo argomento è il numero k dei vicini. */
+
 valuta_punti(_, 0) :- !.
 valuta_punti(Dataset, K) :-
   leggi_punto_etichettato(Punto),
@@ -767,73 +844,103 @@ valuta_punti(Dataset, K) :-
   richiedi_continuazione(Scelta),
   (Scelta = 's' -> valuta_punti(Dataset, K) ; true).
 
-/* Predicato per leggere un singolo punto da valutare con KNN */
+/* Predicato che acquisisce un punto di test. */
+
 leggi_punto_etichettato(Punto) :-
-  repeat,
   nl, write('Inserisci il valore del punto da testare nel formato (x,y): '), nl,
-  read(Punto),
-  (punto_valido(Punto) ->
-   true  % Successo: punto valido, uscita dal repeat
+  read(Input),
+  (punto_valido(Input) ->
+   Punto = Input
    ;
    nl, write('Punto non valido. Assicurati di inserire un punto '),
    write('nel formato (x,y).'), nl,
-   fail % Fallimento: punto non valido, ritentare
+   leggi_punto_etichettato(Punto)
   ).
 
-/* Predicato che trova i k vicini per un punto */
+/* Predicato che trova i k vicini per un punto:
+   - il primo argomento è il numero k dei vicini;
+   - il secondo argomento è il punto di test;
+   - il terzo argomento è il dataset di punti etichettati. */
+
 trova_vicini(K, Punto, Dataset, Vicini) :-
   calcola_distanze(Punto, Dataset, Distanze),
   ordina_distanze(Distanze, DistanzeOrdinate),
   prendi(K, DistanzeOrdinate, CoppieVicini),
   converti_coppie_in_vicini(CoppieVicini, Vicini).
 
-/* Predicato per calolcare le distanze tra PuntoTest e ogni altro punto 
- * del dataset */
+/* Predicato che calcola la distanza tra il punto di test e tutti gli altri punti: 
+   - il primo argomento è il punto di test;
+   - il secondo argomento è il dataset di punti.
+   Crea un'associazione distanza-punto, annotando ogni punto del dataset con la 
+   sua distanza dal punto di test. */
+
 calcola_distanze(_, [], []).
 calcola_distanze(PuntoTest, [Punto | Resto], [Dist-Punto | Distanze]) :-
   distanza(Punto, PuntoTest, Dist),
   calcola_distanze(PuntoTest, Resto, Distanze).
   
-/* Predicato che calcola la distanza euclidea tra due punti */
+/* Predicato che calcola la distanza euclidea tra due punti: 
+   - il primo argomento è il primo dei due punti;
+   - il secondo argomento è il secondo dei due punti. */
+
 distanza((X1, Y1, _), (X2, Y2), Dist) :-
   Dist is sqrt((X1 - X2) * (X1 - X2) + (Y1 - Y2) * (Y1 - Y2)).
 
-/* Ordina le distanze in ordine crescente */
+/* Predicato che ordina le distanze in ordine crescente:
+   - il suo unico argomento è la lista di associazioni Dist-Punto */
+
 ordina_distanze(Distanze, DistanzeOrdinate) :-
   keysort(Distanze, DistanzeOrdinate).
 
-/* Prende i primi K elementi di una lista */
+/* Predicato che prende i primi K elementi di una lista:
+   - il suo unico argomento è la lista summenzionata. */
+
 prendi(0, _, []).
 prendi(K, [X | Xs], [X | Resto]) :-
   K > 0,
   K1 is K - 1,
   prendi(K1, Xs, Resto).
   
-/* Rimuove il valore della distanza dal formato (Dist-(X, Y, Class)) 
-   per ottenere il formato (X, Y, Class) */
+/* Predicato che elimina l'informazione sulla distanza dal formato Dist-Punto 
+   per ottenere solamente il punto etichettato:
+   - il suo unico argomento è la lista di associazioni Dist-Punto */
+
 converti_coppie_in_vicini([], []).
 converti_coppie_in_vicini([_-Vicino | CoppieRestanti], [Vicino | ViciniRestanti]) :-
   converti_coppie_in_vicini(CoppieRestanti, ViciniRestanti).
   
-/* Predicato per stampare i vicini nel formato (x, y, C) */
+/* Predicato che stampa tutti i vicini: 
+   - il suo unico argomento è la lista di vicini. */
+
 stampa_vicini([]).
 stampa_vicini([(X, Y, C) | Resto]) :-
   format('Punto: (~2f, ~2f, ~w)~n', [X, Y, C]),
   stampa_vicini(Resto).
   
-/* Predicato che trova la classe di maggioranza tra i vicini */
+/* Predicato che trova la classe di maggioranza tra i vicini:
+   - il suo unico argomento è la lista di vicini. */
+
 trova_classe_maggioranza(Vicini, ClasseMaggioranza) :-
   conta_occorrenze_classe(Vicini, MapConteggi),
   classe_max_occorrenze(MapConteggi, ClasseMaggioranza).
 
-/* Predicato per conteggiare le occorrenze di ogni classe nei vicini */
+/* Predicato che conteggia le occorrenze di ogni classe nei vicini: 
+   - il primo argomento è la lista di vicini;
+   - il secondo argomento è la mappa di conteggi corrente (inizialmente vuota).
+   La mappa di conteggi è una lista di coppie, dove ogni coppia è composta da
+   una classe e il suo corrispondente conteggio. */
+
 conta_occorrenze_classe(Vicini, MapConteggi) :-
   conta_occorrenze_classe(Vicini, [], MapConteggi).
-
+  
 conta_occorrenze_classe([], MapConteggi, MapConteggi).
 conta_occorrenze_classe([(_, _, Classe) | Vicini], MapConteggiParziale, MapConteggi) :-
   aggiorna_map_conteggi(Classe, MapConteggiParziale, NuovaMapConteggi),
   conta_occorrenze_classe(Vicini, NuovaMapConteggi, MapConteggi).
+
+/* Predicato che aggiorna una mappa di conteggi:
+   - il primo argomento è la classe di cui aggiornare il conteggio;
+   - il secondo argomento è la mappa di conteggi corrente. */
 
 aggiorna_map_conteggi(Classe, [], [(Classe, 1)]).
 aggiorna_map_conteggi(Classe, 
@@ -841,6 +948,7 @@ aggiorna_map_conteggi(Classe,
                       [(Classe, NuovoConteggio) | Resto]
                      ) :-
   NuovoConteggio is Conteggio + 1.
+
 aggiorna_map_conteggi(Classe, 
                       [(AltraClasse, Conteggio) | Resto], 
                       [(AltraClasse, Conteggio) | NuovoResto]
@@ -848,22 +956,32 @@ aggiorna_map_conteggi(Classe,
   Classe \= AltraClasse,
   aggiorna_map_conteggi(Classe, Resto, NuovoResto).
 
-/* Predicato per trovare la classe con il maggior numero di occorrenze */
+/* Predicato che trova la classe con il maggior numero di occorrenze:
+   - il suo unico argomento è la mappa dei conteggi. */
+   
 classe_max_occorrenze([(Classe, Conteggio) | Resto], ClasseMaggioranza) :-
-  classe_max_occorrenze(Resto, Classe, Conteggio, ClasseMaggioranza).
+  classe_max_occorrenze_aux(Resto, Classe, Conteggio, ClasseMaggioranza).
 
-classe_max_occorrenze([], ClasseMaggioranza, _, ClasseMaggioranza).
-classe_max_occorrenze([(Classe, Conteggio) | Resto], 
+/* Predicato ausiliario usato dal predicato principale classe_max_occorrenze:
+   - il primo argomento è la lista di elementi rimanenti nella nella mappa conteggi;
+   - il secondo argomento è la classe con conteggio massimo trovata finora;
+   - il terzo argomento è il conteggio massimo trovato finora per suddetta classe. 
+   Se esiste un'altra classe nella mappa con conteggio superiore a ConteggioMax, 
+   quella diventa la nuova classe di maggioranza.   */
+
+classe_max_occorrenze_aux([], ClasseMaggioranza, _, ClasseMaggioranza).
+classe_max_occorrenze_aux([(Classe, Conteggio) | Resto], 
                       ClasseMax, ConteggioMax, ClasseMaggioranza) :-
   (Conteggio > ConteggioMax ->
-   classe_max_occorrenze(Resto, Classe, Conteggio, ClasseMaggioranza)
+   classe_max_occorrenze_aux(Resto, Classe, Conteggio, ClasseMaggioranza)
    ;  
-   classe_max_occorrenze(Resto, ClasseMax, ConteggioMax, ClasseMaggioranza)
+   classe_max_occorrenze_aux(Resto, ClasseMax, ConteggioMax, ClasseMaggioranza)
   ).
-	
+   
 % FUNZIONI AUSILIARIE	
 	
 /* Predicato per chiedere all'utente se vuole continuare */
+
 richiedi_continuazione(Scelta) :-
   nl, write('Vuoi continuare? (s/n)'), nl,
   read(SceltaInput),
@@ -872,10 +990,11 @@ richiedi_continuazione(Scelta) :-
    nl, write('Input incorretto. Inserisci "s" per continuare o "n" per uscire.'), 
    nl, richiedi_continuazione(Scelta)).
 
-/* Predicato per stampare una linea orizzontale */
+/* Predicato che stampa un certo numero di trattini su una linea orizzontale:
+   - il suo unico argomento è il numero di trattini.*/
+
 stampa_riga_orizzontale :- stampa_riga_orizzontale(65).
 
-/* Specifica il numero di trattini nella linea orizzontale */
 stampa_riga_orizzontale(N) :- 
   N > 0, 
   write('-'), 
@@ -894,7 +1013,9 @@ Il programma emette un messaggio di errore e chiede di rieseguire l'inserimento 
 \item All'atto della scelta se continuare o meno con la valutazione dei valori, l'utente inserisce un valore diverso da 's' o 'n'.
 \item L'utente inserisce il dataset in un formato incorretto, ossia tale che la lista non sia in un formato valido o che i suoi elementi non siano punti validi. 
 \item L'utente inserisce un dataset contenente meno di due punti.
-\item L'utente inserisce un valore/punto di valutazione in un formato incorretto.
+\item L'utente inserisce un dataset dove sono presenti dei punti duplicati.
+\item L'utente inserisce un valore per la coordinata x che non sia un numero reale.
+\item L'utente inserisce un punto di test in un formato incorretto.
 \item L'utente inserisce un valore \textit{k} di vicini che non sia un intero positivo, o il cui valore sia maggiore del numero totale di punti nel dataset.
 \end{itemize}
 Di seguito sono riportati dei test significativi per ogni operazione e su entrambi i programmi. 

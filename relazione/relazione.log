@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  17 AUG 2023 18:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  30 AUG 2023 19:16
 entering extended mode
 **./relazione.tex
 (relazione.tex
@@ -786,7 +786,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count353
-<imgs/logo_uniurb.png, id=83, 225.84375pt x 225.84375pt>
+<imgs/logo_uniurb.png, id=75, 225.84375pt x 225.84375pt>
 File: imgs/logo_uniurb.png Graphic file (type png)
 <use imgs/logo_uniurb.png>
 Package pdftex.def Info: imgs/logo_uniurb.png  used on input line 45.
@@ -846,6 +846,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 148--152
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 154--158
+
+ []
+
+
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.59999pt}.
@@ -854,12 +859,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 169--173
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 178--182
+Underfull \hbox (badness 10000) in paragraph at lines 171--175
 
  []
 
@@ -872,10 +872,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 198--202
-
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -885,25 +881,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [6]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[7]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[8]
-Overfull \hbox (7.91759pt too wide) in paragraph at lines 543--543
+Overfull \hbox (7.91759pt too wide) in paragraph at lines 555--555
 []\OT1/cmtt/m/n/10 data PuntoEtichettato = PuntoEtichettato { x :: Double, y ::
  Double, label :: String }[] 
  []
@@ -916,7 +894,40 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
+[7]
+Overfull \hbox (13.16754pt too wide) in paragraph at lines 555--555
+[]\OT1/cmtt/m/n/10 {- Funzione che calcola i coefficienti (pendenza e intercett
+a) della retta sul dataset:[] 
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[8]
+Overfull \hbox (13.16754pt too wide) in paragraph at lines 555--555
+[]  \OT1/cmtt/m/n/10 putStrLn "\nInserisci almeno due punti distinti nel format
+o [(x1,y1), ..., (xn,yn)]:"[] 
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
 [9]
+Overfull \hbox (34.16736pt too wide) in paragraph at lines 555--555
+[]      \OT1/cmtt/m/n/10 if all punto_etichettato_valido triple && length tripl
+e >= 2 && punti_distinti triple[] 
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -926,6 +937,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [10]
+Overfull \hbox (2.66763pt too wide) in paragraph at lines 555--555
+[]\OT1/cmtt/m/n/10 {- Funzione per assicurarsi che il carattere per il punto et
+ichettato sia stampabile:[] 
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -980,9 +996,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [16]
-Overfull \hbox (13.16754pt too wide) in paragraph at lines 885--885
-[]\OT1/cmtt/m/n/10 /* Predicato per ottenere dall'utente un dataset di punti et
-ichettati con una classe */[] 
+Overfull \hbox (13.16754pt too wide) in paragraph at lines 1004--1004
+[]   \OT1/cmtt/m/n/10 leggi_valore_k(NumPunti, K)  % Ricorsione: chiede di nuov
+o all'utente il valore di k[] 
  []
 
 
@@ -1003,7 +1019,16 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [18]
-Overfull \hbox (13.16754pt too wide) in paragraph at lines 885--885
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[19]
+Overfull \hbox (13.16754pt too wide) in paragraph at lines 1004--1004
 []\OT1/cmtt/m/n/10 conta_occorrenze_classe([(_, _, Classe) | Vicini], MapConteg
 giParziale, MapConteggi) :-[] 
  []
@@ -1016,127 +1041,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[19]
-Underfull \hbox (badness 10000) in paragraph at lines 904--940
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 904--940
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 904--940
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 904--940
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 904--940
-
- []
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
 [20]
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 942--947
-\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
-cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
- (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
-/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
-/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
- ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
-/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
-cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
- )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
-/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
-cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
- []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
-/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 952--959
-
- []
-
-
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 952--959
-\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
-cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
- (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
-/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
-/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
- ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
-/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
-cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
- )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
-/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
-cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
- []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
-/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 963--970
-
- []
-
-
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 963--970
-\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
-cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
- (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
-/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
-/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
- ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
-/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
-cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
- )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
-/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
-cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
- []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
-/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 973--980
-
- []
-
-
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 973--980
-\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
-cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
- (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
-/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
-/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
- ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
-/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
-cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
- )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
-/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
-cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
- []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
-/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 983--990
-
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1146,6 +1051,30 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [21]
+Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1155,33 +1084,86 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 1003--1039
+Overfull \hbox (25.81145pt too wide) in paragraph at lines 1063--1068
+\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
+cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
+ (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
+/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
+/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
+ ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
+/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
+cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
+ )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
+/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
+cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
+ []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
+/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1073--1080
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1003--1039
+Overfull \hbox (25.81145pt too wide) in paragraph at lines 1073--1080
+\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
+cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
+ (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
+/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
+/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
+ ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
+/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
+cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
+ )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
+/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
+cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
+ []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
+/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1084--1091
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1003--1039
+Overfull \hbox (25.81145pt too wide) in paragraph at lines 1084--1091
+\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
+cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
+ (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
+/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
+/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
+ ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
+/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
+cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
+ )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
+/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
+cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
+ []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
+/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1094--1101
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1003--1039
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1003--1039
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1051--1058
-
+Overfull \hbox (25.81145pt too wide) in paragraph at lines 1094--1101
+\OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
+cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
+ (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
+/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (2\OML/cmm/m/it/10.95 ; \OT1
+/cmr/m/n/10.95 4\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95
+ ; \OT1/cmr/m/n/10.95 (3\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 5\OML/cmm/m/it
+/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (4\OML/
+cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 6\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95
+ )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (5\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n
+/10.95 7\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/
+cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
+ []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 (7\OML/cmm/m/it
+/10.95 ; \OT1/cmr/m/n/10.95 9\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )]$ 
  []
 
 
@@ -1193,17 +1175,68 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 1062--1069
+Underfull \hbox (badness 10000) in paragraph at lines 1104--1111
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1072--1079
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1082--1089
+Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1172--1179
+
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[25]
+Underfull \hbox (badness 10000) in paragraph at lines 1183--1190
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1193--1200
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1203--1210
 
  []
 
@@ -1217,21 +1250,18 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[24] (relazione.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
+[26] (relazione.aux)
 Package rerunfilecheck Info: File `relazione.out' has not changed.
-(rerunfilecheck)             Checksum: 9C2D48DB55756CDE8EE07E3982F94738;3428.
+(rerunfilecheck)             Checksum: 6DB2CCA92182F151A2F98822F1D0DDFB;3227.
  ) 
 Here is how much of TeX's memory you used:
- 19665 strings out of 478927
- 321186 string characters out of 2852534
- 668588 words of memory out of 3000000
- 37178 multiletter control sequences out of 15000+600000
- 418143 words of font info for 81 fonts, out of 8000000 for 9000
+ 19662 strings out of 478927
+ 321102 string characters out of 2852534
+ 669585 words of memory out of 3000000
+ 37175 multiletter control sequences out of 15000+600000
+ 417975 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,11n,117p,1044b,497s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 72i,12n,117p,1044b,617s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{indice} has been referenced but does not exist, r
 eplaced by a fixed one
 
@@ -1249,9 +1279,9 @@ ers/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmti10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/cm/cmtt10.pfb>
-Output written on relazione.pdf (25 pages, 229667 bytes).
+Output written on relazione.pdf (27 pages, 228983 bytes).
 PDF statistics:
  315 PDF objects out of 1000 (max. 8388607)
  50 named destinations out of 1000 (max. 500000)
- 166 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 150 words of extra memory for PDF output out of 10000 (max. 10000000)
 
