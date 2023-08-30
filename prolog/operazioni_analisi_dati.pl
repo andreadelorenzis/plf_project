@@ -205,14 +205,13 @@ esegui_knn :-
    - il suo unico argomento è il numero dei punti nel dataset. */
 
 leggi_valore_k(NumPunti, K) :-
-  nl, write('Inserisci il valore per k: '), nl,
+  nl, format('Inserisci il valore di k (numero dei vicini, 1-~d): ', [NumPunti]), nl,
   read(Input),
   (number(Input), Input > 0, Input =< NumPunti ->
    K = Input
    ;
-   nl, write('Input invalido. Inserisci un intero positivo '),
-   write('minore del (o uguale al) numero totale di punti nel dataset'), nl,
-   format('(Numero di punti: ~d)', [NumPunti]), nl,
+   nl, write('Input invalido. Il valore di k deve essere un intero positivo '),
+   format('compreso tra 1 e ~d.', [NumPunti]), nl,
    leggi_valore_k(NumPunti, K)  % Ricorsione: chiede di nuovo all'utente il valore di k
   ).
 
@@ -274,7 +273,7 @@ valuta_punti(_, 0) :- !.
 valuta_punti(Dataset, K) :-
   leggi_punto_etichettato(Punto),
   trova_vicini(K, Punto, Dataset, Vicini),
-  nl, format('I ~d vicini del punto sono: ', [K]), nl, 
+  nl, write('I vicini del punto sono: '), nl, 
   stampa_vicini(Vicini), nl, 
   trova_classe_maggioranza(Vicini, Classe),
   format('La classe prevista per il punto e\': ~w~n', [Classe]), 
