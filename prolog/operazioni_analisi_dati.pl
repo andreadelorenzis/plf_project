@@ -400,11 +400,11 @@ classe_max_occorrenze([(Classe, Conteggio) | Resto], ClasseMaggioranza) :-
   classe_max_occorrenze_aux(Resto, Classe, Conteggio, ClasseMaggioranza).
 
 /* Predicato ausiliario usato dal predicato principale classe_max_occorrenze:
-   - il primo argomento è la lista di elementi rimanenti nella nella mappa conteggi;
+   - il primo argomento è la lista di elementi rimanenti nella mappa conteggi;
    - il secondo argomento è la classe con conteggio massimo trovata finora;
    - il terzo argomento è il conteggio massimo trovato finora per suddetta classe. 
    Se esiste un'altra classe nella mappa con conteggio superiore a ConteggioMax, 
-   quella diventa la nuova classe di maggioranza.   */
+   quella diventa la nuova classe di maggioranza. */
 
 classe_max_occorrenze_aux([], ClasseMaggioranza, _, ClasseMaggioranza).
 classe_max_occorrenze_aux([(Classe, Conteggio) | Resto], 

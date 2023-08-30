@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  30 AUG 2023 19:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  30 AUG 2023 20:06
 entering extended mode
 **./relazione.tex
 (relazione.tex
@@ -846,11 +846,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 148--152
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--158
-
- []
-
-
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.59999pt}.
@@ -859,7 +854,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 171--175
+Underfull \hbox (badness 10000) in paragraph at lines 169--175
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--175
 
  []
 
@@ -1261,7 +1261,7 @@ Here is how much of TeX's memory you used:
  37175 multiletter control sequences out of 15000+600000
  417975 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,12n,117p,1044b,617s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 72i,12n,117p,1044b,619s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{indice} has been referenced but does not exist, r
 eplaced by a fixed one
 
@@ -1279,7 +1279,7 @@ ers/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmti10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/cm/cmtt10.pfb>
-Output written on relazione.pdf (27 pages, 228983 bytes).
+Output written on relazione.pdf (27 pages, 228916 bytes).
 PDF statistics:
  315 PDF objects out of 1000 (max. 8388607)
  50 named destinations out of 1000 (max. 500000)

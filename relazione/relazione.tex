@@ -87,13 +87,13 @@ Linear regression e K-Nearest neighbors (KNN) sono due algoritmi che trovano app
 \subsection{Dati di ingresso del problema}
 Inizialmente bisogna fornire un valore numerico tra 1 e 2 per scegliere quale delle due operazioni svolgere. Nel caso dell'operazione di regressione lineare, i dati di ingresso sono:
 \begin{itemize}
-\item Un insieme di punti, ognuno dei quali è costituito da una coordinata \textit{x} e una coordinata \textit{y} 
+\item Un insieme di due o più punti distinti, ognuno dei quali è costituito da una coordinata \textit{x} e una coordinata \textit{y}:
 $$(x_1 \ y_1),\  (x_2 \ y_2) \ \dots $$
-\item Un valore per la coordinata x da usare per prevedere il corrispondente valore di y sulla base del modello lineare allenato
+\item Un valore per la coordinata x da usare per prevedere il corrispondente valore di y sulla base del modello lineare allenato.
 \end{itemize}
 Nel caso dell'operazione di KNN i dati in ingresso sono:
 \begin{itemize}
-\item Un insieme di punti etichettati, ognuno dei quali è costituito da una coordinata \textit{x}, una coordinata \textit{y} e un'etichetta in formato testuale che rappresenta la categoria di appartenenza del punto
+\item Un insieme di almeno due o più punti etichettati, ognuno dei quali è costituito da una coordinata \textit{x}, una coordinata \textit{y} e un'etichetta in formato testuale che rappresenta la categoria di appartenenza del punto:
 $$
 (x_1 \ y_1 \ \text{label1}),\  (x_2 \ y_2 \ \text{label2}) \ \dots 
 $$
@@ -148,13 +148,11 @@ $$
 $$
 Dove $\hat{y}$ è il valore predetto di y per il nuovo valore di x valutato.  \\
 \newline
-Per quanto riguarda il KNN, questo si basa su una misura di distanza tra i punti nel dataset. Useremo la distanza euclidea tra due punti $(x_1,y_2)$ e $(x_2,y_2)$, data da:
+Per quanto riguarda il KNN, questo si basa su una misura di distanza tra i punti nel dataset. Useremo la distanza euclidea tra due punti $(x_1,y_1)$ e $(x_2,y_2)$, data da:
 $$
-Dist(x_1,y_2,x_2,y_2)=\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
+Dist(x_1,y_1,x_2,y_2)=\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
 $$ 
-Il parametro \textit{k} influisce sulla classificazione dei punti e rappresenta il numero di vicini che verranno considerati. Un valore di k più piccolo comporta una classificazione più influenzata dai punti vicini, mentre un valore più grande porta ad una classificazione più generale basata su una maggiore diversità dei vicini. Il punto di test viene poi assegnato alla classe di maggioranza presa dai suoi k punti più vicini. Vengono cioè conteggiate le etichette dei punti vicini, e si assegna al punto l'etichetta avente il maggior numero di occorrenze.\\
-\newline
-Sia per regressione lineare che per KNN devono esserci almeno due punti distinti nel dataset per svolgere l'operazione. Inoltre, eventuali punti duplicati non verranno tollerati in fase d'acquisizione.
+Il parametro \textit{k} influisce sulla classificazione e rappresenta il numero di vicini che verranno considerati. Un valore di k più piccolo comporta una classificazione più influenzata dai vicini, mentre un valore più grande porta ad una classificazione più generale, basata su una maggiore diversità dei vicini. Il punto di test viene poi assegnato alla classe di maggioranza tra i suoi k vicini, vengono cioè conteggiate le etichette di quest'ultimi, e si assegna al punto l'etichetta avente il maggior numero di occorrenze.
 
 \newpage
 
@@ -171,7 +169,9 @@ $$
 $$
 Inizialmente, all'utente viene presentato un menu principale in cui poter scegliere le diverse operazioni (1: regressione lineare, 2: KNN, 3: uscita). Una volta scelta una delle prime due operazioni, viene chiesto di inserire il dataset corrispondente. Inserito il dataset e svolta l'operazione, l'utente può continuamente fare nuove valutazioni sul modello allenato. Al termine di ogni valutazione, viene chiesto all'utente se ha intenzione di procedere o se preferisce tornare al menu per svolgere un'altra operazione. \\
 \newline
-Nel contesto della regressione lineare, una retta verticale non ha molto senso, dato che la sua equazione sarebbe $x=c$, dove $c$ è una costante. Questo significherebbe che x rimane invariato per qualsiasi valore di y, il che è in contrasto con l'idea di relazione tra x e y. Nonostante ciò i dataset che portino a modellare una retta verticale verranno tollerati in fase di acquisizione, e verrà fornito un output che faccia intuire la mancanza di relazione tra le due variabili (p.e. $y=NaNx+NaN$).  Inoltre, sia nel caso della regressione lineare che del KNN non si accettano punti duplicati nel dataset.
+Nel contesto della regressione lineare, una retta verticale non ha molto senso, dato che la sua equazione sarebbe $x=c$, dove $c$ è una costante. Questo significherebbe che x rimane invariato per qualsiasi valore di y, il che è in contrasto con l'idea di relazione tra x e y. Nonostante ciò i dataset che portino a modellare una retta verticale verranno tollerati in fase di acquisizione, e verrà fornito un output che faccia intuire la mancanza di relazione tra le due variabili (p.e. $y=NaNx+NaN$). \\
+\newline
+Sia per regressione lineare che per KNN devono esserci almeno due punti distinti nel dataset per svolgere l'operazione. Eventuali punti duplicati non verranno tollerati in fase d'acquisizione. Nel caso del KNN un punto è trattato come duplicato se le due coordinate x e y per i due punti sono le stesse, indipendentemente dalle etichette di classificazione.
 
 \subsection{Passi dell'algoritmo}
 I passi dell'algoritmo sono:
@@ -204,7 +204,7 @@ I passi dell'algoritmo sono:
          \item Acquisire e classificare nuovi punti:
          \begin{itemize}
            \item Caso base: se l'utente decide di non continuare, la serie di valutazioni termina.
-           \item Caso generale: se l'utente decide di continuare, si acquisisce un nuovo punto (senza etichetta), si ricercano i $k$ punti del dataset più vicini al punto acquisito tramite la misura di distanza euclidea, si trova la classe di maggioranza tra quest'ultimi e si stampa l'output, che è dato dall'elenco dei $k$ vicini e dal risultato di classificazione. Infine si richiede all'utente se ha intenzione di procedere o meno. In caso affermativo, si procede ricorsivamente con un'ulteriore valutazione sul modello.
+           \item Caso generale: se l'utente decide di continuare, si acquisisce un nuovo punto (senza etichetta), si ricercano i $k$ punti del dataset più vicini al punto acquisito tramite la misura di distanza euclidea, si trova la classe di maggioranza tra quest'ultimi e si stampa l'output, che è dato dall'elenco dei $k$ vicini e dal risultato di classificazione (classe di maggioranza). Infine si richiede all'utente se ha intenzione di procedere o meno. In caso affermativo, si procede ricorsivamente con un'ulteriore valutazione sul modello.
          \end{itemize}
        \end{itemize}
       \item \underline{Uscita}: stampare il messaggio di terminazione.
@@ -963,11 +963,11 @@ classe_max_occorrenze([(Classe, Conteggio) | Resto], ClasseMaggioranza) :-
   classe_max_occorrenze_aux(Resto, Classe, Conteggio, ClasseMaggioranza).
 
 /* Predicato ausiliario usato dal predicato principale classe_max_occorrenze:
-   - il primo argomento è la lista di elementi rimanenti nella nella mappa conteggi;
+   - il primo argomento è la lista di elementi rimanenti nella mappa conteggi;
    - il secondo argomento è la classe con conteggio massimo trovata finora;
    - il terzo argomento è il conteggio massimo trovato finora per suddetta classe. 
    Se esiste un'altra classe nella mappa con conteggio superiore a ConteggioMax, 
-   quella diventa la nuova classe di maggioranza.   */
+   quella diventa la nuova classe di maggioranza. */
 
 classe_max_occorrenze_aux([], ClasseMaggioranza, _, ClasseMaggioranza).
 classe_max_occorrenze_aux([(Classe, Conteggio) | Resto], 
