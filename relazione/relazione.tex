@@ -93,7 +93,7 @@ $$(x_1 \ y_1),\  (x_2 \ y_2) \ \dots $$
 \end{itemize}
 Nel caso dell'operazione di KNN i dati in ingresso sono:
 \begin{itemize}
-\item Un insieme di almeno due o più punti etichettati, ognuno dei quali è costituito da una coordinata \textit{x}, una coordinata \textit{y} e un'etichetta in formato testuale che rappresenta la categoria di appartenenza del punto:
+\item Un insieme di due o più punti etichettati, ognuno dei quali è costituito da una coordinata \textit{x}, una coordinata \textit{y} e un'etichetta in formato testuale che rappresenta la categoria di appartenenza del punto:
 $$
 (x_1 \ y_1 \ \text{label1}),\  (x_2 \ y_2 \ \text{label2}) \ \dots 
 $$
@@ -163,7 +163,7 @@ La lista di coppie reali che rappresentano i punti deve essere inserita nel segu
 $$
 [(x_1, y_1), \dots, (x_n, y_n)]
 $$
-I punti del KNN invece sono acquisiti in questo formato, contenente anche le etichette usate per rappresentare la classi:
+I punti del KNN invece sono acquisiti in questo formato, contenente anche le etichette usate per rappresentare le classi:
 $$
 [(x_1, y_1, \text{classe}), \dots, (x_n, y_n, \text{classe})]
 $$
@@ -314,7 +314,7 @@ varianza xs = sum [(x - m) ** 2 | x <- xs] / fromIntegral (length xs)
   where
     m = media xs
 
-{- Funzione che calcola la covarianza di due liste di Double
+{- Funzione che calcola la covarianza di due liste di Double:
    - il primo argomento è la prima delle due liste;
    - il secondo argomento è la seconda delle due liste. -}
 
@@ -768,14 +768,13 @@ esegui_knn :-
    - il suo unico argomento è il numero dei punti nel dataset. */
 
 leggi_valore_k(NumPunti, K) :-
-  nl, write('Inserisci il valore per k: '), nl,
+  nl, format('Inserisci il valore di k (numero dei vicini, 1-~d): ', [NumPunti]), nl,
   read(Input),
   (number(Input), Input > 0, Input =< NumPunti ->
    K = Input
    ;
-   nl, write('Input invalido. Inserisci un intero positivo '),
-   write('minore del (o uguale al) numero totale di punti nel dataset'), nl,
-   format('(Numero di punti: ~d)', [NumPunti]), nl,
+   nl, write('Input invalido. Il valore di k deve essere un intero positivo '),
+   format('compreso tra 1 e ~d.', [NumPunti]), nl,
    leggi_valore_k(NumPunti, K)  % Ricorsione: chiede di nuovo all'utente il valore di k
   ).
 
@@ -837,7 +836,7 @@ valuta_punti(_, 0) :- !.
 valuta_punti(Dataset, K) :-
   leggi_punto_etichettato(Punto),
   trova_vicini(K, Punto, Dataset, Vicini),
-  nl, format('I ~d vicini del punto sono: ', [K]), nl, 
+  nl, write('I vicini del punto sono: '), nl, 
   stampa_vicini(Vicini), nl, 
   trova_classe_maggioranza(Vicini, Classe),
   format('La classe prevista per il punto e\': ~w~n', [Classe]), 

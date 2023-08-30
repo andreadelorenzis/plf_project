@@ -92,7 +92,7 @@ varianza xs = sum [(x - m) ** 2 | x <- xs] / fromIntegral (length xs)
   where
     m = media xs
 
-{- Funzione che calcola la covarianza di due liste di Double
+{- Funzione che calcola la covarianza di due liste di Double:
    - il primo argomento è la prima delle due liste;
    - il secondo argomento è la seconda delle due liste. -}
 

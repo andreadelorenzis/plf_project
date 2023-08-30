@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  30 AUG 2023 20:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.13)  30 AUG 2023 22:27
 entering extended mode
 **./relazione.tex
 (relazione.tex
@@ -996,7 +996,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [16]
-Overfull \hbox (13.16754pt too wide) in paragraph at lines 1004--1004
+Overfull \hbox (2.66763pt too wide) in paragraph at lines 1003--1003
+[]  \OT1/cmtt/m/n/10 nl, format('Inserisci il valore di k (numero dei vicini, 1
+-~d): ', [NumPunti]), nl,[] 
+ []
+
+
+Overfull \hbox (13.16754pt too wide) in paragraph at lines 1003--1003
 []   \OT1/cmtt/m/n/10 leggi_valore_k(NumPunti, K)  % Ricorsione: chiede di nuov
 o all'utente il valore di k[] 
  []
@@ -1028,7 +1034,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [19]
-Overfull \hbox (13.16754pt too wide) in paragraph at lines 1004--1004
+Overfull \hbox (13.16754pt too wide) in paragraph at lines 1003--1003
 []\OT1/cmtt/m/n/10 conta_occorrenze_classe([(_, _, Classe) | Vicini], MapConteg
 giParziale, MapConteggi) :-[] 
  []
@@ -1051,27 +1057,27 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [21]
-Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1060
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1060
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1060
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1060
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1025--1061
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1060
 
  []
 
@@ -1084,7 +1090,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [22]
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 1063--1068
+Overfull \hbox (25.81145pt too wide) in paragraph at lines 1062--1067
 \OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
 cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
  (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
@@ -1101,12 +1107,12 @@ cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1073--1080
+Underfull \hbox (badness 10000) in paragraph at lines 1072--1079
 
  []
 
 
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 1073--1080
+Overfull \hbox (25.81145pt too wide) in paragraph at lines 1072--1079
 \OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
 cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
  (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
@@ -1123,12 +1129,12 @@ cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1084--1091
+Underfull \hbox (badness 10000) in paragraph at lines 1083--1090
 
  []
 
 
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 1084--1091
+Overfull \hbox (25.81145pt too wide) in paragraph at lines 1083--1090
 \OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
 cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
  (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
@@ -1145,12 +1151,12 @@ cmr/m/n/10.95 (6\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1094--1101
+Underfull \hbox (badness 10000) in paragraph at lines 1093--1100
 
  []
 
 
-Overfull \hbox (25.81145pt too wide) in paragraph at lines 1094--1101
+Overfull \hbox (25.81145pt too wide) in paragraph at lines 1093--1100
 \OT1/cmr/m/n/10.95 Dataset: $[(1\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 2\OML/
 cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95
  (2\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 3\OML/cmm/m/it/10.95 ; []\OT1/cmr/m
@@ -1175,7 +1181,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 1104--1111
+Underfull \hbox (badness 10000) in paragraph at lines 1103--1110
 
  []
 
@@ -1188,32 +1194,32 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+Underfull \hbox (badness 10000) in paragraph at lines 1123--1159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+Underfull \hbox (badness 10000) in paragraph at lines 1123--1159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+Underfull \hbox (badness 10000) in paragraph at lines 1123--1159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+Underfull \hbox (badness 10000) in paragraph at lines 1123--1159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+Underfull \hbox (badness 10000) in paragraph at lines 1123--1159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1172--1179
+Underfull \hbox (badness 10000) in paragraph at lines 1171--1178
 
  []
 
@@ -1226,17 +1232,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [25]
-Underfull \hbox (badness 10000) in paragraph at lines 1183--1190
+Underfull \hbox (badness 10000) in paragraph at lines 1182--1189
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1193--1200
+Underfull \hbox (badness 10000) in paragraph at lines 1192--1199
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1203--1210
+Underfull \hbox (badness 10000) in paragraph at lines 1202--1209
 
  []
 
@@ -1279,7 +1285,7 @@ ers/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmti10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/cm/cmtt10.pfb>
-Output written on relazione.pdf (27 pages, 228916 bytes).
+Output written on relazione.pdf (27 pages, 228920 bytes).
 PDF statistics:
  315 PDF objects out of 1000 (max. 8388607)
  50 named destinations out of 1000 (max. 500000)
