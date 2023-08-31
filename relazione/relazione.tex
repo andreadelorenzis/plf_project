@@ -152,7 +152,7 @@ Per quanto riguarda il KNN, questo si basa su una misura di distanza tra i punti
 $$
 Dist(x_1,y_1,x_2,y_2)=\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
 $$ 
-Il parametro \textit{k} influisce sulla classificazione e rappresenta il numero di vicini che verranno considerati. Un valore di k più piccolo comporta una classificazione più influenzata dai vicini, mentre un valore più grande porta ad una classificazione più generale, basata su una maggiore diversità dei vicini. Il punto di test viene poi assegnato alla classe di maggioranza tra i suoi k vicini, vengono cioè conteggiate le etichette di quest'ultimi, e si assegna al punto l'etichetta avente il maggior numero di occorrenze.
+Il parametro \textit{k} influisce sulla classificazione e rappresenta il numero di vicini che verranno considerati. Un valore di k più piccolo comporta una classificazione più influenzata dai vicini, mentre un valore più grande porta ad una classificazione più generale, basata su una maggiore diversità dei vicini. Il punto di test viene poi assegnato alla classe di maggioranza tra i suoi k vicini, vengono cioè conteggiate le etichette di questi ultimi, e si assegna al punto l'etichetta avente il maggior numero di occorrenze.
 
 \newpage
 
@@ -204,7 +204,7 @@ I passi dell'algoritmo sono:
          \item Acquisire e classificare nuovi punti:
          \begin{itemize}
            \item Caso base: se l'utente decide di non continuare, la serie di valutazioni termina.
-           \item Caso generale: se l'utente decide di continuare, si acquisisce un nuovo punto (senza etichetta), si ricercano i $k$ punti del dataset più vicini al punto acquisito tramite la misura di distanza euclidea, si trova la classe di maggioranza tra quest'ultimi e si stampa l'output, che è dato dall'elenco dei $k$ vicini e dal risultato di classificazione (classe di maggioranza). Infine si richiede all'utente se ha intenzione di procedere o meno. In caso affermativo, si procede ricorsivamente con un'ulteriore valutazione sul modello.
+           \item Caso generale: se l'utente decide di continuare, si acquisisce un nuovo punto (senza etichetta), si ricercano i $k$ punti del dataset più vicini al punto acquisito tramite la misura di distanza euclidea, si trova la classe di maggioranza tra questi ultimi e si stampa l'output, che è dato dall'elenco dei $k$ vicini e dal risultato di classificazione (classe di maggioranza). Infine si richiede all'utente se ha intenzione di procedere o meno. In caso affermativo, si procede ricorsivamente con un'ulteriore valutazione sul modello.
          \end{itemize}
        \end{itemize}
       \item \underline{Uscita}: stampare il messaggio di terminazione.
